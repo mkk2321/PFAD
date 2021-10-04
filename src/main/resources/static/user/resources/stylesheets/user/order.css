@@ -1,0 +1,69 @@
+div.order {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation-name: visible;
+    animation-duration: 1500ms;
+
+}
+
+div.order > h2 {
+    margin-bottom: 1rem;
+}
+
+div.order > ul {
+    width: 80rem;
+    float: right;
+    margin-bottom: 10rem;
+}
+
+div.order > ul > li {
+    width: 20rem;
+    /* width: 20rem; */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: left;
+    margin-bottom: 9rem;
+
+}
+
+div.order > ul > li > a {
+    width: 9rem;
+    height: 24rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+div.order > ul > li > a > img {
+    width: 7rem;
+    transition-duration: 500ms;
+}
+
+div.order > ul > li > a:hover > img {
+    width: 8rem;
+}
+
+div.order > ul > li > div {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 2rem;
+}
+
+
+@keyframes visible {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

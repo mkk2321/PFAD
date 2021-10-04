@@ -1,0 +1,26 @@
+body > main {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body > main > div {
+    top: 50%;
+    width: 60rem;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    transform: translateY(-50%);
+}
+
+body > main > div > div > h2 {
+    transition-duration: 300ms;
+}
+
+body > main > div > div > h2:hover{
+    cursor: pointer;
+    color: #f0a050;
+}

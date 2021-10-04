@@ -1,0 +1,70 @@
+
+
+th {
+    text-align: right;
+}
+
+main {
+    width: 100%;
+    height: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+main > div.login {
+    /*width: 80rem;*/
+    margin-top: 8%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > div.login > img {
+    margin-bottom: 2rem;
+}
+
+main > div.login > form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > div.login > form > section.inputData > table > tbody > tr > td > input {
+    margin-bottom: 2rem;
+    border: none;
+    width: 20rem;
+    border-bottom: 0.0625rem solid #999999a0;
+}
+
+main > div.login > form > section.inputData > table > tbody > tr > td > input:hover{
+    border-bottom: 0.0625rem solid #1e90ff;
+}
+
+main > div.login > form > section.button {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+main > div.login > form > section.button > input {
+    width: 15rem;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    border: none;
+}
+
+main > div.login > form > section.button > input:hover {
+    background-color: #1e90ffa0;
+    cursor: pointer;
+    /*color: ;*/
+}
+
+main > div.login > form > section.question > a:not(:last-child) {
+    margin-right: 1rem;
+}
+

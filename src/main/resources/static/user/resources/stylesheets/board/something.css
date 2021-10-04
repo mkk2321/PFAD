@@ -1,0 +1,91 @@
+main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > h1 {
+    display: inline;
+}
+div.something {
+    width: 80rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation-name: visible;
+    animation-duration: 1500ms;
+}
+
+div.something > h2 {
+    /*font-size: 2rem;*/
+}
+
+div.something > table {
+    margin-bottom: 20%;
+    border-collapse: separate;
+    border-spacing: 2rem;
+}
+
+div.something > table > thead {
+
+}
+
+div.something > table > thead > tr {
+    width: 80rem;
+    background-color: #99999955;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+}
+
+div.something > table > tbody {
+    height: 35rem;
+}
+
+div.something > table > tbody > tr{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+}
+
+div.something > table > tfoot > tr {
+
+}
+
+
+div.something > table > tfoot > tr > td > form {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+div.something > table > tfoot > tr > td > form > select, input {
+    /*border-radius: 0.3rem;*/
+    /* background-color: transparent; */
+    padding: 0.33rem;
+    border: 1px solid #999;
+}
+
+div.something > table > tfoot > tr > td > form > select {
+
+}
+
+@keyframes visible {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
