@@ -43,7 +43,7 @@ div.something > table > thead > tr {
 }
 
 div.something > table > tbody {
-    height: 35rem;
+    /*height: 35rem;*/
 }
 
 div.something > table > tbody > tr{

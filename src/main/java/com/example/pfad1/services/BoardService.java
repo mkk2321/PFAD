@@ -64,6 +64,7 @@ public class BoardService {
         if (listVo.getPage() > maxPage) {
             listVo.setPage(maxPage);
         }
+
         listVo.setStartPage(startPage);
         listVo.setEndPage(endPage);
         listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
@@ -71,5 +72,6 @@ public class BoardService {
         listVo.setName(boardEntity.getName());
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
         listVo.setResult(ListResult.SUCCESS);
+
     }
 }

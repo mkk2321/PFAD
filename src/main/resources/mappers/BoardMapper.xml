@@ -10,16 +10,16 @@
                `id`           AS `id`,
                `board_code`   AS `boardCode`,
                `created_at`   AS `createdAt`,
-               `updated_at`   AS `updatedAT`,
+               `updated_at`   AS `updatedAt`,
                `title`        AS `title`,
                `content`      AS `content`,
                `views`        AS `views`,
                `deleted_flag` AS `isDeleted`
-        FROM `pfad`.`articles`
+        FROM `pfad`.`articles` AS `article`
+                 LEFT JOIN `pfad`.`boards` AS `board` ON `article`.`board_code` = `board`.`code`
         WHERE `board_code` = #{code}
         ORDER BY `index` DESC
-        LIMIT #{queryLimit}
-        OFFSET #{queryOffset}
+        LIMIT #{queryLimit} OFFSET #{queryOffset}
     </select>
 
     <select id="selectBoard"
@@ -36,10 +36,10 @@
     </select>
 
     <select id="selectArticleCount"
-    parameterType="com.example.pfad1.entities.board.BoardEntity"
-    resultType="_int">
+            parameterType="com.example.pfad1.entities.board.BoardEntity"
+            resultType="_int">
         SELECT COUNT(0)
-        FROM `pfad`.articles
+        FROM `pfad`.`articles`
         WHERE `board_code` = #{code}
     </select>
 </mapper>
