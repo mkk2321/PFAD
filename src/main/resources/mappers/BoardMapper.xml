@@ -3,4 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.IBoardMapper">
+    <select id="selectArticlesByList"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="com.example.pfad1.entities.board.ArticleEntity">
+        SELECT `index`        AS `index`,
+               `id`           AS `id`,
+               `board_code`   AS `boardCode`,
+               `created_at`   AS `createAt`,
+               `updated_at`   AS `updatedAt`,
+               `title`        AS `title`,
+               `content`      AS `content`,
+               `views`        AS `views`,
+               `deleted_flag` AS `isDeleted`
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{code}
+    </select>
+
+    <select id="selectBoard"
+            parameterType="com.example.pfad1.entities.board.BoardEntity"
+            resultType="com.example.pfad1.entities.board.BoardEntity">
+        SELECT `code`                   AS `code`,
+               `name`                   AS `name`,
+               `read_forbidden_flag`    AS `isReadForbidden`,
+               `write_forbidden_flag`   AS `isWriteForbidden`,
+               `comment_forbidden_flag` AS `isCommentForbidden`
+        FROM `pfad`.`boards`
+        WHERE `code` = #{code}
+    </select>
 </mapper>

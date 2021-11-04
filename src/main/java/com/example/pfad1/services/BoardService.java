@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class BoardService {
     private static class RegExp {
         public static final String CODE = "^([a-z]{2,50})$";
@@ -46,7 +47,5 @@ public class BoardService {
 
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
         listVo.setResult(ListResult.SUCCESS);
-
-
     }
 }

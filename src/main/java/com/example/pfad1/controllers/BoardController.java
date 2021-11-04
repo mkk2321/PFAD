@@ -24,7 +24,7 @@ public class BoardController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String boardGet() {
-        return "board/list";
+        return "board/board";
     }
 
 
