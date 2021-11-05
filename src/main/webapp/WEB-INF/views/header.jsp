@@ -5,7 +5,7 @@
 <header>
     <div>
         <a href="/">
-            <img src="../../resources/images/logo.jpg" alt="">
+            <img src="${pageContext.request.contextPath}/resources/images/logo.jpg" alt="">
         </a>
         <ul class="menuNav">
             <li>
@@ -61,6 +61,6 @@
                 </li>
             </ul>
         </c:if>
-        <img class="shop" src="../../resources/images/shop.png" alt="">
+        <img class="shop" src="${pageContext.request.contextPath}/resources/images/shop.png" alt="">
     </div>
 </header>

@@ -11,4 +11,6 @@ public interface IBoardMapper {
     ArticleEntity[] selectArticlesByList(ListVo listVo);
 
     BoardEntity selectBoard(BoardEntity boardEntity);
+
+    int selectArticleCount(BoardEntity boardEntity);
 }

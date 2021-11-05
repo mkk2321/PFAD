@@ -9,7 +9,7 @@
         SELECT `index`        AS `index`,
                `id`           AS `id`,
                `board_code`   AS `boardCode`,
-               `created_at`   AS `createAt`,
+               `created_at`   AS `createdAt`,
                `updated_at`   AS `updatedAt`,
                `title`        AS `title`,
                `content`      AS `content`,
@@ -17,6 +17,8 @@
                `deleted_flag` AS `isDeleted`
         FROM `pfad`.`articles`
         WHERE `board_code` = #{code}
+        ORDER BY `articles`.`index` DESC
+        LIMIT ${queryLimit} OFFSET ${queryOffset}
     </select>
 
     <select id="selectBoard"
@@ -29,5 +31,15 @@
                `comment_forbidden_flag` AS `isCommentForbidden`
         FROM `pfad`.`boards`
         WHERE `code` = #{code}
+        LIMIT 1
+
+    </select>
+
+    <select id="selectArticleCount"
+            parameterType="com.example.pfad1.entities.board.BoardEntity"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{code}
     </select>
 </mapper>

@@ -10,6 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 
 public class BoardService {
+    private static class Config {
+        public final static int ARTICLE_COUNT_PER_PAGE = 10;
+        public final static int PAGING_NUMBER = 10;
+        private Config() {
+
+        }
+    }
     private static class RegExp {
         public static final String CODE = "^([a-z]{2,50})$";
         public static final String PAGE = "^([1-9]([0-9]{0,3})?)$";
@@ -45,6 +52,13 @@ public class BoardService {
             return;
         }
 
+        int boardPerPage = this.boardMapper.selectArticleCount(listVo);
+        listVo.calcMaxPage(boardPerPage, Config.ARTICLE_COUNT_PER_PAGE);
+        listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
+        listVo.setBoardPerCount(boardPerPage);
+        listVo.setName(boardEntity.getName());
+        listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
+        listVo.setQueryOffset((listVo.getPage()-1) * Config.ARTICLE_COUNT_PER_PAGE);
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
         listVo.setResult(ListResult.SUCCESS);
     }

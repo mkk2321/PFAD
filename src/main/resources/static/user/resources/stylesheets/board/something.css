@@ -1,5 +1,5 @@
 main {
-    height: 35rem;
+    height: 100%;
     align-items: flex-start;
     display: flex;
     flex-direction: row;
@@ -34,11 +34,56 @@ main > div.boardNav > nav > ul > li > a:hover {
 
 }
 
-main > div.arcicle {
+main > div.article {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+main > div.article > table {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+main > div.article > table > thead {
+    width: inherit;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+main > div.article > table > thead > td > th {
+    margin: 0 1rem;
+}
+
+main > div.article > table > tbody {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+main > div.article > table > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+main > div.article > table > tbody > tr {
+    padding: .75rem 0;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 @keyframes visible {

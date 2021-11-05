@@ -83,7 +83,7 @@ h2 {
 }
 
 body {
-    min-height: 100%;
+    height: 100%;
     margin: 0;
     margin-block-start: 0;
     margin-block-end: 0;
@@ -190,7 +190,7 @@ body > header > div > img.shop {
 }
 
 body > main.content {
-    min-height: 100%;
+    height: 100%;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -203,7 +203,6 @@ body > footer {
     left: 0;
     width: 100%;
     height: 5rem;
-
     background-color: #aaaaaa55;
     align-items: center;
     display: flex;

@@ -1,5 +1,6 @@
 package com.example.pfad1.entities.board;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ArticleEntity {
@@ -83,5 +84,13 @@ public class ArticleEntity {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String formatCreatedAt(){
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.createdAt);
+    }
+
+    public String formatUpdatedAt(){
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.updatedAt);
     }
 }
