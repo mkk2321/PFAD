@@ -1,13 +1,16 @@
 package com.example.pfad1.controllers;
 
+import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.services.BoardService;
 import com.example.pfad1.vos.board.ListVo;
+import com.example.pfad1.vos.board.ReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -51,6 +54,15 @@ public class BoardController {
         this.boardService.list(listVo);
         request.setAttribute("listVo", listVo);
         return "board/board";
+    }
+
+    @RequestMapping(value = "/list/read/{articleIndex}")
+    public String readGet(@PathVariable(name="articleIndex")int articleIndex,
+                          HttpServletRequest request,
+                          @SessionAttribute(name = "userEntity", required = false)UserEntity userEntity) {
+        ReadVo readVo = new ReadVo();
+        readVo.setIndex(articleIndex);
+        return null;
     }
 
 

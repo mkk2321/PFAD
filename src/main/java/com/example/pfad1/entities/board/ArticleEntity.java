@@ -1,9 +1,11 @@
 package com.example.pfad1.entities.board;
 
+import com.example.pfad1.interfaces.IBoard;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ArticleEntity {
+public class ArticleEntity implements IBoard {
     protected int index;
     protected String id;
     protected String boardCode;
@@ -30,6 +32,7 @@ public class ArticleEntity {
         this.id = id;
     }
 
+    @Override
     public String getBoardCode() {
         return boardCode;
     }

@@ -1,9 +1,13 @@
 package com.example.pfad1.services;
 
+import com.example.pfad1.entities.board.ArticleEntity;
 import com.example.pfad1.entities.board.BoardEntity;
+import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.board.ListResult;
+import com.example.pfad1.enums.board.ReadResult;
 import com.example.pfad1.mappers.IBoardMapper;
 import com.example.pfad1.vos.board.ListVo;
+import com.example.pfad1.vos.board.ReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,7 @@ public class BoardService {
     private static class RegExp {
         public static final String CODE = "^([a-z]{2,50})$";
         public static final String PAGE = "^([1-9]([0-9]{0,3})?)$";
+        public static final String ARTICLE_INDEX = "^([1-9]([0-9]{0,5})?)$";
         private RegExp(){
 
         }
@@ -39,6 +44,8 @@ public class BoardService {
     public static boolean checkPage(String s) {
         return s != null && s.matches(RegExp.PAGE);
     }
+
+    public static boolean checkArticleIndex(String s) { return s != null && s.matches(RegExp.ARTICLE_INDEX); }
 
     public void list(ListVo listVo) {
         if(!BoardService.checkCode(listVo.getCode()) ||
@@ -61,5 +68,31 @@ public class BoardService {
         listVo.setQueryOffset((listVo.getPage()-1) * Config.ARTICLE_COUNT_PER_PAGE);
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
         listVo.setResult(ListResult.SUCCESS);
+    }
+
+    public void read(ReadVo readVo, UserEntity userEntity) {
+        if(!BoardService.checkArticleIndex(String.valueOf(readVo.getIndex()))){
+            readVo.setResult(ReadResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        ArticleEntity articleEntity = this.boardMapper.selectArticle(readVo);
+        if(articleEntity == null || articleEntity.isDeleted()) {
+            readVo.setResult(ReadResult.ARTICLE_NOT_DEFINED);
+            return;
+        }
+        BoardEntity boardEntity = this.boardMapper.selectBoard(readVo);
+        if(boardEntity.isReadForbidden() && (userEntity == null || !userEntity.isAdmin())) {
+            readVo.setResult(ReadResult.READ_NOT_ALLOWED);
+            return;
+        }
+        readVo.setId(articleEntity.getId());
+        readVo.setBoardCode(articleEntity.getBoardCode());
+        readVo.setCreatedAt(articleEntity.getCreatedAt());
+        readVo.setUpdatedAt(articleEntity.getUpdatedAt());
+        readVo.setTitle(articleEntity.getTitle());
+        readVo.setContent(articleEntity.getContent());
+        readVo.setView(articleEntity.getView());
+        readVo.setDeleted(articleEntity.isDeleted());
+        readVo.setResult(ReadResult.SUCCESS);
     }
 }

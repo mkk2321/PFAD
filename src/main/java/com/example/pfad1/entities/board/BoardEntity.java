@@ -1,6 +1,8 @@
 package com.example.pfad1.entities.board;
 
-public class BoardEntity {
+import com.example.pfad1.interfaces.IBoard;
+
+public class BoardEntity implements IBoard {
     protected String code;
     protected String name;
     protected boolean isReadForbidden;
@@ -45,5 +47,10 @@ public class BoardEntity {
 
     public void setCommentForbidden(boolean commentForbidden) {
         isCommentForbidden = commentForbidden;
+    }
+
+    @Override
+    public String getBoardCode() {
+        return this.code;
     }
 }

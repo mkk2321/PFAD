@@ -38,16 +38,20 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#">공지사항</a>
+                    <a href="${pageContext.request.contextPath}/board/list/notice">공지사항</a>
                 </li>
                 <li>
-                    <a href="#">자유게시판</a>
+                    <a href="${pageContext.request.contextPath}/board/list/free">자유게시판</a>
                 </li>
                 <li>
-                    <a href="#">Q&A</a>
+                    <a href="${pageContext.request.contextPath}/board/list/qna">Q&A</a>
                 </li>
             </ul>
         </nav>
+        <span></span>
+        <div>
+            검색공간
+        </div>
     </div>
     <div class="article">
         <table>
@@ -68,7 +72,7 @@
             <c:forEach var="article" items="${listVo.articles}" varStatus="status">
                 <tr>
                     <td class="boardNo">${num}</td>
-                    <td><a href="/board/list/${article.boardCode}/read/${article.index}">${article.title}</a></td>
+                    <td><a href="/board/list/read/${article.index}" style="color: #5f71aa;">${article.title}</a></td>
                     <td>${article.id}</td>
                     <td>${article.formatCreatedAt()}</td>
                     <td>${article.view}</td>
@@ -77,30 +81,32 @@
             </c:forEach>
             </tbody>
             <tfoot>
-            <tr>
-                <td>
-                    <div>
-                        <c:if test="${!empty listVo.articles || listVo.articles != null}">
-                            <a href="/board/list/${listVo.code}/1"><<</a>
-                            <a href="/board/list/${listVo.code}/${listVo.page - 1}"><</a>
-                        </c:if>
-
-                        <c:forEach var="page" begin="${listVo.startPage}" end="${listVo.endPage}">
-                            <c:choose>
-                                <c:when test="${listVo.page == page}">
-                                    <b>${page}</b>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="/board/list/${listVo.code}/${page}">${page}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <a href="/board/list/${listVo.code}/${listVo.page + 1}">></a>
-                        <a href="/board/list/${listVo.code}/${listVo.maxPage}">>></a>
-<%--                        TODO: 게시글이 없을 때 이동 기호 없애기 // 페이징 처리까지 했음.--%>
-                    </div>
-                </td>
-            </tr>
+            <c:if test="${listVo.maxPage > 0}">
+                <tr>
+                    <td>
+                        <div>
+                            <c:if test="${listVo.page > 1}">
+                                <a href="/board/list/${listVo.code}/1"><<</a>
+                                <a href="/board/list/${listVo.code}/${listVo.page - 1}"><</a>
+                            </c:if>
+                            <c:forEach var="page" begin="${listVo.startPage}" end="${listVo.endPage}">
+                                <c:choose>
+                                    <c:when test="${listVo.page == page}">
+                                        <b>${page}</b>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="/board/list/${listVo.code}/${page}">${page}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <c:if test="${listVo.page < listVo.maxPage}">
+                                <a href="/board/list/${listVo.code}/${listVo.page + 1}">></a>
+                                <a href="/board/list/${listVo.code}/${listVo.maxPage}">>></a>
+                            </c:if>
+                        </div>
+                    </td>
+                </tr>
+            </c:if>
             </tfoot>
         </table>
     </div>
