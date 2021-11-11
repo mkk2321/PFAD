@@ -6,6 +6,15 @@ import com.example.pfad1.interfaces.IResult;
 
 public class ReadVo extends ArticleEntity implements IResult<ReadResult> {
     private ReadResult result;
+    private int boardPage;
+
+    public int getBoardPage() {
+        return boardPage;
+    }
+
+    public void setBoardPage(int boardPage) {
+        this.boardPage = boardPage;
+    }
 
     @Override
     public ReadResult getResult() {

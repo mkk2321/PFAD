@@ -16,4 +16,8 @@ public interface IBoardMapper {
     BoardEntity selectBoard(IBoard board);
 
     int selectArticleCount(BoardEntity boardEntity);
+
+    int selectArticleCountGreaterThan(ArticleEntity articleEntity);
+
+    int updateArticleView(ArticleEntity articleEntity);
 }

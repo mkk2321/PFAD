@@ -1,7 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 /*@import url(../resources/static/user/resources/stylesheets/home.css);*/
 
-
+ul {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
 
 th {
     text-align: left;
@@ -58,7 +62,6 @@ input:focus, select:focus, textarea:focus {
     border: 0.0625rem solid #1e90ff;
 }
 
-
 html {
     font-family: 'Noto Sans KR', sans-serif;
     user-select: none;
@@ -106,6 +109,10 @@ body > header > div {
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+body > header > div > *:not(:last-child) {
+    margin-right: 2rem;
 }
 
 body > header > div > ul {

@@ -62,7 +62,9 @@ public class BoardController {
                           @SessionAttribute(name = "userEntity", required = false)UserEntity userEntity) {
         ReadVo readVo = new ReadVo();
         readVo.setIndex(articleIndex);
-        return null;
+        this.boardService.read(readVo, userEntity);
+        request.setAttribute("readVo", readVo);
+        return "board/read";
     }
 
 

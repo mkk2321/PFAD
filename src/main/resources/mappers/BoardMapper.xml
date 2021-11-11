@@ -6,16 +6,17 @@
     <select id="selectArticle"
             parameterType="com.example.pfad1.entities.board.ArticleEntity"
             resultType="com.example.pfad1.entities.board.ArticleEntity">
-        SELECT `index`        AS `index`,
-               `id`           AS `id`,
-               `board_code`   AS `boardCode`,
-               `created_at`   AS `createdAt`,
-               `updated_at`   AS `updatedAt`,
-               `title`        AS `title`,
-               `content`      AS `content`,
-               `views`        AS `view`,
-               `deleted_flag` AS `isDeleted`
-        FROM `pfad`.`articles`
+        SELECT `article`.`index`        AS `index`,
+               `article`.`id`           AS `id`,
+               `article`.`board_code`   AS `boardCode`,
+               `article`.`created_at`   AS `createdAt`,
+               `article`.`updated_at`   AS `updatedAt`,
+               `article`.`title`        AS `title`,
+               `article`.`content`      AS `content`,
+               `article`.`view`        AS `view`,
+               `article`.`deleted_flag` AS `isDeleted`,
+               `board`.`name` AS `name`
+        FROM `pfad`.`articles` AS `article` LEFT JOIN `pfad`.`boards` AS `board` ON `article`.`board_code` = `board`.`code`
         WHERE `index` = #{index}
         LIMIT 1
     </select>
@@ -29,7 +30,7 @@
                `created_at`   AS `createdAt`,
                `updated_at`   AS `updatedAt`,
                `title`        AS `title`,
-               `views`        AS `views`,
+               `view`        AS `view`,
                `deleted_flag` AS `isDeleted`
         FROM `pfad`.`articles`
         WHERE `board_code` = #{code}
@@ -59,4 +60,21 @@
         FROM `pfad`.`articles`
         WHERE `board_code` = #{code}
     </select>
+
+    <select id="selectArticleCountGreaterThan"
+            parameterType="com.example.pfad1.entities.board.ArticleEntity"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{boardCode}
+        AND `index` >= #{index}
+    </select>
+
+    <update id="updateArticleView"
+            parameterType="com.example.pfad1.entities.board.ArticleEntity">
+        UPDATE `pfad`.`articles`
+        SET view = view + 1
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 </mapper>

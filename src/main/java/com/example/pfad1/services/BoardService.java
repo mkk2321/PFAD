@@ -58,7 +58,6 @@ public class BoardService {
             listVo.setResult(ListResult.BOARD_NOT_DEFINED);
             return;
         }
-
         int boardPerPage = this.boardMapper.selectArticleCount(listVo);
         listVo.calcMaxPage(boardPerPage, Config.ARTICLE_COUNT_PER_PAGE);
         listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
@@ -80,19 +79,22 @@ public class BoardService {
             readVo.setResult(ReadResult.ARTICLE_NOT_DEFINED);
             return;
         }
-        BoardEntity boardEntity = this.boardMapper.selectBoard(readVo);
+        BoardEntity boardEntity = this.boardMapper.selectBoard(articleEntity);
         if(boardEntity.isReadForbidden() && (userEntity == null || !userEntity.isAdmin())) {
             readVo.setResult(ReadResult.READ_NOT_ALLOWED);
             return;
         }
+        this.boardMapper.updateArticleView(readVo);
         readVo.setId(articleEntity.getId());
         readVo.setBoardCode(articleEntity.getBoardCode());
         readVo.setCreatedAt(articleEntity.getCreatedAt());
         readVo.setUpdatedAt(articleEntity.getUpdatedAt());
         readVo.setTitle(articleEntity.getTitle());
         readVo.setContent(articleEntity.getContent());
-        readVo.setView(articleEntity.getView());
+        readVo.setView(articleEntity.getView() + 1);
         readVo.setDeleted(articleEntity.isDeleted());
+        readVo.setName(articleEntity.getName());
+        readVo.setBoardPage(this.boardMapper.selectArticleCountGreaterThan(readVo) / Config.ARTICLE_COUNT_PER_PAGE + 1);
         readVo.setResult(ReadResult.SUCCESS);
     }
 }

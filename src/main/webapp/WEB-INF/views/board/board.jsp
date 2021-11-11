@@ -21,17 +21,17 @@
                     window.history.back();
                 </script>
             </c:when>
+            <c:otherwise>
+                <script>
+                    alert('게시판을 확인하는 도중 오류가 발생하였습니다. \n\n잠시 후 다시 시도해주세요.');
+                    window.history.back();
+                </script>
+            </c:otherwise>
         </c:choose>
-        <c:otherwise>
-            <script>
-                alert('게시판을 확인하는 도중 오류가 발생하였습니다. \n\n잠시 후 다시 시도해주세요.');
-                window.history.back();
-            </script>
-        </c:otherwise>
         <% out.close(); %>
     </c:if>
 </head>
-<body>
+<body class="board">
 <%@ include file="../header.jsp" %>
 <main>
     <div class="boardNav">

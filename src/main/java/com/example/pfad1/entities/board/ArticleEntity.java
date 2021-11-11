@@ -15,6 +15,15 @@ public class ArticleEntity implements IBoard {
     protected String content;
     protected int view;
     protected boolean isDeleted;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getIndex() {
         return index;
@@ -90,10 +99,10 @@ public class ArticleEntity implements IBoard {
     }
 
     public String formatCreatedAt(){
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.createdAt);
+        return new SimpleDateFormat("yy-MM-dd HH:mm").format(this.createdAt);
     }
 
     public String formatUpdatedAt(){
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.updatedAt);
+        return new SimpleDateFormat("yy-MM-dd HH:mm").format(this.updatedAt);
     }
 }
