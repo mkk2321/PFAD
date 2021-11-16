@@ -7,6 +7,12 @@ ul {
     padding-inline-start: 0;
 }
 
+input, textarea{
+    /*width: 15rem;*/
+    padding: 0.5rem 0;
+    border-radius: 0.25rem;
+}
+
 th {
     text-align: left;
 }
@@ -50,7 +56,7 @@ input[name="addressPrimary"], input[name="addressSecondary"] {
     width: 23rem;
 }
 
-input, select, option {
+input, select, option, textarea {
     border: 0.0625rem solid #c0c2c4;
     font: inherit;
     outline: none;

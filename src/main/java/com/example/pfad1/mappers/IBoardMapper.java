@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface IBoardMapper {
+    int deleteArticle(ArticleEntity articleEntity);
+
     ArticleEntity selectArticle(ArticleEntity articleEntity);
 
     ArticleEntity[] selectArticlesByList(ListVo listVo);
@@ -19,5 +21,9 @@ public interface IBoardMapper {
 
     int selectArticleCountGreaterThan(ArticleEntity articleEntity);
 
+//    Article 지우지 않고 delete_flag = true로 변경
+    int updateArticleDeleted(ArticleEntity articleEntity);
+
     int updateArticleView(ArticleEntity articleEntity);
+
 }

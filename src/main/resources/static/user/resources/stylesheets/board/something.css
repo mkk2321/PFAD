@@ -91,13 +91,30 @@ main > div.article > table > tbody > tr {
     border-radius: .75rem;
 }
 
+main > div.article > table > tfoot > tr {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > div.article > table > tfoot > tr > td > a.writeButton {
+    right: 20%;
+    background-color: #1e90ff77;
+    border: 0.0625rem solid #1e90ff77;
+    border-radius: 0.5rem;
+    /*margin-left: 40rem;*/
+    padding: 1rem 2rem;
+    position: absolute;
+}
+
+
 main > div.article > table > tfoot > tr > td > div {
     margin: 1rem 0;
 }
 
-main > div.article > table > tfoot > tr > td > div > a, b {
+main > div.article > table > tfoot > tr > td > div > *{
     padding: 0.5rem;
-
 }
 
 @keyframes visible {

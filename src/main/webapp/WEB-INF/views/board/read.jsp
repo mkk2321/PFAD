@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="readVo" type="com.example.pfad1.vos.board.ReadVo"--%>
+<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -45,13 +46,16 @@
             <h1>${readVo.name}</h1>
             <span></span>
             <a href="/board/list/${readVo.boardCode}/${readVo.boardPage}">목록</a>
-            <a href="#">수정</a>
-            <a href="#">삭제</a>
+            <c:if test="${userEntity.id.equals(readVo.id) || userEntity.admin }">
+                <a href="${pageContext.request.contextPath}/board/modify/${readVo.index}">수정</a>
+                <a href="#" onclick="if (confirm('이 게시글이 삭제됩니다.'))
+                    window.location.href='${pageContext.request.contextPath}/board/delete/${readVo.index}';">삭제</a>
+            </c:if>
         </div>
         <h3>${readVo.title}</h3>
         <div class="boardInfo">
             <ul>
-                <li>아이디 : ${readVo.id}</li>
+                <li>작성자 : ${readVo.id}</li>
                 <li>작성일 : ${readVo.formatCreatedAt()}</li>
                 <li>수정일 : ${readVo.formatUpdatedAt()}</li>
                 <span></span>

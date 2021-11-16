@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.IBoardMapper">
+    <delete id="deleteArticle" parameterType="com.example.pfad1.entities.board.ArticleEntity">
+        DELETE
+        FROM `pfad`.`articles`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
     <select id="selectArticle"
             parameterType="com.example.pfad1.entities.board.ArticleEntity"
             resultType="com.example.pfad1.entities.board.ArticleEntity">
@@ -13,10 +19,11 @@
                `article`.`updated_at`   AS `updatedAt`,
                `article`.`title`        AS `title`,
                `article`.`content`      AS `content`,
-               `article`.`view`        AS `view`,
+               `article`.`view`         AS `view`,
                `article`.`deleted_flag` AS `isDeleted`,
-               `board`.`name` AS `name`
-        FROM `pfad`.`articles` AS `article` LEFT JOIN `pfad`.`boards` AS `board` ON `article`.`board_code` = `board`.`code`
+               `board`.`name`           AS `name`
+        FROM `pfad`.`articles` AS `article`
+                 LEFT JOIN `pfad`.`boards` AS `board` ON `article`.`board_code` = `board`.`code`
         WHERE `index` = #{index}
         LIMIT 1
     </select>
@@ -30,7 +37,7 @@
                `created_at`   AS `createdAt`,
                `updated_at`   AS `updatedAt`,
                `title`        AS `title`,
-               `view`        AS `view`,
+               `view`         AS `view`,
                `deleted_flag` AS `isDeleted`
         FROM `pfad`.`articles`
         WHERE `board_code` = #{code}
@@ -67,13 +74,21 @@
         SELECT COUNT(0)
         FROM `pfad`.`articles`
         WHERE `board_code` = #{boardCode}
-        AND `index` >= #{index}
+          AND `index` >= #{index}
     </select>
 
     <update id="updateArticleView"
             parameterType="com.example.pfad1.entities.board.ArticleEntity">
         UPDATE `pfad`.`articles`
         SET view = view + 1
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <update id="updateArticleDeleted"
+            parameterType="com.example.pfad1.entities.board.ArticleEntity">
+        UPDATE `pfad`.`articles`
+        SET `deleted_flag` = TRUE
         WHERE `index` = #{index}
         LIMIT 1
     </update>

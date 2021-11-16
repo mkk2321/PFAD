@@ -1,18 +1,16 @@
 package com.example.pfad1.services;
 
-import com.example.pfad1.entities.board.ArticleEntity;
-import com.example.pfad1.entities.board.BoardEntity;
-import com.example.pfad1.entities.user.UserEntity;
-import com.example.pfad1.enums.board.ListResult;
-import com.example.pfad1.enums.board.ReadResult;
-import com.example.pfad1.mappers.IBoardMapper;
-import com.example.pfad1.vos.board.ListVo;
-import com.example.pfad1.vos.board.ReadVo;
+import com.example.pfad1.enums.board.*;
+import com.example.pfad1.vos.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+import com.example.pfad1.entities.board.ArticleEntity;
+import com.example.pfad1.entities.board.BoardEntity;
+import com.example.pfad1.entities.user.UserEntity;
+import com.example.pfad1.mappers.IBoardMapper;
 
+@Service
 public class BoardService {
     private static class Config {
         public final static int ARTICLE_COUNT_PER_PAGE = 10;
@@ -63,6 +61,8 @@ public class BoardService {
         listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
         listVo.setBoardPerCount(boardPerPage);
         listVo.setName(boardEntity.getName());
+        listVo.setCode(boardEntity.getCode());
+        listVo.setWriteForbidden(boardEntity.isWriteForbidden());
         listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
         listVo.setQueryOffset((listVo.getPage()-1) * Config.ARTICLE_COUNT_PER_PAGE);
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
@@ -97,4 +97,49 @@ public class BoardService {
         readVo.setBoardPage(this.boardMapper.selectArticleCountGreaterThan(readVo) / Config.ARTICLE_COUNT_PER_PAGE + 1);
         readVo.setResult(ReadResult.SUCCESS);
     }
+
+    public void deleteArticle(UserEntity userEntity, DeleteVo deleteVo) {
+        if(!BoardService.checkArticleIndex(String.valueOf(deleteVo.getIndex()))) {
+            deleteVo.setResult(DeleteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        ArticleEntity articleEntity = this.boardMapper.selectArticle(deleteVo);
+        if(articleEntity == null) {
+            deleteVo.setResult(DeleteResult.FAILURE);
+            return;
+        }
+        if(userEntity == null ||
+                (!userEntity.isAdmin() && !userEntity.getId().equals(deleteVo.getId()))) {
+            deleteVo.setResult(DeleteResult.NOT_ALLOWED);
+            return;
+        }
+        this.boardMapper.deleteArticle(deleteVo);
+        deleteVo.setBoardCode(articleEntity.getBoardCode());
+        deleteVo.setResult(DeleteResult.SUCCESS);
+    }
+    public void writeByGet(WriteVo writeVo, UserEntity userEntity) {
+        if(!BoardService.checkCode(writeVo.getBoardCode())) {
+            writeVo.setResult(WriteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        BoardEntity boardEntity = this.boardMapper.selectBoard(writeVo);
+        if(boardEntity == null) {
+            writeVo.setResult(WriteResult.BOARD_NOT_DEFINED);
+            return;
+        }
+        if(userEntity == null || (boardEntity.isWriteForbidden() && !userEntity.isAdmin())) {
+            writeVo.setResult(WriteResult.WRITE_NOT_ALLOWED);
+            return;
+        }
+        writeVo.setResult(WriteResult.SUCCESS);
+    }
+
+    public void uploadImage(ImageUploadVo imageUploadVo, UserEntity userEntity) {
+        if(userEntity == null) {
+            imageUploadVo.setResult(ImageUploadResult.NOT_ALLOWED);
+            return;
+        }
+//        TODO: image upload..
+    }
+
 }

@@ -1,0 +1,146 @@
+input {
+    /*width: 15rem;*/
+    padding: 0.5rem 0;
+    border-radius: 0.25rem;
+}
+
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/*body > main {*/
+/*    margin-bottom: 10rem;*/
+/*}*/
+
+/*body > main > form {*/
+/*    position: relative;*/
+/*}*/
+
+body > main > form > table {
+    width: 60rem;
+    border-collapse: separate;
+    border-spacing: 1rem;
+    margin-bottom: 3rem;
+    /*border: 0.0625rem solid #000;*/
+}
+
+body > main > form > table:last-child {
+    /*margin-bottom: 10rem;*/
+}
+
+body > main > form > section.button {
+    margin-bottom: 10rem;
+}
+
+body > main > form > table > tfoot > tr{
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+body > main > form > table > tfoot > tr > td {
+    width: 100%;
+}
+
+body > main > form > table > tfoot > tr > td > label {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > main > form > table > tbody > tr > th {
+    width: 10rem;
+}
+
+body > main > form > table > tbody > tr > td > span.input-message {
+    margin-left: 0.5rem;
+    display: none;
+    font-size: 0.9rem;
+}
+
+body > main > form > table > tbody > tr > td > span.input-message.visible {
+    color: orange;
+    display: inline;
+}
+
+body > main > form > table > tbody > tr > td > span.input-message.good {
+    color: #008800;
+    display: inline;
+}
+
+body > main > form > table > tbody > tr > td > span.input-message.warning {
+    color: #cd5c5c;
+    display: inline;
+}
+
+body > main > form > table > tbody > tr > td > textarea {
+    padding: 1rem 3rem;
+    box-sizing: border-box;
+}
+
+/*body > main > form > table > tbody > tr > td > input[type="checkbox"] {*/
+/*    background: url("../resources/static/resources/images/checkBox.jpg") no-repeat 0 0px /contain;*/
+/*}*/
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    line-height: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 50%;
+    background: url(https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/default.jpg) left/1.5rem no-repeat;
+}
+
+input[type=checkbox]:checked + label {
+    /*color: #008800;*/
+
+    background: url(https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/check-img.jpg) left/1.5rem no-repeat;
+}
+
+input[type=checkbox] ~ span {
+    cursor: pointer;
+    position: relative;
+    left: 4%;
+}
+
+section.allCheckButton {
+    margin: 2rem 0;
+}
+
+section.allCheckButton > label{
+    position: relative;
+}
+
+body > main > form > table > tfoot > tr.marketing > td > label > span {
+    left: 6%;
+}
+
+body > main > form > table > tfoot > tr.marketing > td:not(:last-child) > label > span{
+    margin-bottom: 1rem;
+}
+
+body > main > form > section.button {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body > main > form > section.button > span {
+    flex: 1;
+}
+body > main > form > section.button > input {
+    width: 10rem;
+}

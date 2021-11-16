@@ -1,0 +1,119 @@
+input {
+    border: none;
+    border-bottom: 0.0625rem solid #c0c2c4;
+}
+
+input:focus {
+    border: none;
+    border-bottom: 0.0625rem solid #1e90ff;
+}
+
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body > form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*margin-top: 9%;*/
+}
+
+
+body > form > table{
+    width: 60rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*background-color: #f0f0f0;*/
+}
+
+body > form > table > thead {
+
+}
+
+body > section{
+    width: 40rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+
+body > section > span {
+    width: 10rem;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+body > section > span.click {
+    border: transparent;
+    border-bottom: 0.0625rem solid #f0a050;
+}
+
+body > form > table {
+    display: none;
+}
+
+body > form > table.visible {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+body > form > table.visible > tbody {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-spacing: 1rem;
+    border-collapse: separate;
+    gap: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+body > form > table.visible > tbody > tr {
+    width: 31rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > form > table.visible > tbody > tr > td > div.input-message {
+    font-size: 0.75rem;
+    color: indianred;
+}
+
+body > form > table.visible > tbody > tr > th {
+    width: 7rem;
+}
+
+body > form > table.visible  > tfoot {
+}
+
+body > form > table.visible > tfoot > tr > td > input{
+    font-size: 1rem;
+    background-color: transparent;
+    border: transparent;
+    color: #1e90ff;
+    letter-spacing: 0.15rem;
+}
+body > form > table.visible > tfoot > tr > td > input:hover {
+    cursor: pointer;
+}
+
+body > form > table.visible > tfoot > tr > td > input:focus {
+    /*border: transparent;*/
+}

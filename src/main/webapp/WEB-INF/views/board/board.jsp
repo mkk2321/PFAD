@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="listVo" type="com.example.pfad1.vos.board.ListVo"--%>
+<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -81,8 +82,13 @@
             </c:forEach>
             </tbody>
             <tfoot>
-            <c:if test="${listVo.maxPage > 0}">
                 <tr>
+                    <c:if test="${userEntity != null && (userEntity.admin || !listVo.writeForbidden)}">
+                        <td>
+                            <a class="writeButton" href="/board/write/${listVo.code}">글쓰기</a>
+                        </td>
+                    </c:if>
+            <c:if test="${listVo.maxPage > 0}">
                     <td>
                         <div>
                             <c:if test="${listVo.page > 1}">
@@ -105,8 +111,8 @@
                             </c:if>
                         </div>
                     </td>
-                </tr>
             </c:if>
+                </tr>
             </tfoot>
         </table>
     </div>

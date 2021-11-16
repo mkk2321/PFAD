@@ -2,15 +2,12 @@ package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.services.BoardService;
-import com.example.pfad1.vos.board.ListVo;
-import com.example.pfad1.vos.board.ReadVo;
+import com.example.pfad1.vos.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -67,5 +64,40 @@ public class BoardController {
         return "board/read";
     }
 
+    @RequestMapping(value = "/delete/{articleIndex}",
+                method = RequestMethod.GET,
+                produces = MediaType.TEXT_HTML_VALUE)
+    public String deleteGet(@PathVariable(name = "articleIndex")int articleIndex,
+                            @SessionAttribute(name = "userEntity")UserEntity userEntity,
+                            HttpServletRequest request) {
+        DeleteVo deleteVo = new DeleteVo();
+        deleteVo.setIndex(articleIndex);
+        this.boardService.deleteArticle(userEntity, deleteVo);
+        request.setAttribute("deleteVo", deleteVo);
+        return "board/delete";
+    }
 
+
+    @RequestMapping(value = "/write/{boardCode}")
+    public String writeGet(@PathVariable(name = "boardCode")String boardCode,
+                           @SessionAttribute(name = "userEntity")UserEntity userEntity,
+                           HttpServletRequest request) {
+        WriteVo writeVo = new WriteVo();
+        writeVo.setBoardCode(boardCode);
+        this.boardService.writeByGet(writeVo,userEntity);
+        request.setAttribute("writeVo", writeVo);
+        return "board/write";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/upload-image",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String uploadImagePost(@RequestParam(name = "upload") MultipartFile file,
+                                  @SessionAttribute(name = "userEntity", required = false)UserEntity userEntity) {
+        ImageUploadVo imageUploadVo = new ImageUploadVo();
+        imageUploadVo.setFile(file);
+        this.boardService.uploadImage(imageUploadVo, userEntity);
+        return "";
+    }
 }
