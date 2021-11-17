@@ -3,6 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.IBoardMapper">
+    <insert id="insertArticle"
+            parameterType="com.example.pfad1.entities.board.ArticleEntity">
+        INSERT INTO `pfad`.`articles` (`id`, `board_code`, `title`, `content`)
+        VALUES (#{id}, #{boardCode}, #{title}, #{content})
+    </insert>
+    <insert id="insertImage"
+            parameterType="com.example.pfad1.vos.board.ImageUploadVo">
+        INSERT INTO `pfad`.`images` (`mime`, `file`)
+        VALUES (#{fileMime}, #{fileBytes})
+    </insert>
+
     <delete id="deleteArticle" parameterType="com.example.pfad1.entities.board.ArticleEntity">
         DELETE
         FROM `pfad`.`articles`
@@ -75,6 +86,22 @@
         FROM `pfad`.`articles`
         WHERE `board_code` = #{boardCode}
           AND `index` >= #{index}
+    </select>
+
+    <select id="selectImage" parameterType="com.example.pfad1.entities.board.ImageEntity"
+            resultType="com.example.pfad1.entities.board.ImageEntity">
+        SELECT `index`      AS `index`,
+               `created_at` AS `createdAt`,
+               `mime`       AS `mime`,
+               `file`       AS `file`
+        FROM `pfad`.`images`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+    <select id="selectLastInsertId"
+            resultType="_int">
+        SELECT LAST_INSERT_ID()
     </select>
 
     <update id="updateArticleView"

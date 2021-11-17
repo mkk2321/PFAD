@@ -2,6 +2,10 @@
     min-height: 15rem;
 }
 
+.ck-editor__editable_inline > figure > img {
+    width: 30rem;
+}
+
 textarea {
     width: 45rem;
 }
@@ -15,6 +19,7 @@ body.write {
 
 body.write > form > table {
     width: 45rem;
+    margin-bottom: 10rem;
 }
 
 body.write > form > table > thead > tr > td > input {

@@ -52,6 +52,7 @@ main > div.article > table {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    margin-bottom: 10rem;
 }
 
 main > div.article > table > thead {
@@ -108,12 +109,18 @@ main > div.article > table > tfoot > tr > td > a.writeButton {
     position: absolute;
 }
 
+main > div.article > table > tfoot > tr > td {
+    margin: 0.5rem 0;
+}
+
 
 main > div.article > table > tfoot > tr > td > div {
     margin: 1rem 0;
 }
 
 main > div.article > table > tfoot > tr > td > div > *{
+    background-color: #99999944;
+    border-radius: 0.33rem;
     padding: 0.5rem;
 }
 

@@ -13,7 +13,7 @@
     <title>${readVo.title == null ? "게시글 오류" : readVo.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-<%--    <script defer src="${pageContext.request.contextPath}/user/resources/scripts/board/board.js"></script>--%>
+    <%--    <script defer src="${pageContext.request.contextPath}/user/resources/scripts/board/board.js"></script>--%>
     <c:if test="${readVo.result != ReadResult.SUCCESS}">
         <c:choose>
             <c:when test="${readVo.result == ReadResult.ARTICLE_NOT_DEFINED}">
@@ -49,7 +49,7 @@
             <c:if test="${userEntity.id.equals(readVo.id) || userEntity.admin }">
                 <a href="${pageContext.request.contextPath}/board/modify/${readVo.index}">수정</a>
                 <a href="#" onclick="if (confirm('이 게시글이 삭제됩니다.'))
-                    window.location.href='${pageContext.request.contextPath}/board/delete/${readVo.index}';">삭제</a>
+                        window.location.href='${pageContext.request.contextPath}/board/delete/${readVo.index}';">삭제</a>
             </c:if>
         </div>
         <h3>${readVo.title}</h3>
@@ -66,6 +66,23 @@
     </section>
     <section class="boardContentWrap">
         ${readVo.content}
+    </section>
+    <section class="boardCommentWrap">
+        <form method="post">
+            <table>
+                <tbody>
+                <tr>
+                    <td colspan="8">
+                        <label>
+                            <span hidden>댓글</span>
+                            <input type="text" maxlength="100" name="comment" placeholder="댓글">
+                        </label>
+                        <input type="submit" value="작성">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </section>
 
 

@@ -1,5 +1,6 @@
 package com.example.pfad1.services;
 
+import com.example.pfad1.entities.board.ImageEntity;
 import com.example.pfad1.enums.board.*;
 import com.example.pfad1.vos.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +10,28 @@ import com.example.pfad1.entities.board.ArticleEntity;
 import com.example.pfad1.entities.board.BoardEntity;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.mappers.IBoardMapper;
+import org.springframework.web.util.HtmlUtils;
+
+import java.util.Arrays;
 
 @Service
 public class BoardService {
     private static class Config {
-        public final static int ARTICLE_COUNT_PER_PAGE = 10;
-        public final static int PAGING_NUMBER = 10;
+        public static final int ARTICLE_COUNT_PER_PAGE = 10;
+        public static final int PAGING_NUMBER = 10;
+        public static final String[] ALLOWED_IMAGE_MIMES = new String[]{"image/jpeg", "image/png"};
+
         private Config() {
 
         }
     }
+
     private static class RegExp {
         public static final String CODE = "^([a-z]{2,50})$";
         public static final String PAGE = "^([1-9]([0-9]{0,3})?)$";
         public static final String ARTICLE_INDEX = "^([1-9]([0-9]{0,5})?)$";
-        private RegExp(){
+
+        private RegExp() {
 
         }
     }
@@ -43,16 +51,18 @@ public class BoardService {
         return s != null && s.matches(RegExp.PAGE);
     }
 
-    public static boolean checkArticleIndex(String s) { return s != null && s.matches(RegExp.ARTICLE_INDEX); }
+    public static boolean checkArticleIndex(String s) {
+        return s != null && s.matches(RegExp.ARTICLE_INDEX);
+    }
 
     public void list(ListVo listVo) {
-        if(!BoardService.checkCode(listVo.getCode()) ||
-        !BoardService.checkPage(String.valueOf(listVo.getPage()))) {
+        if (!BoardService.checkCode(listVo.getCode()) ||
+                !BoardService.checkPage(String.valueOf(listVo.getPage()))) {
             listVo.setResult(ListResult.NORMALIZATION_FAILURE);
             return;
         }
         BoardEntity boardEntity = this.boardMapper.selectBoard(listVo);
-        if(boardEntity == null) {
+        if (boardEntity == null) {
             listVo.setResult(ListResult.BOARD_NOT_DEFINED);
             return;
         }
@@ -64,23 +74,23 @@ public class BoardService {
         listVo.setCode(boardEntity.getCode());
         listVo.setWriteForbidden(boardEntity.isWriteForbidden());
         listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
-        listVo.setQueryOffset((listVo.getPage()-1) * Config.ARTICLE_COUNT_PER_PAGE);
+        listVo.setQueryOffset((listVo.getPage() - 1) * Config.ARTICLE_COUNT_PER_PAGE);
         listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
         listVo.setResult(ListResult.SUCCESS);
     }
 
     public void read(ReadVo readVo, UserEntity userEntity) {
-        if(!BoardService.checkArticleIndex(String.valueOf(readVo.getIndex()))){
+        if (!BoardService.checkArticleIndex(String.valueOf(readVo.getIndex()))) {
             readVo.setResult(ReadResult.NORMALIZATION_FAILURE);
             return;
         }
         ArticleEntity articleEntity = this.boardMapper.selectArticle(readVo);
-        if(articleEntity == null || articleEntity.isDeleted()) {
+        if (articleEntity == null || articleEntity.isDeleted()) {
             readVo.setResult(ReadResult.ARTICLE_NOT_DEFINED);
             return;
         }
         BoardEntity boardEntity = this.boardMapper.selectBoard(articleEntity);
-        if(boardEntity.isReadForbidden() && (userEntity == null || !userEntity.isAdmin())) {
+        if (boardEntity.isReadForbidden() && (userEntity == null || !userEntity.isAdmin())) {
             readVo.setResult(ReadResult.READ_NOT_ALLOWED);
             return;
         }
@@ -99,16 +109,16 @@ public class BoardService {
     }
 
     public void deleteArticle(UserEntity userEntity, DeleteVo deleteVo) {
-        if(!BoardService.checkArticleIndex(String.valueOf(deleteVo.getIndex()))) {
+        if (!BoardService.checkArticleIndex(String.valueOf(deleteVo.getIndex()))) {
             deleteVo.setResult(DeleteResult.NORMALIZATION_FAILURE);
             return;
         }
         ArticleEntity articleEntity = this.boardMapper.selectArticle(deleteVo);
-        if(articleEntity == null) {
+        if (articleEntity == null) {
             deleteVo.setResult(DeleteResult.FAILURE);
             return;
         }
-        if(userEntity == null ||
+        if (userEntity == null ||
                 (!userEntity.isAdmin() && !userEntity.getId().equals(deleteVo.getId()))) {
             deleteVo.setResult(DeleteResult.NOT_ALLOWED);
             return;
@@ -117,29 +127,87 @@ public class BoardService {
         deleteVo.setBoardCode(articleEntity.getBoardCode());
         deleteVo.setResult(DeleteResult.SUCCESS);
     }
+
     public void writeByGet(WriteVo writeVo, UserEntity userEntity) {
-        if(!BoardService.checkCode(writeVo.getBoardCode())) {
+        if (!BoardService.checkCode(writeVo.getBoardCode())) {
             writeVo.setResult(WriteResult.NORMALIZATION_FAILURE);
             return;
         }
         BoardEntity boardEntity = this.boardMapper.selectBoard(writeVo);
-        if(boardEntity == null) {
+        if (boardEntity == null) {
             writeVo.setResult(WriteResult.BOARD_NOT_DEFINED);
             return;
         }
-        if(userEntity == null || (boardEntity.isWriteForbidden() && !userEntity.isAdmin())) {
+        if (userEntity == null || (boardEntity.isWriteForbidden() && !userEntity.isAdmin())) {
             writeVo.setResult(WriteResult.WRITE_NOT_ALLOWED);
             return;
         }
         writeVo.setResult(WriteResult.SUCCESS);
     }
 
+    public void writeByPost(WriteVo writeVo, UserEntity userEntity) {
+        if (!BoardService.checkCode(writeVo.getBoardCode()) ||
+                writeVo.getTitle().length() == 0 ||
+                writeVo.getContent().length() == 0 ||
+                writeVo.getTitle().length() > 100 ||
+                writeVo.getContent().length() > 10000 ||
+                writeVo.getContent().replaceAll(" ", "").contains("<script")) {
+            writeVo.setResult(WriteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        BoardEntity boardEntity = this.boardMapper.selectBoard(writeVo);
+        if (boardEntity == null) {
+            writeVo.setResult(WriteResult.BOARD_NOT_DEFINED);
+            return;
+        }
+        if (userEntity == null || (boardEntity.isWriteForbidden() && !userEntity.isAdmin())) {
+            writeVo.setResult(WriteResult.WRITE_NOT_ALLOWED);
+            return;
+        }
+        writeVo.setTitle(HtmlUtils.htmlEscape(writeVo.getTitle())); // html코드가 혹여나 들어가있다면 제거
+        writeVo.setId(userEntity.getId());
+        this.boardMapper.insertArticle(writeVo);
+        writeVo.setIndex(this.boardMapper.selectLastInsertId());
+        writeVo.setResult(WriteResult.SUCCESS);
+    }
+
     public void uploadImage(ImageUploadVo imageUploadVo, UserEntity userEntity) {
-        if(userEntity == null) {
+        if (userEntity == null) {
             imageUploadVo.setResult(ImageUploadResult.NOT_ALLOWED);
             return;
         }
-//        TODO: image upload..
+//        Arrays.stream(Config.ALLOWED_IMAGE_MIMES).noneMatch(imageUploadVo.getFile().getContentType()::equals)
+//        Arrays.asList(Config.ALLOWED_IMAGE_MIMES).contains(imageUploadVo.getFile().getContentType())
+//        위 아래 모두 동일한 구문
+//            boolean isMimeValid = false;
+//            for(String allowedImageMime : Config.ALLOWED_IMAGE_MIMES) {
+//                if(imageUploadVo.getFile().getContentType().equals(allowedImageMime)) {
+//                    isMimeValid = true;
+//                    break;
+//                }
+//            }  아래와 동일함.
+
+        if (imageUploadVo.getFile() == null ||
+                imageUploadVo.getFile().getContentType() == null ||
+                Arrays.stream(Config.ALLOWED_IMAGE_MIMES).noneMatch(imageUploadVo.getFile().getContentType()::equals)) {
+            imageUploadVo.setResult(ImageUploadResult.MIME_INVALID);
+            return;
+        }
+        this.boardMapper.insertImage(imageUploadVo);
+        imageUploadVo.setIndex(this.boardMapper.selectLastInsertId());
+        imageUploadVo.setResult(ImageUploadResult.SUCCESS);
+    }
+
+    public void downloadImage(ImageDownloadVo imageDownloadVo) {
+        ImageEntity imageEntity = this.boardMapper.selectImage(imageDownloadVo);
+        if (imageEntity == null) {
+            imageDownloadVo.setResult(ImageDownloadResult.NOT_DEFINED);
+            return;
+        }
+        imageDownloadVo.setCreatedAt(imageEntity.getCreatedAt());
+        imageDownloadVo.setFile(imageEntity.getFile());
+        imageDownloadVo.setMime(imageEntity.getMime());
+        imageDownloadVo.setResult(ImageDownloadResult.SUCCESS);
     }
 
 }

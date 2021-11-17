@@ -47,14 +47,14 @@
         <thead>
         <tr>
             <td>
-                <input id="title-input" type="text" name="title" placeholder="제목" autofocus style="width: 100%;">
+                <input id="title-input" type="text" maxlength="100" name="title" placeholder="제목" autofocus style="width: 100%;">
             </td>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td colspan="2">
-                <textarea name="content" cols="30" rows="10" placeholder="내용"></textarea>
+                <textarea name="content" cols="30" rows="10" maxlength="10000" placeholder="내용"></textarea>
             </td>
         </tr>
         </tbody>
