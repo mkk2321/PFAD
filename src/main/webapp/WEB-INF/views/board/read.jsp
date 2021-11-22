@@ -1,8 +1,10 @@
 <%@ page import="com.example.pfad1.enums.board.ReadResult" %>
+<%@ page import="com.example.pfad1.enums.board.CommentWriteResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="readVo" type="com.example.pfad1.vos.board.ReadVo"--%>
 <%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
+<%--@elvariable id="commentWriteResult" type="com.example.pfad1.enums.board.CommentWriteResult"--%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -14,6 +16,35 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <%--    <script defer src="${pageContext.request.contextPath}/user/resources/scripts/board/board.js"></script>--%>
+    <c:if test="${commentWriteResult != null}">
+        <c:choose>
+            <c:when test="${commentWriteResult == CommentWriteResult.ARTICLE_NOT_DEFINED}">
+                <script>
+                    alert('존재하지 않는 게시글입니다.');
+                    window.history.back();
+                </script>
+            </c:when>
+            <c:when test="${commentWriteResult == CommentWriteResult.BOARD_NOT_DEFINED}">
+                <script>
+                    alert('존재하지 않는 게시판입니다.');
+                    window.history.back();
+                </script>
+            </c:when>
+            <c:when test="${commentWriteResult == CommentWriteResult.NOT_ALLOWED}">
+                <script>
+                    alert('댓글을 작성할 권한이 없습니다.');
+                    window.history.back();
+                </script>
+            </c:when>
+            <c:otherwise>
+                <script>
+                    alert('알 수 없는 이유로 댓글을 작성하지 못하였습니다.');
+                    window.history.back();
+                </script>
+            </c:otherwise>
+        </c:choose>
+        <%out.close();%>
+    </c:if>
     <c:if test="${readVo.result != ReadResult.SUCCESS}">
         <c:choose>
             <c:when test="${readVo.result == ReadResult.ARTICLE_NOT_DEFINED}">
@@ -73,11 +104,44 @@
                 <tbody>
                 <tr>
                     <td colspan="8">
+                        <input type="hidden" name="boardCode" value="${readVo.boardCode}">
                         <label>
                             <span hidden>댓글</span>
-                            <input type="text" maxlength="100" name="comment" placeholder="댓글">
+                            <input type="text" maxlength="100" name="content" placeholder="댓글">
                         </label>
                         <input type="submit" value="작성">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <div>
+                            <table>
+                                <tbody class="comment">
+                                <c:if test="${empty readVo.comments}">
+                                    <tr>
+                                        <td>작성된 게시글이 없습니다.</td>
+                                    </tr>
+                                </c:if>
+                                <c:forEach var="comment" items="${readVo.comments}">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <span style="background-color: ${comment.userId.equals(userEntity.id) ? '#1e90ff44' : '#99999955'};">
+                                                    <a>${comment.userId}</a>
+                                                    <span></span>
+                                                    <c:if test="${userEntity.admin || userEntity.id.equals(comment.userId)}">
+                                                        <a href="#" class="commentDelete" onclick="if(confirm('정말로 댓글을 삭제할까요?')){window.location.href='/board/list/delete/${comment.articleIndex}';}">삭제</a>
+                                                    </c:if>
+                                                    <a>${comment.formatCreatedAt()}</a>
+                                                </span>
+                                                <span>${comment.content}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 </tbody>

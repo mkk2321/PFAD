@@ -73,7 +73,10 @@
             <c:forEach var="article" items="${listVo.articles}" varStatus="status">
                 <tr>
                     <td class="boardNo">${num}</td>
-                    <td><a href="/board/list/read/${article.index}" style="color: #5f71aa;">${article.title}</a></td>
+                    <td>
+                        <a href="/board/list/read/${article.index}" style="color: #5f71aa;">${article.title}</a>
+                        <b style="color: #808284; margin-left: 0.2rem;">[${article.commentCount}]</b>
+                    </td>
                     <td>${article.id}</td>
                     <td>${article.formatCreatedAt()}</td>
                     <td>${article.view}</td>

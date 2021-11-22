@@ -3,10 +3,10 @@ package com.example.pfad1.entities.board;
 import java.util.Date;
 
 public class ImageEntity {
-    private int index;
-    private Date createdAt;
-    private String mime;
-    private byte[] file;
+    protected int index;
+    protected Date createdAt;
+    protected String mime;
+    protected byte[] file;
 
     public int getIndex() {
         return index;

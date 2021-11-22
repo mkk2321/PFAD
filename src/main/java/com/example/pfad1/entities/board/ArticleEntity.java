@@ -1,11 +1,12 @@
 package com.example.pfad1.entities.board;
 
+import com.example.pfad1.interfaces.IArticle;
 import com.example.pfad1.interfaces.IBoard;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ArticleEntity implements IBoard {
+public class ArticleEntity implements IArticle, IBoard {
     protected int index;
     protected String id;
     protected String boardCode;
@@ -15,7 +16,8 @@ public class ArticleEntity implements IBoard {
     protected String content;
     protected int view;
     protected boolean isDeleted;
-    private String name;
+    protected String name;
+    protected int commentCount;
 
     public String getName() {
         return name;
@@ -104,5 +106,18 @@ public class ArticleEntity implements IBoard {
 
     public String formatUpdatedAt(){
         return new SimpleDateFormat("yy-MM-dd HH:mm").format(this.updatedAt);
+    }
+
+    @Override
+    public int getArticleIndex() {
+        return this.index;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 }

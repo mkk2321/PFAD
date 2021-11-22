@@ -8,6 +8,13 @@
         INSERT INTO `pfad`.`articles` (`id`, `board_code`, `title`, `content`)
         VALUES (#{id}, #{boardCode}, #{title}, #{content})
     </insert>
+
+    <insert id="insertComment"
+            parameterType="com.example.pfad1.entities.board.CommentEntity">
+        INSERT INTO `pfad`.`comments` (`user_id`, `article_index`, `content`)
+        VALUES (#{userId}, #{articleIndex}, #{content})
+    </insert>
+
     <insert id="insertImage"
             parameterType="com.example.pfad1.vos.board.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`)
@@ -21,7 +28,7 @@
         LIMIT 1
     </delete>
     <select id="selectArticle"
-            parameterType="com.example.pfad1.entities.board.ArticleEntity"
+            parameterType="com.example.pfad1.interfaces.IArticle"
             resultType="com.example.pfad1.entities.board.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
@@ -35,25 +42,28 @@
                `board`.`name`           AS `name`
         FROM `pfad`.`articles` AS `article`
                  LEFT JOIN `pfad`.`boards` AS `board` ON `article`.`board_code` = `board`.`code`
-        WHERE `index` = #{index}
+        WHERE `index` = #{articleIndex}
         LIMIT 1
     </select>
 
     <select id="selectArticlesByList"
             parameterType="com.example.pfad1.vos.board.ListVo"
             resultType="com.example.pfad1.entities.board.ArticleEntity">
-        SELECT `index`        AS `index`,
-               `id`           AS `id`,
-               `board_code`   AS `boardCode`,
-               `created_at`   AS `createdAt`,
-               `updated_at`   AS `updatedAt`,
-               `title`        AS `title`,
-               `view`         AS `view`,
-               `deleted_flag` AS `isDeleted`
-        FROM `pfad`.`articles`
-        WHERE `board_code` = #{code}
-          AND `deleted_flag` = FALSE
-        ORDER BY `articles`.`index` DESC
+        SELECT `article`.`index`        AS `index`,
+               `article`.`id`           AS `id`,
+               `article`.`board_code`   AS `boardCode`,
+               `article`.`created_at`   AS `createdAt`,
+               `article`.`updated_at`   AS `updatedAt`,
+               `article`.`title`        AS `title`,
+               `article`.`view`         AS `view`,
+               `article`.`deleted_flag` AS `isDeleted`,
+               COUNT(`comment`.`index`) AS `commentCount`
+        FROM `pfad`.`articles` AS `article`
+        LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
+        WHERE `article`.`board_code` = #{code}
+          AND `article`.`deleted_flag` = FALSE
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
         LIMIT #{queryLimit} OFFSET #{queryOffset}
     </select>
 
@@ -86,6 +96,21 @@
         FROM `pfad`.`articles`
         WHERE `board_code` = #{boardCode}
           AND `index` >= #{index}
+    </select>
+
+    <select id="selectComments"
+            parameterType="com.example.pfad1.interfaces.IArticle"
+            resultType="com.example.pfad1.entities.board.CommentEntity">
+        SELECT `index`         AS `index`,
+               `user_id`       AS `userId`,
+               `article_index` AS `articleIndex`,
+               `created_at`    AS `createdAt`,
+               `content`       AS `content`,
+               `deleted_flag`  AS `isDeleted`
+        FROM `pfad`.`comments`
+        WHERE `article_index` = #{articleIndex}
+#         AND `deleted_flag` = FALSE
+        ORDER BY `created_at`
     </select>
 
     <select id="selectImage" parameterType="com.example.pfad1.entities.board.ImageEntity"

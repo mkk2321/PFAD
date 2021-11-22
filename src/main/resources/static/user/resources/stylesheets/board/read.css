@@ -67,7 +67,8 @@ main > section.boardContentWrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 10rem;
+    padding: 5rem;
+    box-sizing: border-box;
 }
 
 main > section.boardContentWrap > * {
@@ -87,8 +88,49 @@ main > section.boardCommentWrap {
     flex-direction: row;
     justify-content: center;
     flex: 1;
+    margin-bottom: 10rem;
 }
 
 main > section.boardCommentWrap > form > table > tbody > tr > td > label > input {
     width: 40rem;
+    margin-bottom: 1rem;
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table {
+    width: 100%;
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment {
+
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment > tr > td > div{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40rem;
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment > tr > td > div > span {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    min-width: 100%;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment > tr > td > div > span:not(:last-child) {
+    /*background-color: #99999955;*/
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment > tr > td > div > span > a.commentDelete {
+    color: #cd5c5c;
+    margin: 0 0.5rem;
+}
+
+main > section.boardCommentWrap > form > table > tbody > tr > td > div > table > tbody.comment > tr > td > div > span > span {
+    flex: 1;
 }

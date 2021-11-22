@@ -1,5 +1,6 @@
 package com.example.pfad1.services;
 
+import com.example.pfad1.entities.board.CommentEntity;
 import com.example.pfad1.entities.board.ImageEntity;
 import com.example.pfad1.enums.board.*;
 import com.example.pfad1.vos.board.*;
@@ -105,6 +106,13 @@ public class BoardService {
         readVo.setDeleted(articleEntity.isDeleted());
         readVo.setName(articleEntity.getName());
         readVo.setBoardPage(this.boardMapper.selectArticleCountGreaterThan(readVo) / Config.ARTICLE_COUNT_PER_PAGE + 1);
+
+        CommentEntity[] comments = Arrays.stream(this.boardMapper.selectComments(readVo))
+                .filter(x -> !x.isDeleted())
+                .toArray(CommentEntity[]::new);
+//        AND `deleted_flag` = FALSE 대신 사용
+
+        readVo.setComments(comments);
         readVo.setResult(ReadResult.SUCCESS);
     }
 
@@ -210,4 +218,44 @@ public class BoardService {
         imageDownloadVo.setResult(ImageDownloadResult.SUCCESS);
     }
 
+    public void putComment(UserEntity userEntity, CommentWriteVo commentWriteVo) {
+        if(!BoardService.checkCode(commentWriteVo.getBoardCode()) ||
+        !BoardService.checkArticleIndex(String.valueOf(commentWriteVo.getArticleIndex())) ||
+        commentWriteVo.getContent().length() > 100) {
+            commentWriteVo.setResult(CommentWriteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        BoardEntity boardEntity = this.boardMapper.selectBoard(commentWriteVo);
+        if(boardEntity == null) {
+            commentWriteVo.setResult(CommentWriteResult.BOARD_NOT_DEFINED);
+            return;
+        }
+        if(userEntity == null || !userEntity.isAdmin() && boardEntity.isCommentForbidden()) {
+            commentWriteVo.setResult(CommentWriteResult.NOT_ALLOWED);
+            return;
+        }
+        ArticleEntity articleEntity = this.boardMapper.selectArticle(commentWriteVo);
+        if(articleEntity == null || articleEntity.isDeleted()) {
+            commentWriteVo.setResult(CommentWriteResult.ARTICLE_NOT_DEFINED);
+            return;
+        }
+        commentWriteVo.setUserId(userEntity.getId());
+        commentWriteVo.setContent(HtmlUtils.htmlEscape(commentWriteVo.getContent()));
+        this.boardMapper.insertComment(commentWriteVo);
+        commentWriteVo.setResult(CommentWriteResult.SUCCESS);
+    }
+
+    public void deleteComment(CommentDeleteVo commentDeleteVo, UserEntity userEntity) {
+        if(!BoardService.checkArticleIndex(String.valueOf(commentDeleteVo.getArticleIndex()))) {
+            commentDeleteVo.setResult(CommentDeleteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+
+//        if(userEntity == null || (!userEntity.isAdmin() && comment)) {
+//            commentDeleteVo.setResult(CommentDeleteResult.NOT_ALLOWED);
+//            return;
+//        } TODO : comment delete...
+
+
+    }
 }

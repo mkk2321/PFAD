@@ -1,6 +1,7 @@
 package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
+import com.example.pfad1.enums.board.CommentWriteResult;
 import com.example.pfad1.enums.board.ImageDownloadResult;
 import com.example.pfad1.enums.board.ImageUploadResult;
 import com.example.pfad1.enums.board.WriteResult;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,7 +64,9 @@ public class BoardController {
         return "board/board";
     }
 
-    @RequestMapping(value = "/list/read/{articleIndex}")
+    @RequestMapping(value = "/list/read/{articleIndex}",
+    method = RequestMethod.GET,
+    produces = MediaType.TEXT_HTML_VALUE)
     public String readGet(@PathVariable(name = "articleIndex") int articleIndex,
                           HttpServletRequest request,
                           @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
@@ -71,6 +75,23 @@ public class BoardController {
         this.boardService.read(readVo, userEntity);
         request.setAttribute("readVo", readVo);
         return "board/read";
+    }
+
+    @RequestMapping(value = "/list/read/{articleIndex}",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String readPost(@PathVariable(name = "articleIndex") int articleIndex,
+                          HttpServletRequest request,
+                          CommentWriteVo commentWriteVo,
+                          @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
+        commentWriteVo.setArticleIndex(articleIndex);
+        this.boardService.putComment(userEntity, commentWriteVo);
+        if(commentWriteVo.getResult() == CommentWriteResult.SUCCESS) {
+            return "redirect:/board/list/read/" + articleIndex;
+        } else {
+            request.setAttribute("commentWriteResult", commentWriteVo.getResult());
+            return "board/read";
+        }
     }
 
     @RequestMapping(value = "/delete/{articleIndex}",
@@ -166,5 +187,16 @@ public class BoardController {
             response.sendError(404);
             return null;
         }
+    }
+
+    @RequestMapping(value = "/list/delete/{articleIndex}",
+    method = RequestMethod.POST,
+    produces = MediaType.TEXT_HTML_VALUE)
+    public String deleteComment(@PathVariable(name = "articleIndex")int articleIndex,
+                                @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                                CommentDeleteVo commentDeleteVo,
+                                Model model) {
+
+        return "redirect:/board/list/read";
     }
 }

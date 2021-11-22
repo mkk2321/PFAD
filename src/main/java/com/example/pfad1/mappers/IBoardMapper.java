@@ -2,7 +2,9 @@ package com.example.pfad1.mappers;
 
 import com.example.pfad1.entities.board.ArticleEntity;
 import com.example.pfad1.entities.board.BoardEntity;
+import com.example.pfad1.entities.board.CommentEntity;
 import com.example.pfad1.entities.board.ImageEntity;
+import com.example.pfad1.interfaces.IArticle;
 import com.example.pfad1.interfaces.IBoard;
 import com.example.pfad1.vos.board.ImageUploadVo;
 import com.example.pfad1.vos.board.ListVo;
@@ -13,11 +15,13 @@ import org.apache.ibatis.annotations.Select;
 public interface IBoardMapper {
     int insertArticle(ArticleEntity articleEntity);
 
+    int insertComment(CommentEntity commentEntity);
+
     int insertImage(ImageUploadVo imageUploadVo);
 
     int deleteArticle(ArticleEntity articleEntity);
 
-    ArticleEntity selectArticle(ArticleEntity articleEntity);
+    ArticleEntity selectArticle(IArticle iArticle);
 
     ArticleEntity[] selectArticlesByList(ListVo listVo);
 
@@ -27,6 +31,8 @@ public interface IBoardMapper {
 
     BoardEntity selectBoard(IBoard board);
 
+    CommentEntity[] selectComments(IArticle iArticle);
+
     ImageEntity selectImage(ImageEntity imageEntity);
 
     int selectLastInsertId();
@@ -35,5 +41,6 @@ public interface IBoardMapper {
     int updateArticleDeleted(ArticleEntity articleEntity);
 
     int updateArticleView(ArticleEntity articleEntity);
+
 
 }
