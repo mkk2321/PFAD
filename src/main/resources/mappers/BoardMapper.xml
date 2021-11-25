@@ -27,6 +27,16 @@
         WHERE `index` = #{index}
         LIMIT 1
     </delete>
+
+    <delete id="deleteComment" parameterType="com.example.pfad1.entities.board.CommentEntity">
+        DELETE
+        FROM `pfad`.`comments`
+        WHERE `article_index` = #{articleIndex}
+#         AND `created_at` = ${createdAt}
+        LIMIT 1
+
+    </delete>
+
     <select id="selectArticle"
             parameterType="com.example.pfad1.interfaces.IArticle"
             resultType="com.example.pfad1.entities.board.ArticleEntity">

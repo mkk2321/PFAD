@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/something.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <script defer src="${pageContext.request.contextPath}/user/resources/scripts/board/board.js"></script>
-    <c:if test="${listVo.result != ListResult.SUCCESS}">
+<%--    <c:if test="${listVo.result != ListResult.SUCCESS}">
         <c:choose>
             <c:when test="${listVo.result == ListResult.BOARD_NOT_DEFINED}">
                 <script>
@@ -30,7 +30,7 @@
             </c:otherwise>
         </c:choose>
         <% out.close(); %>
-    </c:if>
+    </c:if>--%>
 </head>
 <body class="board">
 <%@ include file="../header.jsp" %>
@@ -74,7 +74,7 @@
                 <tr>
                     <td class="boardNo">${num}</td>
                     <td>
-                        <a href="/board/list/read/${article.index}" style="color: #5f71aa;">${article.title}</a>
+                        <a href="/board/${article.boardCode}/read/${article.index}" style="color: #5f71aa;">${article.title}</a>
                         <b style="color: #808284; margin-left: 0.2rem;">[${article.commentCount}]</b>
                     </td>
                     <td>${article.id}</td>

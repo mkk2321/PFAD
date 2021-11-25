@@ -219,23 +219,23 @@ public class BoardService {
     }
 
     public void putComment(UserEntity userEntity, CommentWriteVo commentWriteVo) {
-        if(!BoardService.checkCode(commentWriteVo.getBoardCode()) ||
-        !BoardService.checkArticleIndex(String.valueOf(commentWriteVo.getArticleIndex())) ||
-        commentWriteVo.getContent().length() > 100) {
+        if (!BoardService.checkCode(commentWriteVo.getBoardCode()) ||
+                !BoardService.checkArticleIndex(String.valueOf(commentWriteVo.getArticleIndex())) ||
+                commentWriteVo.getContent().length() > 100) {
             commentWriteVo.setResult(CommentWriteResult.NORMALIZATION_FAILURE);
             return;
         }
         BoardEntity boardEntity = this.boardMapper.selectBoard(commentWriteVo);
-        if(boardEntity == null) {
+        if (boardEntity == null) {
             commentWriteVo.setResult(CommentWriteResult.BOARD_NOT_DEFINED);
             return;
         }
-        if(userEntity == null || !userEntity.isAdmin() && boardEntity.isCommentForbidden()) {
+        if (userEntity == null || !userEntity.isAdmin() && boardEntity.isCommentForbidden()) {
             commentWriteVo.setResult(CommentWriteResult.NOT_ALLOWED);
             return;
         }
         ArticleEntity articleEntity = this.boardMapper.selectArticle(commentWriteVo);
-        if(articleEntity == null || articleEntity.isDeleted()) {
+        if (articleEntity == null || articleEntity.isDeleted()) {
             commentWriteVo.setResult(CommentWriteResult.ARTICLE_NOT_DEFINED);
             return;
         }
@@ -246,16 +246,40 @@ public class BoardService {
     }
 
     public void deleteComment(CommentDeleteVo commentDeleteVo, UserEntity userEntity) {
-        if(!BoardService.checkArticleIndex(String.valueOf(commentDeleteVo.getArticleIndex()))) {
+        if (!BoardService.checkCode(commentDeleteVo.getBoardCode()) ||
+                !BoardService.checkArticleIndex(String.valueOf(commentDeleteVo.getArticleIndex()))) {
             commentDeleteVo.setResult(CommentDeleteResult.NORMALIZATION_FAILURE);
             return;
         }
+        if (userEntity == null || (!userEntity.isAdmin() && !commentDeleteVo.getUserId().equals(userEntity.getId()))) {
+            commentDeleteVo.setResult(CommentDeleteResult.NOT_ALLOWED);
+            return;
+        }
+        this.boardMapper.deleteComment(commentDeleteVo);
+        commentDeleteVo.setResult(CommentDeleteResult.SUCCESS);
+    }
 
-//        if(userEntity == null || (!userEntity.isAdmin() && comment)) {
-//            commentDeleteVo.setResult(CommentDeleteResult.NOT_ALLOWED);
-//            return;
-//        } TODO : comment delete...
+    public void modifyByGet(ModifyVo modifyVo, UserEntity userEntity) {
+        (!BoardService.checkCode(modifyVo.getBoardCode()) ||
+                !BoardService.checkArticleIndex(String.valueOf(modifyVo.getIndex()))){
+            modifyVo.setResult(ModifyResult.NORMALIZATION_FAILURE);
+            return;
+        }
 
+        if(userEntity == null || (!userEntity.isAdmin() && !userEntity.getId().equals(modifyVo.getId()))) {
+            modifyVo.setResult(ModifyResult.NOT_ALLOWED);
+            return;
+        }
+
+        BoardEntity boardEntity = this.boardMapper.selectBoard(modifyVo);
+        if(boardEntity == null) {
+            modifyVo.setResult(ModifyResult.BOARD_NOT_DEFINED);
+            return;
+        }
+//        modifyVo.set TODO: article modify working..
+    }
+
+    public void modifyByPost(ModifyVo modifyVo, UserEntity userEntity) {
 
     }
 }

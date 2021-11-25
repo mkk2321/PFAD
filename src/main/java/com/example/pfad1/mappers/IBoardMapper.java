@@ -21,6 +21,8 @@ public interface IBoardMapper {
 
     int deleteArticle(ArticleEntity articleEntity);
 
+    int deleteComment(CommentEntity commentEntity);
+
     ArticleEntity selectArticle(IArticle iArticle);
 
     ArticleEntity[] selectArticlesByList(ListVo listVo);

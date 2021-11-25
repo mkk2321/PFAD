@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,10 +65,11 @@ public class BoardController {
         return "board/board";
     }
 
-    @RequestMapping(value = "/list/read/{articleIndex}",
-    method = RequestMethod.GET,
-    produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(value = "/{boardCode}/read/{articleIndex}",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
     public String readGet(@PathVariable(name = "articleIndex") int articleIndex,
+                          @PathVariable(name = "boardCode") String boardCode,
                           HttpServletRequest request,
                           @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
         ReadVo readVo = new ReadVo();
@@ -77,17 +79,19 @@ public class BoardController {
         return "board/read";
     }
 
-    @RequestMapping(value = "/list/read/{articleIndex}",
+    @RequestMapping(value = "/{boardCode}/read/{articleIndex}",
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
-    public String readPost(@PathVariable(name = "articleIndex") int articleIndex,
-                          HttpServletRequest request,
-                          CommentWriteVo commentWriteVo,
-                          @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
+    public String readPost(@PathVariable(name = "boardCode") String boardCode,
+            @PathVariable(name = "articleIndex") int articleIndex,
+                           HttpServletRequest request,
+                           CommentWriteVo commentWriteVo,
+                           @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
+        commentWriteVo.setBoardCode(boardCode);
         commentWriteVo.setArticleIndex(articleIndex);
         this.boardService.putComment(userEntity, commentWriteVo);
-        if(commentWriteVo.getResult() == CommentWriteResult.SUCCESS) {
-            return "redirect:/board/list/read/" + articleIndex;
+        if (commentWriteVo.getResult() == CommentWriteResult.SUCCESS) {
+            return "redirect:/board/"+commentWriteVo.getBoardCode()+"/read/" + articleIndex;
         } else {
             request.setAttribute("commentWriteResult", commentWriteVo.getResult());
             return "board/read";
@@ -130,7 +134,7 @@ public class BoardController {
                             HttpServletRequest request) {
         writeVo.setBoardCode(boardCode);
         this.boardService.writeByPost(writeVo, userEntity);
-        if(writeVo.getResult() == WriteResult.SUCCESS) {
+        if (writeVo.getResult() == WriteResult.SUCCESS) {
             return "redirect:/board/list/read/" + writeVo.getIndex();
         } else {
             request.setAttribute("writeVo", writeVo);
@@ -189,14 +193,44 @@ public class BoardController {
         }
     }
 
-    @RequestMapping(value = "/list/delete/{articleIndex}",
-    method = RequestMethod.POST,
-    produces = MediaType.TEXT_HTML_VALUE)
-    public String deleteComment(@PathVariable(name = "articleIndex")int articleIndex,
+    @RequestMapping(value = "/{boardCode}/delete/{articleIndex}",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String deleteComment(@PathVariable(name = "boardCode") String boardCode,
+                                @PathVariable(name = "articleIndex") int articleIndex,
                                 @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                                 CommentDeleteVo commentDeleteVo,
                                 Model model) {
+        commentDeleteVo.setBoardCode(boardCode);
+        commentDeleteVo.setArticleIndex(articleIndex);
+        this.boardService.deleteComment(commentDeleteVo, userEntity);
+        model.addAttribute("commentDeleteResult", commentDeleteVo.getResult());
+        return "redirect:/board/" + commentDeleteVo.getBoardCode() + "/read/" + commentDeleteVo.getArticleIndex();
+    }
 
-        return "redirect:/board/list/read";
+    @RequestMapping(value = "/{boardCode}/modify/{articleIndex}",
+    method = RequestMethod.GET,
+    produces = MediaType.TEXT_HTML_VALUE)
+    public String modifyGet(@PathVariable(name = "boardCode") String boardCode,
+                            @PathVariable(name = "articleIndex") int articleIndex,
+                            @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                            ModifyVo modifyVo) {
+        modifyVo.setBoardCode(boardCode);
+        modifyVo.setIndex(articleIndex);
+        this.boardService.modifyByGet(modifyVo, userEntity);
+        return null;
+    }
+
+    @RequestMapping(value = "/{boardCode}/modify/{articleIndex}",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String modifyPost(@PathVariable(name = "boardCode") String boardCode,
+                            @PathVariable(name = "articleIndex") int articleIndex,
+                            @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                            ModifyVo modifyVo) {
+        modifyVo.setBoardCode(boardCode);
+        modifyVo.setIndex(articleIndex);
+        this.boardService.modifyByPost(modifyVo, userEntity);
+        return null;
     }
 }

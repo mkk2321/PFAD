@@ -1,10 +1,13 @@
 <%@ page import="com.example.pfad1.enums.board.ReadResult" %>
 <%@ page import="com.example.pfad1.enums.board.CommentWriteResult" %>
+<%@ page import="com.example.pfad1.vos.board.CommentDeleteVo" %>
+<%@ page import="com.example.pfad1.enums.board.CommentDeleteResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="readVo" type="com.example.pfad1.vos.board.ReadVo"--%>
 <%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <%--@elvariable id="commentWriteResult" type="com.example.pfad1.enums.board.CommentWriteResult"--%>
+<%--@elvariable id="commentDeleteResult" type="com.example.pfad1.enums.board.CommentDeleteResult"--%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -26,7 +29,7 @@
             </c:when>
             <c:when test="${commentWriteResult == CommentWriteResult.BOARD_NOT_DEFINED}">
                 <script>
-                    alert('존재하지 않는 게시판입니다.');
+                    alert('존재하지 않는 게시판입니다sad.');
                     window.history.back();
                 </script>
             </c:when>
@@ -130,7 +133,7 @@
                                                     <a>${comment.userId}</a>
                                                     <span></span>
                                                     <c:if test="${userEntity.admin || userEntity.id.equals(comment.userId)}">
-                                                        <a href="#" class="commentDelete" onclick="if(confirm('정말로 댓글을 삭제할까요?')){window.location.href='/board/list/delete/${comment.articleIndex}';}">삭제</a>
+                                                        <a href="#" class="commentDelete" onclick="if(confirm('정말로 댓글을 삭제할까요?')){window.location.href='/board/${readVo.boardCode}/delete/${comment.articleIndex}';}">삭제</a>
                                                     </c:if>
                                                     <a>${comment.formatCreatedAt()}</a>
                                                 </span>
