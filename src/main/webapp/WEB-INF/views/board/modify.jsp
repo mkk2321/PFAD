@@ -1,4 +1,6 @@
+<%--@elvariable id="modifyVo" type="com.example.pfad1.vos.board.ModifyVo"--%>
 <%@ page import="com.example.pfad1.enums.board.WriteResult" %>
+<%@ page import="com.example.pfad1.enums.board.ModifyResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="writeVo" type="com.example.pfad1.vos.board.WriteVo"--%>
@@ -9,29 +11,35 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>게시글 작성</title>
+    <title>게시글 수정</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/write.css">
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/ckeditor.js"></script>
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/write.js"></script>
-    <c:if test="${writeVo.result != WriteResult.SUCCESS}">
+    <c:if test="${modifyVo.result != ModifyResult.SUCCESS}">
         <c:choose>
-            <c:when test="${writeVo.result == WriteResult.BOARD_NOT_DEFINED}">
+            <c:when test="${modifyVo.result == ModifyResult.ARTICLE_NOT_DEFINED}">
+                <script>
+                    alert('존재하지 않는 게시글입니다.');
+                    window.history.back();
+                </script>
+            </c:when>
+            <c:when test="${modifyVo.result == ModifyResult.BOARD_NOT_DEFINED}">
                 <script>
                     alert('존재하지 않는 게시판입니다.');
                     window.history.back();
                 </script>
             </c:when>
-            <c:when test="${writeVo.result == WriteResult.WRITE_NOT_ALLOWED}">
+            <c:when test="${modifyVo.result == ModifyResult.NOT_ALLOWED}">
                 <script>
-                    alert('게시글을 작성할 권한이 없습니다.');
+                    alert('게시글을 수정할 권한이 없습니다.');
                     window.history.back();
                 </script>
             </c:when>
             <c:otherwise>
                 <script>
-                    alert('알 수 없는 이유로 게시글을 작성할 수 없습니다. \n\n잠시 후 다시 시도해주세요.');
+                    alert('알 수 없는 이유로 게시글을 수정할 수 없습니다. \n\n잠시 후 다시 시도해주세요.');
                     window.history.back();
                 </script>
             </c:otherwise>
@@ -41,20 +49,20 @@
 </head>
 <%@ include file="../header.jsp" %>
 <body class="write">
-<h1>게시글 작성</h1>
+<h1>게시글 수정</h1>
 <form method="post" rel="write-form">
     <table>
         <thead>
         <tr>
             <td>
-                <input id="title-input" type="text" maxlength="100" name="title" placeholder="제목" autofocus style="width: 100%;">
+                <input id="title-input" type="text" maxlength="100" name="title" autofocus style="width: 100%;" value="${modifyVo.title}">
             </td>
         </tr>
         </thead>
         <tbody>
         <tr>
             <td colspan="2">
-                <textarea name="content" cols="30" rows="10" maxlength="10000" placeholder="내용"></textarea>
+                <textarea name="content" cols="30" rows="10" maxlength="10000" >${modifyVo.content}</textarea>
             </td>
         </tr>
         </tbody>

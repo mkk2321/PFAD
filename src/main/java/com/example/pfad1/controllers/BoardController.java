@@ -83,7 +83,7 @@ public class BoardController {
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String readPost(@PathVariable(name = "boardCode") String boardCode,
-            @PathVariable(name = "articleIndex") int articleIndex,
+                           @PathVariable(name = "articleIndex") int articleIndex,
                            HttpServletRequest request,
                            CommentWriteVo commentWriteVo,
                            @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
@@ -91,7 +91,7 @@ public class BoardController {
         commentWriteVo.setArticleIndex(articleIndex);
         this.boardService.putComment(userEntity, commentWriteVo);
         if (commentWriteVo.getResult() == CommentWriteResult.SUCCESS) {
-            return "redirect:/board/"+commentWriteVo.getBoardCode()+"/read/" + articleIndex;
+            return "redirect:/board/" + commentWriteVo.getBoardCode() + "/read/" + articleIndex;
         } else {
             request.setAttribute("commentWriteResult", commentWriteVo.getResult());
             return "board/read";
@@ -209,28 +209,32 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/{boardCode}/modify/{articleIndex}",
-    method = RequestMethod.GET,
-    produces = MediaType.TEXT_HTML_VALUE)
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
     public String modifyGet(@PathVariable(name = "boardCode") String boardCode,
                             @PathVariable(name = "articleIndex") int articleIndex,
                             @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
-                            ModifyVo modifyVo) {
+                            ModifyVo modifyVo,
+                            Model model) {
         modifyVo.setBoardCode(boardCode);
         modifyVo.setIndex(articleIndex);
         this.boardService.modifyByGet(modifyVo, userEntity);
-        return null;
+        model.addAttribute("modifyVo", modifyVo);
+        return "board/modify";
     }
 
     @RequestMapping(value = "/{boardCode}/modify/{articleIndex}",
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String modifyPost(@PathVariable(name = "boardCode") String boardCode,
-                            @PathVariable(name = "articleIndex") int articleIndex,
-                            @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
-                            ModifyVo modifyVo) {
+                             @PathVariable(name = "articleIndex") int articleIndex,
+                             @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                             ModifyVo modifyVo,
+                             Model model) {
         modifyVo.setBoardCode(boardCode);
         modifyVo.setIndex(articleIndex);
         this.boardService.modifyByPost(modifyVo, userEntity);
-        return null;
+        model.addAttribute("modifyVo", modifyVo);
+        return "redirect:/board/"+ modifyVo.getBoardCode() +"/read/" + modifyVo.getArticleIndex();
     }
 }

@@ -44,5 +44,7 @@ public interface IBoardMapper {
 
     int updateArticleView(ArticleEntity articleEntity);
 
+    int updateArticle(ArticleEntity articleEntity);
+
 
 }

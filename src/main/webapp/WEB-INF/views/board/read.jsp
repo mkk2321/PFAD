@@ -81,7 +81,7 @@
             <span></span>
             <a href="/board/list/${readVo.boardCode}/${readVo.boardPage}">목록</a>
             <c:if test="${userEntity.id.equals(readVo.id) || userEntity.admin }">
-                <a href="${pageContext.request.contextPath}/board/modify/${readVo.index}">수정</a>
+                <a href="${pageContext.request.contextPath}/board/${readVo.boardCode}/modify/${readVo.index}">수정</a>
                 <a href="#" onclick="if (confirm('이 게시글이 삭제됩니다.'))
                         window.location.href='${pageContext.request.contextPath}/board/delete/${readVo.index}';">삭제</a>
             </c:if>

@@ -154,4 +154,15 @@
         WHERE `index` = #{index}
         LIMIT 1
     </update>
+
+    <update id="updateArticle"
+            parameterType="com.example.pfad1.entities.board.ArticleEntity">
+        UPDATE `pfad`.`articles`
+        SET `title` = #{title},
+            `content` = #{content},
+            `updated_at` = NOW()
+        WHERE `index` = #{index}
+        AND `board_code` = #{boardCode}
+        LIMIT 1
+    </update>
 </mapper>

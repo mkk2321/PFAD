@@ -260,26 +260,45 @@ public class BoardService {
     }
 
     public void modifyByGet(ModifyVo modifyVo, UserEntity userEntity) {
-        (!BoardService.checkCode(modifyVo.getBoardCode()) ||
-                !BoardService.checkArticleIndex(String.valueOf(modifyVo.getIndex()))){
+        if(!BoardService.checkCode(modifyVo.getBoardCode()) ||
+                !BoardService.checkArticleIndex(String.valueOf(modifyVo.getIndex()))) {
             modifyVo.setResult(ModifyResult.NORMALIZATION_FAILURE);
             return;
         }
 
-        if(userEntity == null || (!userEntity.isAdmin() && !userEntity.getId().equals(modifyVo.getId()))) {
+        if (userEntity == null || (!userEntity.isAdmin() && !userEntity.getId().equals(modifyVo.getId()))) {
             modifyVo.setResult(ModifyResult.NOT_ALLOWED);
             return;
         }
 
         BoardEntity boardEntity = this.boardMapper.selectBoard(modifyVo);
-        if(boardEntity == null) {
+        if (boardEntity == null) {
             modifyVo.setResult(ModifyResult.BOARD_NOT_DEFINED);
             return;
         }
-//        modifyVo.set TODO: article modify working..
+        ArticleEntity articleEntity = this.boardMapper.selectArticle(modifyVo);
+        if(articleEntity == null) {
+            modifyVo.setResult(ModifyResult.ARTICLE_NOT_DEFINED);
+            return;
+        }
+        modifyVo.setTitle(articleEntity.getTitle());
+        modifyVo.setContent(articleEntity.getContent());
+        modifyVo.setResult(ModifyResult.SUCCESS);
     }
 
     public void modifyByPost(ModifyVo modifyVo, UserEntity userEntity) {
-
+        if(!BoardService.checkCode(modifyVo.getBoardCode()) ||
+        !BoardService.checkArticleIndex(String.valueOf(modifyVo.getArticleIndex())) ||
+        modifyVo.getTitle().length() > 100 ||
+        modifyVo.getContent().length() > 10000) {
+            modifyVo.setResult(ModifyResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        if(userEntity == null || (!userEntity.isAdmin() && !modifyVo.getId().equals(userEntity.getId()))){
+            modifyVo.setResult(ModifyResult.NOT_ALLOWED);
+            return;
+        }
+        this.boardMapper.updateArticle(modifyVo);
+// TODO : modify 작업 시 DB에 쌓이는 이미지 처리는 ?
     }
 }
