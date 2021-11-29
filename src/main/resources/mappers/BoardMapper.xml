@@ -16,7 +16,7 @@
     </insert>
 
     <insert id="insertImage"
-            parameterType="com.example.pfad1.vos.board.ImageUploadVo">
+            parameterType="com.example.pfad1.vos.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`)
         VALUES (#{fileMime}, #{fileBytes})
     </insert>
@@ -69,7 +69,7 @@
                `article`.`deleted_flag` AS `isDeleted`,
                COUNT(`comment`.`index`) AS `commentCount`
         FROM `pfad`.`articles` AS `article`
-        LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
+                 LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
         WHERE `article`.`board_code` = #{code}
           AND `article`.`deleted_flag` = FALSE
         GROUP BY `article`.`index`
@@ -99,6 +99,33 @@
         WHERE `board_code` = #{code}
     </select>
 
+    <select id="selectArticleCountForSearchByContent"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{code}
+          AND INSTR(REPLACE(`content`, ' ', ''), #{keywordWithoutSpaces})
+    </select>
+
+    <select id="selectArticleCountForSearchByTitle"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{code}
+          AND INSTR(REPLACE(`title`, ' ', ''), #{keywordWithoutSpaces})
+    </select>
+
+    <select id="selectArticleCountForSearchByWriter"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`articles`
+        WHERE `board_code` = #{code}
+          AND INSTR(REPLACE(`id`, ' ', ''), #{keywordWithoutSpaces})
+    </select>
+
     <select id="selectArticleCountGreaterThan"
             parameterType="com.example.pfad1.entities.board.ArticleEntity"
             resultType="_int">
@@ -106,6 +133,72 @@
         FROM `pfad`.`articles`
         WHERE `board_code` = #{boardCode}
           AND `index` >= #{index}
+    </select>
+
+    <select id="selectArticlesForSearchContent"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="com.example.pfad1.entities.board.ArticleEntity">
+        SELECT `article`.`index`        AS `index`,
+               `article`.`id`           AS `id`,
+               `article`.`board_code`   AS `boardCode`,
+               `article`.`created_at`   AS `createdAt`,
+               `article`.`updated_at`   AS `updatedAt`,
+               `article`.`title`        AS `title`,
+               `article`.`view`         AS `view`,
+               `article`.`deleted_flag` AS `isDeleted`,
+               COUNT(`comment`.`index`) AS `commentCount`
+        FROM `pfad`.`articles` AS `article`
+                 LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
+        WHERE `article`.`board_code` = #{code}
+          AND `article`.`deleted_flag` = FALSE
+          AND INSTR(REPLACE(`article`.`content`, ' ', ''), #{keywordWithoutSpaces})
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
+        LIMIT #{queryLimit} OFFSET #{queryOffset}
+    </select>
+
+    <select id="selectArticlesForSearchWriter"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="com.example.pfad1.entities.board.ArticleEntity">
+        SELECT `article`.`index`        AS `index`,
+               `article`.`id`           AS `id`,
+               `article`.`board_code`   AS `boardCode`,
+               `article`.`created_at`   AS `createdAt`,
+               `article`.`updated_at`   AS `updatedAt`,
+               `article`.`title`        AS `title`,
+               `article`.`view`         AS `view`,
+               `article`.`deleted_flag` AS `isDeleted`,
+               COUNT(`comment`.`index`) AS `commentCount`
+        FROM `pfad`.`articles` AS `article`
+                 LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
+        WHERE `article`.`board_code` = #{code}
+          AND `article`.`deleted_flag` = FALSE
+          AND INSTR(REPLACE(`article`.`id`, ' ', ''), #{keywordWithoutSpaces})
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
+        LIMIT #{queryLimit} OFFSET #{queryOffset}
+    </select>
+
+    <select id="selectArticlesForSearchTitle"
+            parameterType="com.example.pfad1.vos.board.ListVo"
+            resultType="com.example.pfad1.entities.board.ArticleEntity">
+        SELECT `article`.`index`        AS `index`,
+               `article`.`id`           AS `id`,
+               `article`.`board_code`   AS `boardCode`,
+               `article`.`created_at`   AS `createdAt`,
+               `article`.`updated_at`   AS `updatedAt`,
+               `article`.`title`        AS `title`,
+               `article`.`view`         AS `view`,
+               `article`.`deleted_flag` AS `isDeleted`,
+               COUNT(`comment`.`index`) AS `commentCount`
+        FROM `pfad`.`articles` AS `article`
+                 LEFT JOIN `pfad`.`comments` AS `comment` ON `article`.`index` = `comment`.`article_index`
+        WHERE `article`.`board_code` = #{code}
+          AND `article`.`deleted_flag` = FALSE
+          AND INSTR(REPLACE(`article`.`title`, ' ', ''), #{keywordWithoutSpaces})
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
+        LIMIT #{queryLimit} OFFSET #{queryOffset}
     </select>
 
     <select id="selectComments"
@@ -123,8 +216,8 @@
         ORDER BY `created_at`
     </select>
 
-    <select id="selectImage" parameterType="com.example.pfad1.entities.board.ImageEntity"
-            resultType="com.example.pfad1.entities.board.ImageEntity">
+    <select id="selectImage" parameterType="com.example.pfad1.entities.ImageEntity"
+            resultType="com.example.pfad1.entities.ImageEntity">
         SELECT `index`      AS `index`,
                `created_at` AS `createdAt`,
                `mime`       AS `mime`,
@@ -158,11 +251,11 @@
     <update id="updateArticle"
             parameterType="com.example.pfad1.entities.board.ArticleEntity">
         UPDATE `pfad`.`articles`
-        SET `title` = #{title},
-            `content` = #{content},
+        SET `title`      = #{title},
+            `content`    = #{content},
             `updated_at` = NOW()
         WHERE `index` = #{index}
-        AND `board_code` = #{boardCode}
+          AND `board_code` = #{boardCode}
         LIMIT 1
     </update>
 </mapper>

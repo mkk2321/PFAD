@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/write.css">
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/ckeditor.js"></script>
-    <script defer src="${pageContext.request.contextPath}/board/resources/scripts/write.js"></script>
+    <script defer src="${pageContext.request.contextPath}/board/resources/scripts/modify.js"></script>
     <c:if test="${modifyVo.result != ModifyResult.SUCCESS}">
         <c:choose>
             <c:when test="${modifyVo.result == ModifyResult.ARTICLE_NOT_DEFINED}">
@@ -50,7 +50,7 @@
 <%@ include file="../header.jsp" %>
 <body class="write">
 <h1>게시글 수정</h1>
-<form method="post" rel="write-form">
+<form method="post" rel="modify-form">
     <table>
         <thead>
         <tr>

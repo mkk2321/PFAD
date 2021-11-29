@@ -38,6 +38,27 @@ main > div.boardNav > nav > ul > li > a:hover {
 
 }
 
+main > div.boardNav > div.searchContent > form {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 8rem;
+}
+
+main > div.boardNav > div.searchContent > form > *:not(:last-child) {
+    margin-right: 0.3rem;
+}
+
+main > div.boardNav > div.searchContent > form > select {
+    border-radius: 0.33rem;
+    width: 5.5rem;
+}
+
+main > div.boardNav > div.searchContent > form > input[name="keyword"] {
+    width: 10rem;
+}
+
 main > div.article {
     align-items: flex-start;
     display: flex;

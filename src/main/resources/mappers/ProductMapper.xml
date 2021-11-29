@@ -3,5 +3,37 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.IProductMapper">
+    <select id="selectProduct"
+            resultType="com.example.pfad1.entities.product.ProductEntity"
+            parameterType="com.example.pfad1.entities.product.ProductEntity">
+        SELECT `index`      AS `index`,
+               `name`       AS `name`,
+               `price`      AS `price`,
+               `created_at` AS `createdAt`,
+               `updated_at` AS `updatedAt`
+        FROM `pfad`.`products`
+    </select>
+
+    <select id="selectImage" parameterType="com.example.pfad1.entities.ImageEntity"
+            resultType="com.example.pfad1.entities.ImageEntity">
+        SELECT `index`      AS `index`,
+               `created_at` AS `createdAt`,
+               `mime`       AS `mime`,
+               `file`       AS `file`
+        FROM `pfad`.`images`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+    <select id="selectLastInsertId"
+            resultType="_int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <insert id="insertImage"
+            parameterType="com.example.pfad1.vos.ImageUploadVo">
+        INSERT INTO `pfad`.`images` (`mime`, `file`)
+        VALUES (#{fileMime}, #{fileBytes})
+    </insert>
 
 </mapper>

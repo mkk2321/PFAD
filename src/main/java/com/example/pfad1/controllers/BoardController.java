@@ -2,10 +2,12 @@ package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.board.CommentWriteResult;
-import com.example.pfad1.enums.board.ImageDownloadResult;
-import com.example.pfad1.enums.board.ImageUploadResult;
+import com.example.pfad1.enums.ImageDownloadResult;
+import com.example.pfad1.enums.ImageUploadResult;
 import com.example.pfad1.enums.board.WriteResult;
 import com.example.pfad1.services.BoardService;
+import com.example.pfad1.vos.ImageDownloadVo;
+import com.example.pfad1.vos.ImageUploadVo;
 import com.example.pfad1.vos.board.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -53,9 +54,9 @@ public class BoardController {
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String listGet(@PathVariable(name = "boardCode") String boardCode,
                           @PathVariable(name = "boardPage") Optional<Integer> boardPage,
-                          HttpServletRequest request) {
+                          HttpServletRequest request,
+                          ListVo listVo) {
 //        PathVariable 사용하면 ListVo를 객체화 할 수 없다. 그래서 수동으로 객체화 해야한다.
-        ListVo listVo = new ListVo();
         listVo.setCode(boardCode);
         listVo.setPage(boardPage.orElse(1));
 //                     orElse : Optional이 값을 가지고 있으면 그 값을 반환하고 없으면 (1)을 반환
@@ -135,7 +136,7 @@ public class BoardController {
         writeVo.setBoardCode(boardCode);
         this.boardService.writeByPost(writeVo, userEntity);
         if (writeVo.getResult() == WriteResult.SUCCESS) {
-            return "redirect:/board/list/read/" + writeVo.getIndex();
+            return "redirect:/board/"+writeVo.getBoardCode()+"/read/" + writeVo.getIndex();
         } else {
             request.setAttribute("writeVo", writeVo);
             return "board/write";

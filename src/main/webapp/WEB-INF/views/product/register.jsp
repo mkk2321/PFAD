@@ -7,13 +7,20 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>상품 등록</title>
-    <link rel="stylesheet" href="../../../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="../user/resources/stylesheets/product/productRegister.css">
-    <script src="user/resources/scripts/product/productRegister.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/product/productRegister.css">
+    <script defer src="${pageContext.request.contextPath}/product/resources/scripts/ckeditor.js"></script>
+    <script defer src="${pageContext.request.contextPath}/product/resources/scripts/register.js"></script>
+    <style>
+        .ck-editor__editable_inline {
+            width: 40rem;
+            min-height: 15rem;
+        }
+    </style>
 </head>
-<body>
+<body class="register">
 <%@ include file="../header.jsp"%>
-<form method="post">
+<form method="post" rel="register-form">
     <div>
         <section class="productInfo">
             <div class="category">
@@ -54,11 +61,8 @@
         </section>
 
         <section>
-            <label for="upImgFile">상품 이미지</label>
-            <input type="file" id="upImgFile" name="file" accept="image/*" onchange="uploadImgPreview();">
-            <div class="productImagePreview">
-                <img id="thumbnailImg" src=""/>
-            </div>
+            <label>상품 이미지</label>
+            <textarea name="image" id="image-input" style="width: 40rem; height: 20rem;"></textarea>
         </section>
     </div>
 

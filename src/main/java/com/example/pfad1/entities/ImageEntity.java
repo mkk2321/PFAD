@@ -1,4 +1,4 @@
-package com.example.pfad1.entities.board;
+package com.example.pfad1.entities;
 
 import java.util.Date;
 

@@ -1,4 +1,5 @@
 <%@ page import="com.example.pfad1.enums.board.ListResult" %>
+<%@ page import="com.example.pfad1.vos.board.ListVo" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="listVo" type="com.example.pfad1.vos.board.ListVo"--%>
@@ -50,8 +51,17 @@
             </ul>
         </nav>
         <span></span>
-        <div>
-            검색공간
+        <div class="searchContent">
+            <form method="get">
+<%--                <input type="hidden" name="code" value="${listVo.code}">--%>
+                <select name="criteria">
+                    <option value="title" ${listVo.searching && listVo.criteria.equals("title") ? "selected" : ""}>제목</option>
+                    <option value="content" ${listVo.searching && listVo.criteria.equals("content") ? "selected" : ""}>내용</option>
+                    <option value="writer" ${listVo.searching && listVo.criteria.equals("writer") ? "selected" : ""}>작성자</option>
+                </select>
+                <input type="text" name="keyword" placeholder="검색" value="${listVo.searching ? listVo.keyword : ""}">
+                <input type="submit" value="검색">
+            </form>
         </div>
     </div>
     <div class="article">
@@ -70,7 +80,7 @@
                 <td colspan="5" style="text-align: center;"><i>작성된 게시글이 없습니다.</i></td>
             </c:if>
             <c:set var="num" value="${listVo.boardPerCount - (listVo.page-1) * listVo.queryLimit}"/>
-            <c:forEach var="article" items="${listVo.articles}" varStatus="status">
+            <c:forEach var="article" items="${listVo.articles}">
                 <tr>
                     <td class="boardNo">${num}</td>
                     <td>
@@ -94,6 +104,19 @@
             <c:if test="${listVo.maxPage > 0}">
                     <td>
                         <div>
+<%--                            <%
+                                String searchUrl;
+                                if(listVo.getCriteria != null && )
+                            %>--%>
+                            <%--<c:if test="${listVo.criteria != null && listVo.keyword != null}">
+                                <c:choose>
+                                    <c:set var="searchUrl" value="/&criteria=${listVo.criteria}&keyword=${listVo.keyword}" />
+                                </c:choose>
+                                <c:otherwise>
+                                    <c:set var="searchUrl" value="" />
+                                </c:otherwise>--%>
+                    <%--        </c:if>--%>
+
                             <c:if test="${listVo.page > 1}">
                                 <a href="/board/list/${listVo.code}/1"><<</a>
                                 <a href="/board/list/${listVo.code}/${listVo.page - 1}"><</a>
@@ -104,7 +127,7 @@
                                         <b>${page}</b>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="/board/list/${listVo.code}/${page}">${page}</a>
+                                        <a href="/board/list/${listVo.code}/${page}${listVo.searchUrl}">${page}</a>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>

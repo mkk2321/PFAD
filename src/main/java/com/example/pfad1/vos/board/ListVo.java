@@ -15,6 +15,37 @@ public class ListVo extends BoardEntity implements IResult<ListResult> {
     private int startPage;
     private int queryLimit;
     private int queryOffset;
+    private String criteria;
+    private String keyword;
+    private String searchUrl;
+
+    public String getSearchUrl() {
+        return searchUrl;
+    }
+
+    public void setSearchUrl(String searchUrl) {
+        this.searchUrl = searchUrl;
+    }
+
+    public String getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public String getKeywordWithoutSpaces() {
+        return this.keyword.replace(" ", "");
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public int getQueryLimit() {
         return queryLimit;
@@ -100,5 +131,9 @@ public class ListVo extends BoardEntity implements IResult<ListResult> {
         if(getMaxPage() < getEndPage()) {
             setEndPage(getMaxPage());
         }
+    }
+
+    public boolean isSearching(){
+        return this.criteria != null && this.keyword != null;
     }
 }

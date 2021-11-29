@@ -6,7 +6,6 @@ import com.example.pfad1.interfaces.IResult;
 
 public class ProductRegisterVo extends ProductEntity implements IResult<ProductRegisterResult> {
     private ProductRegisterResult result;
-    private String file;
 
     @Override
     public ProductRegisterResult getResult() {
@@ -18,11 +17,4 @@ public class ProductRegisterVo extends ProductEntity implements IResult<ProductR
         this.result = result;
     }
 
-    public String getFile() {
-        return file;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
-    }
 }

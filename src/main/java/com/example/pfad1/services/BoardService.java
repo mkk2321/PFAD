@@ -1,8 +1,12 @@
 package com.example.pfad1.services;
 
 import com.example.pfad1.entities.board.CommentEntity;
-import com.example.pfad1.entities.board.ImageEntity;
+import com.example.pfad1.entities.ImageEntity;
+import com.example.pfad1.enums.ImageDownloadResult;
+import com.example.pfad1.enums.ImageUploadResult;
 import com.example.pfad1.enums.board.*;
+import com.example.pfad1.vos.ImageDownloadVo;
+import com.example.pfad1.vos.ImageUploadVo;
 import com.example.pfad1.vos.board.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,16 +71,46 @@ public class BoardService {
             listVo.setResult(ListResult.BOARD_NOT_DEFINED);
             return;
         }
-        int boardPerPage = this.boardMapper.selectArticleCount(listVo);
-        listVo.calcMaxPage(boardPerPage, Config.ARTICLE_COUNT_PER_PAGE);
-        listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
-        listVo.setBoardPerCount(boardPerPage);
+        ArticleEntity[] articleEntities;
+        int boardPerCount;
+        listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
+        listVo.setQueryOffset((listVo.getPage() - 1) * Config.ARTICLE_COUNT_PER_PAGE);
+        if (listVo.isSearching()) {
+            listVo.setSearchUrl("?&criteria=" + listVo.getCriteria() + "&keyword=" + listVo.getKeyword());
+            switch (listVo.getCriteria()) {
+                case "content":
+                    articleEntities = this.boardMapper.selectArticlesForSearchContent(listVo);
+                    boardPerCount = this.boardMapper.selectArticleCountForSearchByContent(listVo);
+                    listVo.setBoardPerCount(boardPerCount);
+                    listVo.calcMaxPage(boardPerCount, Config.ARTICLE_COUNT_PER_PAGE);
+                    listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
+                    break;
+                case "writer":
+                    articleEntities = this.boardMapper.selectArticlesForSearchWriter(listVo);
+                    boardPerCount = this.boardMapper.selectArticleCountForSearchByWriter(listVo);
+                    listVo.setBoardPerCount(boardPerCount);
+                    listVo.calcMaxPage(boardPerCount, Config.ARTICLE_COUNT_PER_PAGE);
+                    listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
+                    break;
+                default:
+                    articleEntities = this.boardMapper.selectArticlesForSearchTitle(listVo);
+                    boardPerCount = this.boardMapper.selectArticleCountForSearchByTitle(listVo);
+                    listVo.setBoardPerCount(boardPerCount);
+                    listVo.calcMaxPage(boardPerCount, Config.ARTICLE_COUNT_PER_PAGE);
+                    listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
+                    break;
+            }
+        } else {
+            articleEntities = this.boardMapper.selectArticlesByList(listVo);
+            boardPerCount = this.boardMapper.selectArticleCount(listVo);
+            listVo.setBoardPerCount(boardPerCount);
+            listVo.calcMaxPage(boardPerCount, Config.ARTICLE_COUNT_PER_PAGE);
+            listVo.calcStartEndPage(listVo.getPage(), Config.PAGING_NUMBER);
+        }
         listVo.setName(boardEntity.getName());
         listVo.setCode(boardEntity.getCode());
         listVo.setWriteForbidden(boardEntity.isWriteForbidden());
-        listVo.setQueryLimit(Config.ARTICLE_COUNT_PER_PAGE);
-        listVo.setQueryOffset((listVo.getPage() - 1) * Config.ARTICLE_COUNT_PER_PAGE);
-        listVo.setArticles(this.boardMapper.selectArticlesByList(listVo));
+        listVo.setArticles(articleEntities);
         listVo.setResult(ListResult.SUCCESS);
     }
 
@@ -260,7 +294,7 @@ public class BoardService {
     }
 
     public void modifyByGet(ModifyVo modifyVo, UserEntity userEntity) {
-        if(!BoardService.checkCode(modifyVo.getBoardCode()) ||
+        if (!BoardService.checkCode(modifyVo.getBoardCode()) ||
                 !BoardService.checkArticleIndex(String.valueOf(modifyVo.getIndex()))) {
             modifyVo.setResult(ModifyResult.NORMALIZATION_FAILURE);
             return;
@@ -277,7 +311,7 @@ public class BoardService {
             return;
         }
         ArticleEntity articleEntity = this.boardMapper.selectArticle(modifyVo);
-        if(articleEntity == null) {
+        if (articleEntity == null) {
             modifyVo.setResult(ModifyResult.ARTICLE_NOT_DEFINED);
             return;
         }
@@ -287,18 +321,20 @@ public class BoardService {
     }
 
     public void modifyByPost(ModifyVo modifyVo, UserEntity userEntity) {
-        if(!BoardService.checkCode(modifyVo.getBoardCode()) ||
-        !BoardService.checkArticleIndex(String.valueOf(modifyVo.getArticleIndex())) ||
-        modifyVo.getTitle().length() > 100 ||
-        modifyVo.getContent().length() > 10000) {
+        if (!BoardService.checkCode(modifyVo.getBoardCode()) ||
+                !BoardService.checkArticleIndex(String.valueOf(modifyVo.getArticleIndex())) ||
+                modifyVo.getTitle().length() == 0 ||
+                modifyVo.getContent().length() == 0 ||
+                modifyVo.getTitle().length() > 100 ||
+                modifyVo.getContent().length() > 10000 ||
+                modifyVo.getContent().replaceAll(" ", "").contains("<script")) {
             modifyVo.setResult(ModifyResult.NORMALIZATION_FAILURE);
             return;
         }
-        if(userEntity == null || (!userEntity.isAdmin() && !modifyVo.getId().equals(userEntity.getId()))){
+        if (userEntity == null || (!userEntity.isAdmin() && !modifyVo.getId().equals(userEntity.getId()))) {
             modifyVo.setResult(ModifyResult.NOT_ALLOWED);
             return;
         }
         this.boardMapper.updateArticle(modifyVo);
-// TODO : modify 작업 시 DB에 쌓이는 이미지 처리는 ?
     }
 }

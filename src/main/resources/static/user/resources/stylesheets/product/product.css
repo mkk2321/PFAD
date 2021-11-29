@@ -1,0 +1,49 @@
+html {
+
+}
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body > section {
+    width: 72rem;
+
+}
+body > section > div {
+
+}
+
+body > section > div > ul {
+    display: inline-block;
+    width: 100%;
+    height: inherit;
+    margin-bottom: 10rem;
+
+}
+
+body > section > div > ul > li {
+    width: 13rem;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    margin: 2rem 5rem 3rem 0;
+}
+
+
+
+body > section > div > ul > li > a >div.imgContent {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+}
+
+body > section > div > ul > li > a > div.imgContent > img {
+    width: 7rem;
+}
+
+

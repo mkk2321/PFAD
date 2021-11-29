@@ -1,6 +1,6 @@
-package com.example.pfad1.vos.board;
+package com.example.pfad1.vos;
 
-import com.example.pfad1.enums.board.ImageUploadResult;
+import com.example.pfad1.enums.ImageUploadResult;
 import com.example.pfad1.interfaces.IResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,8 +12,10 @@ public class ImageUploadVo implements IResult<ImageUploadResult> {
     private int index;
 
     public MultipartFile getFile() {
+//        System.out.println(file.getOriginalFilename());
         return file;
     }
+
 
     public void setFile(MultipartFile file) {
         this.file = file;

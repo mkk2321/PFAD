@@ -4,14 +4,10 @@ import java.util.Date;
 
 public class ProductEntity {
     protected int index;
-    protected String image;
     protected String name;
     protected int price;
-    protected int stock;
-    protected String description;
     protected Date createdAt;
     protected Date updatedAt;
-    protected String thumbImage;
 
     public int getIndex() {
         return index;
@@ -19,14 +15,6 @@ public class ProductEntity {
 
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getName() {
@@ -45,22 +33,6 @@ public class ProductEntity {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -75,13 +47,5 @@ public class ProductEntity {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public String getThumbImage() {
-        return thumbImage;
-    }
-
-    public void setThumbImage(String thumbImage) {
-        this.thumbImage = thumbImage;
     }
 }
