@@ -6,6 +6,15 @@ import com.example.pfad1.interfaces.IResult;
 
 public class ProductVo extends ProductEntity implements IResult<ListResult> {
     private ListResult result;
+    private ProductEntity[] productEntities;
+
+    public ProductEntity[] getProductEntities() {
+        return productEntities;
+    }
+
+    public void setProductEntities(ProductEntity[] productEntities) {
+        this.productEntities = productEntities;
+    }
 
     @Override
     public ListResult getResult() {

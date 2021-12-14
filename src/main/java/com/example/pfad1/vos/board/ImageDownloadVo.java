@@ -1,7 +1,7 @@
-package com.example.pfad1.vos;
+package com.example.pfad1.vos.board;
 
-import com.example.pfad1.entities.ImageEntity;
-import com.example.pfad1.enums.ImageDownloadResult;
+import com.example.pfad1.entities.board.ImageEntity;
+import com.example.pfad1.enums.board.ImageDownloadResult;
 import com.example.pfad1.interfaces.IResult;
 
 public class ImageDownloadVo extends ImageEntity implements IResult<ImageDownloadResult> {

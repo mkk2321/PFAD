@@ -2,12 +2,12 @@ package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.board.CommentWriteResult;
-import com.example.pfad1.enums.ImageDownloadResult;
-import com.example.pfad1.enums.ImageUploadResult;
+import com.example.pfad1.enums.board.ImageDownloadResult;
+import com.example.pfad1.enums.board.ImageUploadResult;
 import com.example.pfad1.enums.board.WriteResult;
 import com.example.pfad1.services.BoardService;
-import com.example.pfad1.vos.ImageDownloadVo;
-import com.example.pfad1.vos.ImageUploadVo;
+import com.example.pfad1.vos.board.ImageDownloadVo;
+import com.example.pfad1.vos.board.ImageUploadVo;
 import com.example.pfad1.vos.board.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +39,11 @@ public class BoardController {
     public String boardGet() {
         return "board/board";
     }
-
-
-
     /*
      *   /board/list/notice
      *   /board/list/free
      *   /board/list/qna
      */
-
     @RequestMapping(value = {
             "/list/{boardCode}",
             "/list/{boardCode}/{boardPage}"},
@@ -174,6 +170,7 @@ public class BoardController {
             errorMessageJson.put("message", message);
             responseJson.put("error", errorMessageJson);
         }
+        System.out.println(imageUploadVo.getFile().getOriginalFilename());
         return responseJson.toString();
     }
 
@@ -187,6 +184,7 @@ public class BoardController {
         if (imageDownloadVo.getResult() == ImageDownloadResult.SUCCESS) {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", imageDownloadVo.getMime());
+            System.out.println("download");
             return new ResponseEntity<>(imageDownloadVo.getFile(), headers, HttpStatus.OK);
         } else {
             response.sendError(404);

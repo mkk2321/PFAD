@@ -1,4 +1,4 @@
-package com.example.pfad1.entities;
+package com.example.pfad1.entities.board;
 
 import java.util.Date;
 
@@ -7,6 +7,7 @@ public class ImageEntity {
     protected Date createdAt;
     protected String mime;
     protected byte[] file;
+    protected String fileName;
 
     public int getIndex() {
         return index;
@@ -38,5 +39,13 @@ public class ImageEntity {
 
     public void setFile(byte[] file) {
         this.file = file;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pfad1.enums;
+package com.example.pfad1.enums.board;
 
 public enum ImageDownloadResult {
     NORMALIZATION_FAILURE,

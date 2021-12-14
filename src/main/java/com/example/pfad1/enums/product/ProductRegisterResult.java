@@ -4,5 +4,5 @@ public enum ProductRegisterResult {
     SUCCESS,
     FAILURE,
     NORMALIZATION_FAILURE,
-    AUTHORIZATION_FAILURE
+    NOT_ALLOWED
 }

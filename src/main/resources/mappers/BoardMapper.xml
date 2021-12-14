@@ -16,7 +16,7 @@
     </insert>
 
     <insert id="insertImage"
-            parameterType="com.example.pfad1.vos.ImageUploadVo">
+            parameterType="com.example.pfad1.vos.board.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`)
         VALUES (#{fileMime}, #{fileBytes})
     </insert>
@@ -216,8 +216,8 @@
         ORDER BY `created_at`
     </select>
 
-    <select id="selectImage" parameterType="com.example.pfad1.entities.ImageEntity"
-            resultType="com.example.pfad1.entities.ImageEntity">
+    <select id="selectImage" parameterType="com.example.pfad1.entities.board.ImageEntity"
+            resultType="com.example.pfad1.entities.board.ImageEntity">
         SELECT `index`      AS `index`,
                `created_at` AS `createdAt`,
                `mime`       AS `mime`,

@@ -3,37 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.IProductMapper">
-    <select id="selectProduct"
+    <delete id="deleteProduct"
+            parameterType="com.example.pfad1.entities.product.ProductEntity">
+        DELETE
+        FROM `pfad`.`products`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </delete>
+    <select id="selectProducts"
             resultType="com.example.pfad1.entities.product.ProductEntity"
             parameterType="com.example.pfad1.entities.product.ProductEntity">
         SELECT `index`      AS `index`,
                `name`       AS `name`,
                `price`      AS `price`,
                `created_at` AS `createdAt`,
-               `updated_at` AS `updatedAt`
+               `update_at`  AS `updatedAt`,
+               `thumbnail`  AS `thumbnail`
         FROM `pfad`.`products`
     </select>
 
-    <select id="selectImage" parameterType="com.example.pfad1.entities.ImageEntity"
-            resultType="com.example.pfad1.entities.ImageEntity">
-        SELECT `index`      AS `index`,
-               `created_at` AS `createdAt`,
-               `mime`       AS `mime`,
-               `file`       AS `file`
-        FROM `pfad`.`images`
+    <select id="selectProduct"
+            resultType="com.example.pfad1.entities.product.ProductEntity"
+            parameterType="com.example.pfad1.entities.product.ProductEntity">
+        SELECT `index`       AS `index`,
+               `name`        AS `name`,
+               `price`       AS `price`,
+               `description` AS `description`,
+               `stock`       AS `stock`,
+               `created_at`  AS `createdAt`,
+               `update_at`   AS `updatedAt`,
+               `thumbnail`   AS `thumbnail`
+        FROM `pfad`.`products`
         WHERE `index` = #{index}
         LIMIT 1
     </select>
 
-    <select id="selectLastInsertId"
-            resultType="_int">
-        SELECT LAST_INSERT_ID()
-    </select>
-
     <insert id="insertImage"
-            parameterType="com.example.pfad1.vos.ImageUploadVo">
-        INSERT INTO `pfad`.`images` (`mime`, `file`)
-        VALUES (#{fileMime}, #{fileBytes})
+            parameterType="com.example.pfad1.vos.board.ImageUploadVo">
+        INSERT INTO `pfad`.`images` (`mime`, `file`, `file_name`)
+        VALUES (#{fileMime}, #{fileBytes}, #{fileName})
+    </insert>
+
+    <insert id="insertProduct"
+            parameterType="com.example.pfad1.vos.product.ProductRegisterVo">
+        INSERT INTO `pfad`.`products` (`name`, `price`, `thumbnail`)
+        VALUES (#{name}, #{price}, #{fileName})
     </insert>
 
 </mapper>

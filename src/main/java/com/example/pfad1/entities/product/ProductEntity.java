@@ -6,8 +6,19 @@ public class ProductEntity {
     protected int index;
     protected String name;
     protected int price;
+    protected int stock;
+    protected String description;
     protected Date createdAt;
     protected Date updatedAt;
+    protected String thumbnail;
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
     public int getIndex() {
         return index;
@@ -31,6 +42,22 @@ public class ProductEntity {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreatedAt() {
