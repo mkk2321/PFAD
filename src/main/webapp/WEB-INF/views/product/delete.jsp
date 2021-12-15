@@ -10,7 +10,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>게시글 삭제</title>
+    <title>상품 삭제</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
         <c:choose>
             <c:when test="${productDeleteVo.result == ProductDeleteResult.NORMALIZATION_FAILURE}">

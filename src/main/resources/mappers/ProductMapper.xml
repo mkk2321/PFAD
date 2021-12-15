@@ -46,8 +46,20 @@
 
     <insert id="insertProduct"
             parameterType="com.example.pfad1.vos.product.ProductRegisterVo">
-        INSERT INTO `pfad`.`products` (`name`, `price`, `thumbnail`)
-        VALUES (#{name}, #{price}, #{fileName})
+        INSERT INTO `pfad`.`products` (`name`, `price`, `stock`, `description`, `thumbnail`)
+        VALUES (#{name}, #{price}, #{stock}, #{description}, #{fileName})
     </insert>
+
+    <update id="updateProduct"
+            parameterType="com.example.pfad1.entities.product.ProductEntity">
+        UPDATE `pfad`.`products`
+        SET `name` = #{name},
+            `price` = #{price},
+            `description` = #{description},
+            `stock` = #{stock},
+            `thumbnail` = #{fileName}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 
 </mapper>

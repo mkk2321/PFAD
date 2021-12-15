@@ -4,13 +4,12 @@ import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.board.ImageDownloadResult;
 import com.example.pfad1.enums.board.ImageUploadResult;
+import com.example.pfad1.enums.product.ProductModifyResult;
+import com.example.pfad1.enums.product.ProductRegisterResult;
 import com.example.pfad1.services.ProductService;
 import com.example.pfad1.vos.board.ImageDownloadVo;
 import com.example.pfad1.vos.board.ImageUploadVo;
-import com.example.pfad1.vos.product.ProductDeleteVo;
-import com.example.pfad1.vos.product.ProductReadVo;
-import com.example.pfad1.vos.product.ProductRegisterVo;
-import com.example.pfad1.vos.product.ProductVo;
+import com.example.pfad1.vos.product.*;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,9 @@ public class ProductController {
     public String registerGet(ProductRegisterVo productRegisterVo,
                               @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                               Model model) {
-        this.productService.registerByGet(productRegisterVo, userEntity);
+        if(userEntity == null || !userEntity.isAdmin()) {
+            productRegisterVo.setResult(ProductRegisterResult.NOT_ALLOWED);
+        }
         model.addAttribute("productRegisterVo", productRegisterVo);
         return "product/register";
     }
@@ -92,6 +93,32 @@ public class ProductController {
         this.productService.delete(productDeleteVo, userEntity);
         model.addAttribute("productDeleteVo", productDeleteVo);
         return "product/delete";
+    }
+
+    @RequestMapping(value = "/modify/{index}",
+    method = RequestMethod.GET,
+    produces = MediaType.TEXT_HTML_VALUE)
+    public String modifyGet(@PathVariable(name = "index")int index,
+                            @SessionAttribute(name = "userEntity")UserEntity userEntity,
+                            ProductModifyVo productModifyVo,
+                            Model model) {
+        productModifyVo.setIndex(index);
+        this.productService.modifyByGet(productModifyVo, userEntity);
+        model.addAttribute("productModifyVo", productModifyVo);
+        return "product/modify";
+    }
+
+    @RequestMapping(value = "/modify/{index}",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String modifyPost(@PathVariable(name = "index")int index,
+                            @SessionAttribute(name = "userEntity")UserEntity userEntity,
+                            ProductModifyVo productModifyVo,
+                            Model model) {
+        productModifyVo.setIndex(index);
+        this.productService.modifyByPost(productModifyVo, userEntity);
+        model.addAttribute("productModifyVo", productModifyVo);
+        return "redirect:/product/read/" + productModifyVo.getIndex();
     }
 
 }

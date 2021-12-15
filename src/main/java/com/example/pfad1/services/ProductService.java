@@ -2,22 +2,16 @@ package com.example.pfad1.services;
 
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
-import com.example.pfad1.enums.product.ListResult;
-import com.example.pfad1.enums.product.ProductDeleteResult;
-import com.example.pfad1.enums.product.ProductReadResult;
-import com.example.pfad1.enums.product.ProductRegisterResult;
+import com.example.pfad1.enums.product.*;
 import com.example.pfad1.mappers.IProductMapper;
-import com.example.pfad1.vos.product.ProductDeleteVo;
-import com.example.pfad1.vos.product.ProductReadVo;
-import com.example.pfad1.vos.product.ProductRegisterVo;
-import com.example.pfad1.vos.product.ProductVo;
+import com.example.pfad1.vos.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
     private static class RegExp {
-        public static final String NAME = "^([a-zA-Z가-힣0-9]{0,})$";
+        public static final String NAME = "^([a-zA-Z가-힣0-9 ]{0,})$";
         public static final String PRICE = "^([0-9]{0,})$";
         public static final String STOCK = "^([0-9]{0,5})$";
         public static final String DESCRIPTION = "^[a-zA-Z가-힣0-9 `~!@#$%^&*\\(\\)\\[\\]\\{\\}_\\-+=|'\";:/?.><,]{0,}$";
@@ -63,13 +57,13 @@ public class ProductService {
         productVo.setResult(ListResult.SUCCESS);
     }
 
-    public void registerByGet(ProductRegisterVo productRegisterVo, UserEntity userEntity){
+    /*public void registerByGet(ProductRegisterVo productRegisterVo, UserEntity userEntity){
         if(userEntity == null || !userEntity.isAdmin()) {
             productRegisterVo.setResult(ProductRegisterResult.NOT_ALLOWED);
             return;
         }
         productRegisterVo.setResult(ProductRegisterResult.SUCCESS);
-    }
+    }*/
 
     public void registerByPost(ProductRegisterVo productRegisterVo, UserEntity userEntity){
         if(!ProductService.checkName(productRegisterVo.getName()) ||
@@ -81,7 +75,7 @@ public class ProductService {
             return;
         }
 
-        if(userEntity == null || userEntity.isAdmin()) {
+        if(userEntity == null || !userEntity.isAdmin()) {
             productRegisterVo.setResult(ProductRegisterResult.NOT_ALLOWED);
             return;
         }
@@ -118,6 +112,46 @@ public class ProductService {
         }
         this.productMapper.deleteProduct(productDeleteVo);
         productDeleteVo.setResult(ProductDeleteResult.SUCCESS);
+    }
+
+    public void modifyByGet(ProductModifyVo productModifyVo, UserEntity userEntity) {
+        if(!ProductService.checkIndex(String.valueOf(productModifyVo.getIndex()))) {
+            productModifyVo.setResult(ProductModifyResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        if(userEntity == null || !userEntity.isAdmin()) {
+            productModifyVo.setResult(ProductModifyResult.NOT_ALLOWED);
+            return;
+        }
+        ProductEntity productEntity = this.productMapper.selectProduct(productModifyVo);
+        if(productEntity == null) {
+            productModifyVo.setResult(ProductModifyResult.NOT_PRODUCT_DEFINED);
+            return;
+        }
+        productModifyVo.setName(productEntity.getName());
+        productModifyVo.setPrice(productEntity.getPrice());
+        productModifyVo.setStock(productEntity.getStock());
+        productModifyVo.setDescription(productEntity.getDescription());
+        productModifyVo.setThumbnail(productEntity.getThumbnail());
+        productModifyVo.setResult(ProductModifyResult.SUCCESS);
+    }
+
+    public void modifyByPost(ProductModifyVo productModifyVo, UserEntity userEntity) {
+        if(!ProductService.checkIndex(String.valueOf(productModifyVo.getIndex())) ||
+        !ProductService.checkName(productModifyVo.getName())||
+        !ProductService.checkPrice(String.valueOf(productModifyVo.getPrice()))||
+        !ProductService.checkStock(String.valueOf(productModifyVo.getStock()))||
+        !ProductService.checkDescription(productModifyVo.getDescription()) ||
+        !ProductService.checkFileName(productModifyVo.getThumbnail())) {
+            productModifyVo.setResult(ProductModifyResult.NORMALIZATION_FAILURE);
+            return;
+        }
+        if(userEntity == null || !userEntity.isAdmin()) {
+            productModifyVo.setResult(ProductModifyResult.NOT_ALLOWED);
+            return;
+        }
+        this.productMapper.updateProduct(productModifyVo);
+        productModifyVo.setResult(ProductModifyResult.SUCCESS);
     }
 
 }

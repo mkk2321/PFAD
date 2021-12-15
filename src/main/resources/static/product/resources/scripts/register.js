@@ -38,7 +38,6 @@ function readImage(input) {
         // FileReader 인스턴스 생성
         const reader = new FileReader()
         // 이미지가 로드가 된 경우
-        // inputHidden.value = input.files[0].name;
         inputImage.innerText = input.files[0].name;
         reader.onload = e => {
             const previewImage = document.getElementById("preview-image")

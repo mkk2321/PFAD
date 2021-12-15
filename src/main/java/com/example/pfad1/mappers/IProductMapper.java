@@ -15,10 +15,9 @@ public interface IProductMapper {
 
     ProductEntity selectProduct(ProductEntity productEntity);
 
-
-
     int insertProduct(ProductRegisterVo productRegisterVo);
 
+    int updateProduct(ProductEntity productEntity);
 
 
 }

@@ -12,7 +12,7 @@
     <script defer src="/user/resources/scripts/product/read.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/product/resources/stylesheets/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-    <title>상품 title</title>
+    <title>${productReadVo.name}</title>
 </head>
 <body>
 <%@ include file="../header.jsp" %>
