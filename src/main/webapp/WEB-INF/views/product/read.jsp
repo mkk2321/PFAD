@@ -33,7 +33,7 @@
                 <form method="post">
                     <label>
                         <h4>수량</h4>
-                        <input type="number" name="quantity" style="width: 2.5rem;">
+                        <input type="number" name="stock" style="width: 2.5rem;">
                     </label>
                     <input type="submit" value="add to cart" style="width: 8rem; background-color: #008800aa">
                 </form>

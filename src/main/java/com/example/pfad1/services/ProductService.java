@@ -1,5 +1,6 @@
 package com.example.pfad1.services;
 
+import com.example.pfad1.entities.cart.CartEntity;
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.product.*;
@@ -101,6 +102,16 @@ public class ProductService {
         productReadVo.setResult(ProductReadResult.SUCCESS);
     }
 
+    public void addCart(CartEntity cartEntity, UserEntity userEntity) {
+        cartEntity.setUserId(userEntity.getId());
+        if(this.productMapper.selectCountCart(cartEntity) == 1) {
+            this.productMapper.updateCart(cartEntity);
+        }else {
+            this.productMapper.insertCart(cartEntity);
+        }
+
+    }
+
     public void delete(ProductDeleteVo productDeleteVo, UserEntity userEntity) {
         if(!ProductService.checkIndex(String.valueOf(productDeleteVo.getIndex()))) {
             productDeleteVo.setResult(ProductDeleteResult.NORMALIZATION_FAILURE);
@@ -141,8 +152,7 @@ public class ProductService {
         !ProductService.checkName(productModifyVo.getName())||
         !ProductService.checkPrice(String.valueOf(productModifyVo.getPrice()))||
         !ProductService.checkStock(String.valueOf(productModifyVo.getStock()))||
-        !ProductService.checkDescription(productModifyVo.getDescription()) ||
-        !ProductService.checkFileName(productModifyVo.getThumbnail())) {
+        !ProductService.checkDescription(productModifyVo.getDescription())){
             productModifyVo.setResult(ProductModifyResult.NORMALIZATION_FAILURE);
             return;
         }

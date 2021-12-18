@@ -1,5 +1,6 @@
 package com.example.pfad1.controllers;
 
+import com.example.pfad1.entities.cart.CartEntity;
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.board.ImageDownloadResult;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -82,6 +84,19 @@ public class ProductController {
         return "product/read";
     }
 
+    @RequestMapping(value = "/read/{index}",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String readPOST(@PathVariable(name = "index") int index,
+                          @SessionAttribute(name = "userEntity") UserEntity userEntity,
+                          CartEntity cartEntity,
+                          Model model) {
+        cartEntity.setProductIndex(index);
+        this.productService.addCart(cartEntity, userEntity);
+        model.addAttribute("cartEntity", cartEntity);
+        return "product/cart";
+    }
+
     @RequestMapping(value = "/delete/{index}",
     method = RequestMethod.GET,
     produces = MediaType.TEXT_HTML_VALUE)
@@ -118,7 +133,7 @@ public class ProductController {
         productModifyVo.setIndex(index);
         this.productService.modifyByPost(productModifyVo, userEntity);
         model.addAttribute("productModifyVo", productModifyVo);
+        System.out.println(productModifyVo.getResult());
         return "redirect:/product/read/" + productModifyVo.getIndex();
     }
-
 }

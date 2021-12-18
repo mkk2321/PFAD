@@ -1,6 +1,7 @@
 package com.example.pfad1.mappers;
 
 import com.example.pfad1.entities.board.ImageEntity;
+import com.example.pfad1.entities.cart.CartEntity;
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.vos.board.ImageDownloadVo;
 import com.example.pfad1.vos.board.ImageUploadVo;
@@ -19,5 +20,9 @@ public interface IProductMapper {
 
     int updateProduct(ProductEntity productEntity);
 
+    int insertCart(CartEntity cartEntity);
 
+    int selectCountCart(CartEntity cartEntity);
+
+    int updateCart(CartEntity cartEntity);
 }

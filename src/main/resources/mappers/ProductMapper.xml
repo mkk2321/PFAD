@@ -53,13 +53,37 @@
     <update id="updateProduct"
             parameterType="com.example.pfad1.entities.product.ProductEntity">
         UPDATE `pfad`.`products`
-        SET `name` = #{name},
-            `price` = #{price},
+        SET `name`        = #{name},
+            `price`       = #{price},
             `description` = #{description},
-            `stock` = #{stock},
-            `thumbnail` = #{fileName}
+            `stock`       = #{stock},
+            `thumbnail`   = #{thumbnail},
+            `update_at`   = NOW()
         WHERE `index` = #{index}
         LIMIT 1
+    </update>
+
+    <insert id="insertCart"
+            parameterType="com.example.pfad1.entities.cart.CartEntity">
+        INSERT INTO `pfad`.`carts` (product_index, user_id, stock)
+        VALUES (#{productIndex}, #{userId}, #{stock})
+    </insert>
+
+    <select id="selectCountCart"
+            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM `pfad`.`carts`
+        WHERE `product_index` = #{productIndex}
+          AND `user_id` = #{userId}
+    </select>
+
+    <update id="updateCart"
+            parameterType="com.example.pfad1.entities.cart.CartEntity">
+        UPDATE `pfad`.`carts`
+        SET `stock` = `stock` + #{stock}
+        WHERE `product_index` = #{productIndex}
+        AND `user_id` = #{userId}
     </update>
 
 </mapper>

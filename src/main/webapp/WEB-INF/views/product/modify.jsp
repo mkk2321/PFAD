@@ -76,7 +76,7 @@
 
         <section>
             <label>상품 이미지</label>
-            <input type="file" name="fileName" id="input-image" style="display: block;">
+            <input type="file" name="thumbnail" id="input-image" style="display: block;">
             <img src="${pageContext.request.contextPath}/resources/images/${productModifyVo.thumbnail}" alt="" id="preview-image">
         </section>
     </div>
