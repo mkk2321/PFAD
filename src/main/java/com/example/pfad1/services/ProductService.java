@@ -3,8 +3,10 @@ package com.example.pfad1.services;
 import com.example.pfad1.entities.cart.CartEntity;
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
+import com.example.pfad1.enums.cart.CartAddResult;
 import com.example.pfad1.enums.product.*;
 import com.example.pfad1.mappers.IProductMapper;
+import com.example.pfad1.vos.cart.CartAddVo;
 import com.example.pfad1.vos.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,8 @@ public class ProductService {
     private static class RegExp {
         public static final String NAME = "^([a-zA-Z가-힣0-9 ]{0,})$";
         public static final String PRICE = "^([0-9]{0,})$";
-        public static final String STOCK = "^([0-9]{0,5})$";
-        public static final String DESCRIPTION = "^[a-zA-Z가-힣0-9 `~!@#$%^&*\\(\\)\\[\\]\\{\\}_\\-+=|'\";:/?.><,]{0,}$";
+        public static final String STOCK = "^([0-9]{0,})$";
+        public static final String DESCRIPTION = "^[a-zA-Z가-힣0-9 \\r\\n`~!@#$%^&*\\(\\)\\[\\]\\{\\}_\\-+=|'\";:/?.><,]{0,}$";
         public static final String FILE_NAME = "^[a-zA-Z가-힣0-9 `~!@#$%^&*\\(\\)\\[\\]\\{\\}_\\-+=|'\";:/?.><,]{0,}$";
         public static final String INDEX = "^([0-9]{0,3})$";
         private RegExp(){
@@ -102,14 +104,23 @@ public class ProductService {
         productReadVo.setResult(ProductReadResult.SUCCESS);
     }
 
-    public void addCart(CartEntity cartEntity, UserEntity userEntity) {
-        cartEntity.setUserId(userEntity.getId());
-        if(this.productMapper.selectCountCart(cartEntity) == 1) {
-            this.productMapper.updateCart(cartEntity);
-        }else {
-            this.productMapper.insertCart(cartEntity);
+    public void addCart(CartAddVo cartAddVo, UserEntity userEntity) {
+        if(!ProductService.checkIndex(String.valueOf(cartAddVo.getProductIndex())) ||
+        !ProductService.checkStock(String.valueOf(cartAddVo.getStock()))) {
+            cartAddVo.setResult(CartAddResult.NORMALIZATION_FAILURE);
+            return;
         }
-
+        if(userEntity == null) {
+            cartAddVo.setResult(CartAddResult.NOT_ALLOWED);
+            return;
+        }
+        cartAddVo.setUserId(userEntity.getId());
+        if(this.productMapper.selectCountCart(cartAddVo) == 1) {
+            this.productMapper.updateCart(cartAddVo);
+        }else {
+            this.productMapper.insertCart(cartAddVo);
+        }
+        cartAddVo.setResult(CartAddResult.SUCCESS);
     }
 
     public void delete(ProductDeleteVo productDeleteVo, UserEntity userEntity) {
@@ -154,6 +165,7 @@ public class ProductService {
         !ProductService.checkStock(String.valueOf(productModifyVo.getStock()))||
         !ProductService.checkDescription(productModifyVo.getDescription())){
             productModifyVo.setResult(ProductModifyResult.NORMALIZATION_FAILURE);
+            System.out.println(productModifyVo.getDescription());
             return;
         }
         if(userEntity == null || !userEntity.isAdmin()) {

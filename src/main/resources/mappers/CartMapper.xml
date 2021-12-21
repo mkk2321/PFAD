@@ -3,5 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.pfad1.mappers.ICartMapper">
+    <delete id="deleteCart" parameterType="com.example.pfad1.entities.cart.CartEntity">
+        DELETE
+        FROM `pfad`.`carts`
+        WHERE `product_index` = #{productIndex}
+        LIMIT 1
+    </delete>
 
+    <select id="selectCountCarts"
+            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            resultType="_int">
+        SELECT COUNT(0)
+        FROM `pfad`.`carts`
+        WHERE `user_id` = #{userId}
+    </select>
+
+    <select id="selectCarts"
+            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            resultType="com.example.pfad1.vos.cart.CartReadVo">
+        SELECT `carts`.`product_index` AS `productIndex`,
+               `carts`.`user_id`       AS `userId`,
+               `carts`.`stock`         AS `stock`,
+               `products`.`name`       AS `productName`,
+               `products`.`stock`      AS `stock`,
+               `products`.`price`      AS `price`,
+               `products`.`thumbnail`  AS `thumbnail`
+        FROM `pfad`.`carts` AS `carts`
+                 JOIN `pfad`.`products` AS `products` ON `carts`.`product_index` = `products`.`index`
+        WHERE `user_id` = #{userId}
+    </select>
+
+    <update id="updateCart"
+            parameterType="com.example.pfad1.entities.cart.CartEntity">
+        UPDATE `pfad`.`carts`
+        SET `stock` = #{stock}
+        WHERE `product_index` = #{productIndex}
+            AND `user_id` = #{userId}
+        LIMIT 1
+    </update>
 </mapper>

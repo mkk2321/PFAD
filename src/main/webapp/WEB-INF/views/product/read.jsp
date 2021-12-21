@@ -33,9 +33,11 @@
                 <form method="post">
                     <label>
                         <h4>수량</h4>
-                        <input type="number" name="stock" style="width: 2.5rem;">
+                        <input type="number" name="stock" style="width: 2.5rem;" min="1" value="1">
                     </label>
-                    <input type="submit" value="add to cart" style="width: 8rem; background-color: #008800aa">
+                    <input type="submit" value="add to cart" style="width: 8rem; background-color: #008800aa"
+                           onclick="if (confirm('장바구니에 추가 되었습니다. 확인을 누르면 장바구니로 이동합니다.'))
+                        window.location.href='/cart';">
                 </form>
                 <h4>${productReadVo.description}</h4>
             </section>

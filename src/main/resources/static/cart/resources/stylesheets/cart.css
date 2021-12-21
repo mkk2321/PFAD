@@ -1,0 +1,52 @@
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+main {
+    width: 80rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > form > table {
+    width: 60rem;
+}
+main > form > table > tbody {
+    width: inherit;
+}
+
+main > form > table > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main > form > table > * > tr > td, th{
+    width: 5rem;
+}
+
+main > form > div {
+    margin-top: 2rem;
+    width: inherit;
+    text-align: right;
+}
+
+main > form > div > a {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background: #808284a0;
+}
+
+main > form > div > a:last-child {
+    background: #008800a0;
+}
+
+input[type='text'] {
+    border: none;
+}

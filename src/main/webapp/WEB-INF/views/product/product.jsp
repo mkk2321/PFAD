@@ -73,10 +73,6 @@
                             <img class="pic-1" src="/resources/images/${product.thumbnail}">
                             <img class="pic-2" src="/resources/images/${product.thumbnail}">
                         </a>
-                        <ul class="social">
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
                         <span class="product-new-label">New</span>
                     </div>
                     <div class="product-content">

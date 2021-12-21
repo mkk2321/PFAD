@@ -1,32 +1,15 @@
 package com.example.pfad1.controllers;
 
-import com.example.pfad1.entities.cart.CartEntity;
-import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
-import com.example.pfad1.enums.board.ImageDownloadResult;
-import com.example.pfad1.enums.board.ImageUploadResult;
-import com.example.pfad1.enums.product.ProductModifyResult;
 import com.example.pfad1.enums.product.ProductRegisterResult;
 import com.example.pfad1.services.ProductService;
-import com.example.pfad1.vos.board.ImageDownloadVo;
-import com.example.pfad1.vos.board.ImageUploadVo;
+import com.example.pfad1.vos.cart.CartAddVo;
 import com.example.pfad1.vos.product.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.print.attribute.standard.Media;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "/product")
@@ -89,12 +72,12 @@ public class ProductController {
             produces = MediaType.TEXT_HTML_VALUE)
     public String readPOST(@PathVariable(name = "index") int index,
                           @SessionAttribute(name = "userEntity") UserEntity userEntity,
-                          CartEntity cartEntity,
+                          CartAddVo cartAddVo,
                           Model model) {
-        cartEntity.setProductIndex(index);
-        this.productService.addCart(cartEntity, userEntity);
-        model.addAttribute("cartEntity", cartEntity);
-        return "product/cart";
+        cartAddVo.setProductIndex(index);
+        this.productService.addCart(cartAddVo, userEntity);
+        model.addAttribute("cartAddVo", cartAddVo);
+        return "redirect:/product/read/" + cartAddVo.getProductIndex();
     }
 
     @RequestMapping(value = "/delete/{index}",
@@ -114,7 +97,7 @@ public class ProductController {
     method = RequestMethod.GET,
     produces = MediaType.TEXT_HTML_VALUE)
     public String modifyGet(@PathVariable(name = "index")int index,
-                            @SessionAttribute(name = "userEntity")UserEntity userEntity,
+                            @SessionAttribute(name = "userEntity", required = false)UserEntity userEntity,
                             ProductModifyVo productModifyVo,
                             Model model) {
         productModifyVo.setIndex(index);
