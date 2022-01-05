@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>비밀번호 변경</title>
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="/user/resources/stylesheets/user/recover.css">
+    <link rel="stylesheet" href="/user/resources/stylesheets/recover.css">
     <script src="../resources/scripts/Ajax.js"></script>
     <script defer src="${pageContext.request.contextPath}/user/resources/scripts/recoverPasswordReset.js"></script>
 

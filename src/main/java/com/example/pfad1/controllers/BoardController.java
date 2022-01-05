@@ -5,6 +5,7 @@ import com.example.pfad1.enums.board.CommentWriteResult;
 import com.example.pfad1.enums.board.ImageDownloadResult;
 import com.example.pfad1.enums.board.ImageUploadResult;
 import com.example.pfad1.enums.board.WriteResult;
+import com.example.pfad1.models.ClientModel;
 import com.example.pfad1.services.BoardService;
 import com.example.pfad1.vos.board.ImageDownloadVo;
 import com.example.pfad1.vos.board.ImageUploadVo;
@@ -37,7 +38,7 @@ public class BoardController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String boardGet() {
-        return "board/board";
+        return "board/list";
     }
     /*
      *   /board/list/notice
@@ -143,7 +144,9 @@ public class BoardController {
     @RequestMapping(value = "/upload-image",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String uploadImagePost(@RequestParam(name = "upload") MultipartFile file,
+    public String uploadImagePost(
+            @RequestAttribute(value = "clientModel") ClientModel clientModel,
+            @RequestParam(name = "upload") MultipartFile file,
                                   @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity) {
         ImageUploadVo imageUploadVo = new ImageUploadVo();
         imageUploadVo.setFile(file);
@@ -152,7 +155,7 @@ public class BoardController {
         responseJson.put("result", imageUploadVo.getResult().name().toLowerCase());
         if (imageUploadVo.getResult() == ImageUploadResult.SUCCESS) {
             responseJson.put("url", String.format(
-                    "http://127.0.0.1/board/download-image/%d", imageUploadVo.getIndex()
+                    "%s/board/download-image/%d", clientModel.getUrlPrefix(), imageUploadVo.getIndex()
             ));
         } else {
             String message;

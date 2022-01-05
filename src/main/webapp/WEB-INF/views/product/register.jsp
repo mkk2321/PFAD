@@ -11,7 +11,7 @@
     <title>상품 등록</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/user/resources/stylesheets/product/productRegister.css">
+          href="${pageContext.request.contextPath}/product/resources/stylesheets/productRegister.css">
     <script defer src="${pageContext.request.contextPath}/product/resources/scripts/register.js"></script>
     <style>
         .ck-editor__editable_inline {

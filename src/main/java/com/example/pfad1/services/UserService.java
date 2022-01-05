@@ -3,6 +3,7 @@ package com.example.pfad1.services;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.user.*;
 import com.example.pfad1.mappers.IUserMapper;
+import com.example.pfad1.models.ClientModel;
 import com.example.pfad1.utils.CryptoUtil;
 import com.example.pfad1.vos.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +163,7 @@ public class UserService {
 
     }
 
-    public void register(RegisterVo registerVo) throws MessagingException {
+    public void register(ClientModel clientModel, RegisterVo registerVo) throws MessagingException {
         if (!UserService.checkEmail(registerVo.getEmail()) ||
                 !UserService.checkPassword(registerVo.getPassword()) ||
                 !UserService.checkId(registerVo.getId()) ||
@@ -203,7 +204,9 @@ public class UserService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo(registerVo.getEmail());
         helper.setSubject("[PURE] 회원가입 인증 이메일");
-        helper.setText(String.format("<a href=\"http://127.0.0.1/verify-email?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">인증하기</a>", registerVo.getCode()), true);
+        helper.setText(String.format("<a href=\"%s/verify-email?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">인증하기</a>",
+                clientModel.getUrlPrefix(),
+                registerVo.getCode()), true);
         this.mailSender.send(message);
         registerVo.setResult(RegisterResult.SUCCESS);
     }
@@ -245,7 +248,7 @@ public class UserService {
         idRecoverVo.setResult(IdRecoverResult.SUCCESS);
     }
 
-    public void recoverPassword(PasswordRecoverVo passwordRecoverVo) throws MessagingException {
+    public void recoverPassword(ClientModel clientModel, PasswordRecoverVo passwordRecoverVo) throws MessagingException {
         if (!UserService.checkId(passwordRecoverVo.getId()) ||
                 !UserService.checkEmail(passwordRecoverVo.getEmail()) ||
                 !UserService.checkName(passwordRecoverVo.getName()) ||
@@ -275,7 +278,9 @@ public class UserService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo(passwordRecoverVo.getEmail());
         helper.setSubject("[PURE] 비밀번호 찾기 인증 이메일");
-        helper.setText(String.format("<a href=\"http://127.0.0.1/verify-password-recover?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">이메일 확인하기</a>", emailVerificationCode), true);
+        helper.setText(String.format("<a href=\"%s/verify-password-recover?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">이메일 확인하기</a>",
+                clientModel.getUrlPrefix(),
+                emailVerificationCode), true);
         this.mailSender.send(message);
 
         passwordRecoverVo.setResult(PasswordRecoverResult.SUCCESS);

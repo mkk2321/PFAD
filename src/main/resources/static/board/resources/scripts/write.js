@@ -40,6 +40,6 @@ ClassicEditor.create(writeForm['content'], {
     },
     licenseKey: '',
     simpleUpload: {
-        uploadUrl: 'http://127.0.0.1/board/upload-image'
+        uploadUrl: '../upload-image'
     }
 });

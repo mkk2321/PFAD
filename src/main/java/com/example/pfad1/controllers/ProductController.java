@@ -1,6 +1,7 @@
 package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
+import com.example.pfad1.enums.cart.CartAddResult;
 import com.example.pfad1.enums.product.ProductRegisterResult;
 import com.example.pfad1.services.ProductService;
 import com.example.pfad1.vos.cart.CartAddVo;
@@ -71,13 +72,18 @@ public class ProductController {
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String readPOST(@PathVariable(name = "index") int index,
-                          @SessionAttribute(name = "userEntity") UserEntity userEntity,
+                          @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                           CartAddVo cartAddVo,
                           Model model) {
         cartAddVo.setProductIndex(index);
+        if(userEntity == null) {
+            cartAddVo.setResult(CartAddResult.NOT_ALLOWED);
+            return "product/read";
+        }
         this.productService.addCart(cartAddVo, userEntity);
         model.addAttribute("cartAddVo", cartAddVo);
-        return "redirect:/product/read/" + cartAddVo.getProductIndex();
+        return "product/read";
+
     }
 
     @RequestMapping(value = "/delete/{index}",

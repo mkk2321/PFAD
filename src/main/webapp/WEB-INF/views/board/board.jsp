@@ -12,9 +12,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${listVo.name == null ? "게시판 오류" : listVo.name}</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/something.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/board/resources/stylesheets/something.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-    <script defer src="${pageContext.request.contextPath}/user/resources/scripts/board/board.js"></script>
+    <script defer src="${pageContext.request.contextPath}/board/resources/scripts/board.js"></script>
 <%--    <c:if test="${listVo.result != ListResult.SUCCESS}">
         <c:choose>
             <c:when test="${listVo.result == ListResult.BOARD_NOT_DEFINED}">

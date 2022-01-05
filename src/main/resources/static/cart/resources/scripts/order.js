@@ -8,20 +8,20 @@ const checkbox = window.document.body.querySelectorAll('[type="checkbox"]');
 
 let sum = 0;
 for(let i = 0; i < stock.length; i++) {
-    sumPrice[i].value = price[i].value * stock[i].value;
+    sumPrice[i].innerHTML = price[i].innerHTML * stock[i].innerHTML;
 }
 
 for (let j = 0; j < sumPrice.length; j++) {
-    sum += parseInt(sumPrice[j].value);
+    sum += parseInt(sumPrice[j].innerHTML);
     stock[j].oninput = function () {
-        sumPrice[j].value = price[j].value * stock[j].value;
+        sumPrice[j].innerHTML = price[j].innerHTML * stock[j].innerHTML;
         sum = 0;
         for (let l = 0; l < sumPrice.length; l++) {
-            sum += parseInt(sumPrice[l].value);
+            sum += parseInt(sumPrice[l].innerHTML);
         }
-        totalPrice[0].value = sum;
+        totalPrice[0].innerHTML = sum;
     }
-    totalPrice[0].value = sum;
+    totalPrice[0].innerHTML = sum;
 }
 // stock.addEventListener('focusout'), () => {
 //     if(stock.value > 50) {

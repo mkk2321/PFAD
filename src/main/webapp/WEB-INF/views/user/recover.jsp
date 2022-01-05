@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>계정 찾기</title>
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="/user/resources/stylesheets/user/recover.css">
+    <link rel="stylesheet" href="/user/resources/stylesheets/recover.css">
     <script defer src="${pageContext.request.contextPath}/user/resources/scripts/recover.js"></script>
 
 </head>

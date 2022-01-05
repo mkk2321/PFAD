@@ -1,8 +1,8 @@
 const modifyForm = window.document.body.querySelector('[rel="modify-form"]');
 const passwordRegEx = new RegExp('^.*(?=^.{8,15}$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$');
 
-let isPasswordChecked = false;
-let isPasswordCheckChecked = false;
+let isPasswordChecked = true;
+let isPasswordCheckChecked = true;
 
 modifyForm['addressButton'].addEventListener('click', () => {
     new daum.Postcode({
@@ -20,17 +20,18 @@ modifyForm['password'].addEventListener('input', () => {
     const passwordMessage = window.document.body.querySelector('[rel="password-message"]');
     passwordMessage.classList.remove('good');
     passwordMessage.classList.remove('warning');
-    passwordMessage.innerText = 'ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.';
+    passwordMessage.innerText = 'íŠ¹ìˆ˜ë¬¸ìž, ì˜ì–´, ìˆ«ìžë¥¼ í¬í•¨í•œ 8ìžë¦¬ì˜ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì„¤ì •í•˜ì„¸ìš”.';
     passwordMessage.classList.add('warning');
 });
 
 modifyForm['password'].addEventListener('focusout', () => {
     const passwordMessage = window.document.body.querySelector('[rel="password-message"]');
+    isPasswordChecked = true;
     passwordMessage.classList.remove('good');
     passwordMessage.classList.remove('warning');
     passwordMessage.innerText = '';
     if(!passwordRegEx.test(modifyForm['password'].value)) {
-        passwordMessage.innerText = 'ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.';
+        passwordMessage.innerText = 'ì˜¬ë°”ë¥¸ ë¹„ë°€ë²ˆí˜¸ê°€ ì•„ë‹™ë‹ˆë‹¤.';
         passwordMessage.classList.add('warning');
         isPasswordChecked = false;
     }
@@ -55,7 +56,7 @@ modifyForm['checkPassword'].addEventListener('input', () => {
     checkPasswordMessage.classList.remove('warning');
     checkPasswordMessage.innerText = '';
     if(modifyForm['password'].value !== modifyForm['checkPassword'].value) {
-        checkPasswordMessage.innerText = 'ºñ¹Ð¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.';
+        checkPasswordMessage.innerText = 'ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.';
         checkPasswordMessage.classList.add('warning');
         isPasswordCheckChecked = false;
     } else {
@@ -68,30 +69,30 @@ modifyForm['checkPassword'].addEventListener('input', () => {
 
 modifyForm.onsubmit = () => {
     if(!isPasswordChecked) {
-        alert('ºñ¹Ð¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
+        alert('ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
         modifyForm['password'].focus();
         modifyForm['password'].select();
         return false;
     }
 
     if(!isPasswordCheckChecked) {
-        alert('ºñ¹Ð¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
+        alert('ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
         modifyForm['checkPassword'].focus();
         modifyForm['checkPassword'].select();
         return false;
     }
 
-    if(!passwordRegEx.test(modifyForm['password'].value)) {
-        alert('ºñ¹Ð¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
+/*    if(!passwordRegEx.test(modifyForm['password'].value)) {
+        alert('ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
         modifyForm['password'].focus();
         modifyForm['password'].select();
         return false;
     }
 
     if(!passwordRegEx.test(modifyForm['checkPassword'].value)) {
-        alert('ºñ¹Ð¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
+        alert('ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
         modifyForm['checkPassword'].focus();
         modifyForm['checkPassword'].select();
         return false;
-    }
+    }*/
 };

@@ -3,10 +3,12 @@ package com.example.pfad1.controllers;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.user.LoginResult;
 import com.example.pfad1.enums.user.PasswordRecoverResult;
+import com.example.pfad1.models.ClientModel;
 import com.example.pfad1.services.UserService;
 import com.example.pfad1.vos.user.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
+@ComponentScan(basePackages = {"com.example.controllers"})
 @Controller("com.example.pfad1.controllers")
 @RequestMapping(value = "/")
 public class UserController {
@@ -92,9 +95,10 @@ public class UserController {
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String registerPost(
+            @RequestAttribute(value = "clientModel") ClientModel clientModel,
             RegisterVo registerVo,
             Model model) throws MessagingException {
-        this.userService.register(registerVo);
+        this.userService.register(clientModel, registerVo);
         model.addAttribute("registerResult", registerVo.getResult());
         return "user/register";
     }
@@ -131,9 +135,10 @@ public class UserController {
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String RecoverPasswordPost(
+            @RequestAttribute(value = "clientModel")ClientModel clientModel,
             PasswordRecoverVo passwordRecoverVo,
             Model model) throws MessagingException {
-        this.userService.recoverPassword(passwordRecoverVo);
+        this.userService.recoverPassword(clientModel, passwordRecoverVo);
         model.addAttribute("passwordRecoverResult", passwordRecoverVo.getResult());
         return "user/recoverPassword";
     }
@@ -194,7 +199,7 @@ public class UserController {
             ModifyVo modifyVo,
             Model model,
             HttpSession session) {
-        if(userEntity == null) {
+        if (userEntity == null) {
             return "redirect:/";
         }
         session.getAttribute("userEntity");
@@ -208,7 +213,7 @@ public class UserController {
             produces = MediaType.TEXT_HTML_VALUE)
     public String modifyGet(
             @SessionAttribute(value = "userEntity", required = false) UserEntity userEntity) {
-        if(userEntity == null) {
+        if (userEntity == null) {
             return "redirect:/";
         }
         return "/user/modify";
@@ -221,7 +226,7 @@ public class UserController {
                              @SessionAttribute(value = "userEntity") UserEntity userEntity,
                              HttpSession session,
                              Model model) {
-        if(userEntity == null) {
+        if (userEntity == null) {
             return "redirect:/";
         }
         session.getAttribute("userEntity");

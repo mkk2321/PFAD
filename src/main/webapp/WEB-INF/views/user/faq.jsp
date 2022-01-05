@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PFAD</title>
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="/user/resources/stylesheets/user/faq.css">
+    <link rel="stylesheet" href="/user/resources/stylesheets/faq.css">
     <script defer src="/user/resources/scripts/faq.js"></script>
 </head>
 <body>

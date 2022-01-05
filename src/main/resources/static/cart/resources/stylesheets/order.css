@@ -1,0 +1,89 @@
+body {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+main {
+    width: 80rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main > form > table {
+    width: 60rem;
+}
+main > form > table > tbody {
+    width: inherit;
+}
+
+main > form > table > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main > form > table > * > tr > td, th{
+    width: 7rem;
+}
+
+main > form > div {
+    margin-top: 2rem;
+    width: inherit;
+    text-align: right;
+}
+
+main > form > div > input[type="submit"] {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background: #f0a050ee;
+}
+
+main > form > div > a {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background: #808284a0;
+}
+
+main > form > div > a:last-child {
+    background: #008800a0;
+}
+
+input[type='text'] {
+    border: none;
+}
+
+main > form > div.orderWrap {
+    margin-bottom: 20rem;
+    background: #99999940;
+    padding: 2rem;
+}
+
+main > form > div.orderWrap > div.orderTableWrap {
+
+    background: white;
+    border-radius: 0.33rem;
+}
+
+main > form > div.orderWrap > div.orderTableWrap > table.orderTable > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+main > form > div.orderWrap > div.orderTableWrap > table.orderTable > tbody > tr > td > input {
+    border: 0.0625rem solid #999999;
+    border-radius: 0.33rem;
+    width: 10rem;
+}
+
+main > form > div.orderWrap > div.orderTableWrap > table.orderTable > tbody > tr > td > input:not(:last-child) {
+    margin-right: 1rem;
+}
+

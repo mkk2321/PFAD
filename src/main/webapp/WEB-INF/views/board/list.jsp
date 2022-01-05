@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>게시판</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/list.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/board/resources/stylesheets/list.css">
 </head>
 <body> 
 <%@ include file="/WEB-INF/views/header.jsp" %>

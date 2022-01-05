@@ -12,9 +12,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>게시글 수정</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/read.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/board/resources/stylesheets/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/board/write.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/board/resources/stylesheets/write.css">
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/ckeditor.js"></script>
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/modify.js"></script>
     <c:if test="${modifyVo.result != ModifyResult.SUCCESS}">

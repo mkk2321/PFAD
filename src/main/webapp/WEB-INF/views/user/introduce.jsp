@@ -8,7 +8,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PFAD</title>
-    <link rel="stylesheet" href="/user/resources/stylesheets/user/introduce.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/introduce.css">
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
           integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">

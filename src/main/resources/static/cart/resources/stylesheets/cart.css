@@ -28,13 +28,19 @@ main > form > table > * > tr {
 }
 
 main > form > table > * > tr > td, th{
-    width: 5rem;
+    width: 7rem;
 }
 
-main > form > div {
+main > form > div.totalPriceWrap, div.cartButton {
     margin-top: 2rem;
     width: inherit;
     text-align: right;
+}
+
+main > form > div > input[type="submit"] {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    background: #f0a050ee;
 }
 
 main > form > div > a {
@@ -50,3 +56,74 @@ main > form > div > a:last-child {
 input[type='text'] {
     border: none;
 }
+
+main > form[rel='order-form'] {
+    margin-top: 10rem;
+    margin-bottom: 20rem;
+    background: #99999940;
+    padding: 2rem;
+    width: 50rem;
+    border-radius: 0.33rem;
+}
+
+main > form[rel='order-form'] > div.orderWrap > div.orderTableWrap {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: white;
+    border-radius: 0.33rem;
+    padding: 2rem 3rem;
+}
+
+main > form[rel='order-form'] > div.orderWrap > div.orderTableWrap > table.orderTable {
+    width: 100%;
+}
+
+main > form[rel='order-form'] > div.orderWrap > div.orderTableWrap > table.orderTable > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+main > form[rel='order-form'] > div.orderWrap > div.orderTableWrap > table.orderTable > tbody > tr > td > input {
+    border: 0.0625rem solid #999999;
+    border-radius: 0.33rem;
+    width: 10rem;
+}
+
+main > form[rel='order-form'] > div.orderWrap > div.orderTableWrap > table.orderTable > tbody > tr > td > input:not(:last-child) {
+    margin-right: 1rem;
+}
+
+
+body > main > form[rel='order-form'] > div.orderWrap {
+
+}
+
+body > main > form[rel='order-form'] > div.orderWrap > div.orderTotalPriceWrap {
+    padding: 0 0 1.33rem 0;
+}
+
+
+body > main > form[rel='order-form'] > div.orderWrap > div > table > tbody > tr {
+    margin: 1rem 0;
+}
+body > main > form[rel='order-form'] > div.orderWrap > div > table > tbody > tr > td > div{
+    margin: 1rem 0;
+}
+
+body > main > form[rel='order-form'] > div.orderSubmit {
+    margin: 2rem 0 1rem 0;
+    text-align: center;
+}
+
+body > main > form[rel='order-form'] > div.orderSubmit > input {
+    cursor: pointer;
+    background-color: #1e90ffaa;
+    width: 30rem;
+}
+
+

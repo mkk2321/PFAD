@@ -11,7 +11,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>회원가입</title>
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="/user/resources/stylesheets/user/register.css">
+    <link rel="stylesheet" href="/user/resources/stylesheets/register.css">
     <script src="../resources/scripts/Ajax.js"></script>
     <script defer src="/user/resources/scripts/modify.js"></script>
     <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -7,8 +7,22 @@
         DELETE
         FROM `pfad`.`carts`
         WHERE `product_index` = #{productIndex}
+          AND `user_id` = #{userId}
         LIMIT 1
     </delete>
+
+    <delete id="deleteCartAll"
+            parameterType="com.example.pfad1.entities.cart.CartEntity">
+        DELETE
+        FROM `pfad`.`carts`
+        WHERE `user_id` = #{userId}
+    </delete>
+
+    <insert id="insertOrder"
+            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+        INSERT INTO `pfad`.`order` (orderCode, userId)
+        VALUES (#{orderCode}, #{userId})
+    </insert>
 
     <select id="selectCountCarts"
             parameterType="com.example.pfad1.entities.cart.CartEntity"
@@ -31,6 +45,13 @@
         FROM `pfad`.`carts` AS `carts`
                  JOIN `pfad`.`products` AS `products` ON `carts`.`product_index` = `products`.`index`
         WHERE `user_id` = #{userId}
+        ORDER BY `carts`.`created_at`
+    </select>
+
+    <select id="selectOrder"
+            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            resultType="com.example.pfad1.vos.cart.CartReadVo">
+
     </select>
 
     <update id="updateCart"
@@ -38,7 +59,7 @@
         UPDATE `pfad`.`carts`
         SET `stock` = #{stock}
         WHERE `product_index` = #{productIndex}
-            AND `user_id` = #{userId}
+          AND `user_id` = #{userId}
         LIMIT 1
     </update>
 </mapper>

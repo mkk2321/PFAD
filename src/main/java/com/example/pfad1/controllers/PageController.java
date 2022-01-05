@@ -10,22 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PageController {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String rootGet() {
-        return "user/home";
+        return "index";
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String homeGet() {
-        return "user/home";
+        return "index";
     }
 
     @RequestMapping(value = "/introduce", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String introduceGet() {
         return "user/introduce";
-    }
-
-    @RequestMapping(value = "/order", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public String orderGet() {
-        return "user/order";
     }
 
     @RequestMapping(value = "/faq", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

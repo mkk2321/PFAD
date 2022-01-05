@@ -1,6 +1,8 @@
 package com.example.pfad1.entities.cart;
 
-public class CartEntity {
+import com.example.pfad1.interfaces.IUser;
+
+public class CartEntity implements IUser {
     protected int productIndex;
     protected String userId;
     protected int stock;

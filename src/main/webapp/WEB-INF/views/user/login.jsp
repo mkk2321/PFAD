@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PFAD</title>
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/user/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/user/resources/stylesheets/login.css">
     <script>
         <c:if test="${loginResult != LoginResult.SUCCESS && loginResult != null}">
             <c:choose>
