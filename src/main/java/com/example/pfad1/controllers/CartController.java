@@ -3,10 +3,7 @@ package com.example.pfad1.controllers;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.cart.CartReadResult;
 import com.example.pfad1.services.CartService;
-import com.example.pfad1.vos.cart.CartDeleteVo;
-import com.example.pfad1.vos.cart.CartReadVo;
-import com.example.pfad1.vos.cart.CartUpdateVo;
-import com.example.pfad1.vos.cart.OrderByCartVo;
+import com.example.pfad1.vos.cart.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -92,8 +89,30 @@ public class CartController {
     public String orderPost(@SessionAttribute(name = "userEntity") UserEntity userEntity,
                             OrderByCartVo orderByCartVo,
                             Model model) {
-        this.cartService.orderComplete(orderByCartVo, userEntity);
+        this.cartService.order(orderByCartVo, userEntity);
         model.addAttribute("orderByCartVo", orderByCartVo);
         return "cart/order";
+    }
+
+    @RequestMapping(value = "/orderComplete",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String orderCompleteGet(@SessionAttribute(name = "userEntity") UserEntity userEntity,
+                                    OrderCompleteVo orderCompleteVo,
+                                   Model model) {
+        this.cartService.orderComplete(orderCompleteVo, userEntity);
+        model.addAttribute("orderCompleteVo", orderCompleteVo);
+        return "cart/orderComplete";
+    }
+
+    @RequestMapping(value = "/order-list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String orderList(@SessionAttribute(name = "userEntity") UserEntity userEntity,
+                                   OrderListVo orderListVo,
+                                   Model model) {
+        this.cartService.orderList(orderListVo, userEntity);
+        model.addAttribute("orderListVo", orderListVo);
+        return "cart/orderList";
     }
 }

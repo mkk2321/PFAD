@@ -1,4 +1,4 @@
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
+<%@ page import="com.example.pfad1.enums.cart.OrderByCartResult" %><%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -11,6 +11,28 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/cart/resources/stylesheets/cart.css">
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
     <script defer src="${pageContext.request.contextPath}/cart/resources/scripts/order.js"></script>
+    <c:if test="${orderByCartVo.result != null}">
+        <c:choose>
+            <c:when test="${orderByCartVo.result == OrderByCartResult.SUCCESS}">
+                <script>
+                    alert('주문이 완료 되었습니다.');
+                    window.location.href='/orderComplete';
+                </script>
+            </c:when>
+            <c:when test="${orderByCartVo.result == OrderByCartResult.CART_NOT_DEFINED}">
+                <script>
+                    alert('장바구니에 오류가 발생하였습니다. \n처음부터 다시 시도해주세요.');
+                    window.location.href='/cart';
+                </script>
+            </c:when>
+            <c:otherwise>
+                <script>
+                    alert('알 수 없는 이유로 주문 실패하였습니다. \n처음부터 다시 시도해주세요.');
+                    window.location.href='/home';
+                </script>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
     <title>주문하기</title>
 
 </head>
@@ -41,10 +63,10 @@
                     </td>
                     <td>${cartReadVo.productName}</td>
                     <td>
-                        <span class="price">${cartReadVo.price}</span>
+                        <input type="text" name="price" value="${cartReadVo.price}" readonly disabled>
                     </td>
                     <td>
-                        <span class="stock">${cartReadVo.stock}</span>
+                        <input type="text" name="stock" value="${cartReadVo.stock}" disabled>
                     </td>
 
                     <td>

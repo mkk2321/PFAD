@@ -8,9 +8,10 @@ import com.example.pfad1.enums.cart.OrderByCartResult;
 import com.example.pfad1.enums.cart.OrderResult;
 import com.example.pfad1.interfaces.IResult;
 
-public class OrderByCartVo extends CartEntity implements IResult<OrderByCartResult>{
-    private OrderByCartResult result;
+import java.text.SimpleDateFormat;
 
+public class OrderByCartVo extends OrderEntity implements IResult<OrderByCartResult> {
+    private OrderByCartResult result;
 
     @Override
     public OrderByCartResult getResult() {

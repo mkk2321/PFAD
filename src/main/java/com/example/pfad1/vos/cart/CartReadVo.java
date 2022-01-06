@@ -8,7 +8,6 @@ public class CartReadVo extends CartEntity implements IResult<CartReadResult> {
     protected CartReadResult result;
     protected CartReadVo[] cartReadVos;
     protected String productName;
-    protected int stock;
     protected int price;
     protected String thumbnail;
     protected int cartCount;
@@ -27,16 +26,6 @@ public class CartReadVo extends CartEntity implements IResult<CartReadResult> {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    @Override
-    public int getStock() {
-        return stock;
-    }
-
-    @Override
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public int getPrice() {

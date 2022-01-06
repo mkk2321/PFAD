@@ -1,0 +1,21 @@
+body > main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+body > main > table {
+    border-bottom: 0.0625rem solid #909090;
+    border-top: 0.0625rem solid #909090;
+    border-collapse: separate;
+    width: 60rem;
+}
+
+body > main > table > * > tr {
+    border-top: 0.0625rem solid #909090;
+}
+
+body > main > table > * > tr > td, th{
+    width: 10rem;
+}

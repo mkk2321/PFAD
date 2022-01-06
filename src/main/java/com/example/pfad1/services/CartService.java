@@ -1,13 +1,12 @@
 package com.example.pfad1.services;
 
+import com.example.pfad1.entities.cart.CartEntity;
+import com.example.pfad1.entities.cart.OrderEntity;
 import com.example.pfad1.entities.product.ProductEntity;
 import com.example.pfad1.entities.user.UserEntity;
 import com.example.pfad1.enums.cart.*;
 import com.example.pfad1.mappers.ICartMapper;
-import com.example.pfad1.vos.cart.CartDeleteVo;
-import com.example.pfad1.vos.cart.CartReadVo;
-import com.example.pfad1.vos.cart.CartUpdateVo;
-import com.example.pfad1.vos.cart.OrderByCartVo;
+import com.example.pfad1.vos.cart.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -102,9 +101,6 @@ public class CartService {
             cartReadVo.setResult(CartReadResult.NOT_ALLOWED);
             return;
         }
-
-
-
         // db에 주문 정보 저장
         // order 테이블을 기반으로 user, product, cart 정보 불러오기
         // 장바구니 db 지우기
@@ -112,13 +108,68 @@ public class CartService {
         // 불러온 db를 model로 view에 뿌리기
     }
 
-    public void orderComplete(OrderByCartVo orderByCartVo, UserEntity userEntity) {
+    public void order(OrderByCartVo orderByCartVo, UserEntity userEntity) {
         if (userEntity == null) {
             orderByCartVo.setResult(OrderByCartResult.NOT_ALLOWED);
             return;
         }
         LocalDate now = LocalDate.now();
         String orderCode = Integer.toString(now.getYear()) + (int)(Math.random() * (9999 - 1000 + 1)) + 1000;
-//        orderByCartVo.setOrderCode(orderCode);
+        orderByCartVo.setOrderCode(orderCode);
+        orderByCartVo.setUserId(userEntity.getId());
+        orderByCartVo.setName(userEntity.getName());
+        orderByCartVo.setAddressPostal(userEntity.getAddressPostal());
+        orderByCartVo.setAddressPrimary(userEntity.getAddressPrimary());
+        orderByCartVo.setAddressSecondary(userEntity.getAddressSecondary());
+        orderByCartVo.setContactFirst(userEntity.getContactFirst());
+        orderByCartVo.setContactSecond(userEntity.getContactSecond());
+        orderByCartVo.setContactThird(userEntity.getContactThird());
+        CartReadVo[] cartReadVo = cartMapper.selectCarts(orderByCartVo);
+        if(cartReadVo == null) {
+            orderByCartVo.setResult(OrderByCartResult.CART_NOT_DEFINED);
+            return;
+        }
+        for(int i = 0; i < cartReadVo.length; i++) {
+            orderByCartVo.setThumbnail(cartReadVo[i].getThumbnail());
+            orderByCartVo.setProductIndex(cartReadVo[i].getProductIndex());
+            orderByCartVo.setStock(cartReadVo[i].getStock());
+            orderByCartVo.setPrice(cartReadVo[i].getPrice());
+            orderByCartVo.setProductName(cartReadVo[i].getProductName());
+            this.cartMapper.insertOrder(orderByCartVo);
+            this.cartMapper.updateProductStock(orderByCartVo);
+        }
+        this.cartMapper.deleteCartAll(orderByCartVo);
+        orderByCartVo.setResult(OrderByCartResult.SUCCESS);
+    }
+
+    public void orderComplete(OrderCompleteVo orderCompleteVo, UserEntity userEntity) {
+        orderCompleteVo.setUserId(userEntity.getId());
+        OrderEntity orderEntity = this.cartMapper.selectOrder(orderCompleteVo);
+        orderCompleteVo.setOrderCode(orderEntity.getOrderCode());
+        orderCompleteVo.setName(orderEntity.getName());
+        orderCompleteVo.setAddressPostal(orderEntity.getAddressPostal());
+        orderCompleteVo.setAddressPrimary(orderEntity.getAddressPrimary());
+        orderCompleteVo.setAddressSecondary(orderEntity.getAddressSecondary());
+        orderCompleteVo.setContactFirst(orderEntity.getContactFirst());
+        orderCompleteVo.setContactSecond(orderEntity.getContactSecond());
+        orderCompleteVo.setContactThird(orderEntity.getContactThird());
+        orderCompleteVo.setCreatedAt(orderEntity.getCreatedAt());
+    }
+
+    public void orderList(OrderListVo orderListVo, UserEntity userEntity) {
+        if(userEntity == null) {
+            orderListVo.setResult(OrderListResult.NOT_ALLOWED);
+            return;
+        }
+        orderListVo.setUserId(userEntity.getId());
+        OrderEntity[] orderEntities = this.cartMapper.selectOrders(orderListVo);
+        if(orderEntities == null) {
+            orderListVo.setResult(OrderListResult.ORDER_NOT_DEFINED);
+            return;
+        }
+        orderListVo.setCreatedAt(orderEntities[0].getCreatedAt());
+        orderListVo.setOrderEntities(orderEntities);
+        orderListVo.setResult(OrderListResult.SUCCESS);
+
     }
 }

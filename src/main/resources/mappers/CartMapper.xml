@@ -12,7 +12,7 @@
     </delete>
 
     <delete id="deleteCartAll"
-            parameterType="com.example.pfad1.entities.cart.CartEntity">
+            parameterType="com.example.pfad1.interfaces.IUser">
         DELETE
         FROM `pfad`.`carts`
         WHERE `user_id` = #{userId}
@@ -20,8 +20,16 @@
 
     <insert id="insertOrder"
             parameterType="com.example.pfad1.entities.cart.OrderEntity">
-        INSERT INTO `pfad`.`order` (orderCode, userId)
-        VALUES (#{orderCode}, #{userId})
+        INSERT INTO `pfad`.`order` (`orderCode`, `thumbnail`, `productIndex`, `productName`, `stock`, `price`, `userId`,
+                                    `name`,
+                                    `addressPostal`,
+                                    `addressPrimary`, `addressSecondary`, `contactFirst`, `contactSecond`,
+                                    `contactThird`)
+        VALUES (#{orderCode}, #{thumbnail}, #{productIndex}, #{productName}, #{stock}, #{price}, #{userId}, #{name},
+                #{addressPostal},
+                #{addressPrimary},
+                #{addressSecondary}, #{contactFirst}, #{contactSecond}, #{contactThird})
+
     </insert>
 
     <select id="selectCountCarts"
@@ -33,7 +41,7 @@
     </select>
 
     <select id="selectCarts"
-            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            parameterType="com.example.pfad1.interfaces.IUser"
             resultType="com.example.pfad1.vos.cart.CartReadVo">
         SELECT `carts`.`product_index` AS `productIndex`,
                `carts`.`user_id`       AS `userId`,
@@ -49,9 +57,47 @@
     </select>
 
     <select id="selectOrder"
-            parameterType="com.example.pfad1.entities.cart.CartEntity"
-            resultType="com.example.pfad1.vos.cart.CartReadVo">
+            parameterType="com.example.pfad1.interfaces.IUser"
+            resultType="com.example.pfad1.entities.cart.OrderEntity">
+        SELECT `index`            AS `index`,
+               `orderCode`        AS `orderCode`,
+               `productIndex`     AS `productIndex`,
+               `productName`      AS `productName`,
+               `stock`            AS `stock`,
+               `userId`           AS `userId`,
+               `name`             AS `name`,
+               `addressPostal`    AS `addressPostal`,
+               `addressPrimary`   AS `addressPrimary`,
+               `addressSecondary` AS `addressSecondary`,
+               `contactFirst`     AS `contactFirst`,
+               `contactSecond`    AS `contactSecond`,
+               `contactThird`     AS `contactThird`,
+               `created_at`       AS `createdAt`
+        FROM `pfad`.`order`
+        WHERE `userId` = #{userId}
+    </select>
 
+    <select id="selectOrders"
+            parameterType="com.example.pfad1.interfaces.IUser"
+            resultType="com.example.pfad1.entities.cart.OrderEntity">
+        SELECT `index`            AS `index`,
+               `orderCode`        AS `orderCode`,
+               `thumbnail`        AS `thumbnail`,
+               `productIndex`     AS `productIndex`,
+               `productName`      AS `productName`,
+               `stock`            AS `stock`,
+               `price`            AS `price`,
+               `userId`           AS `userId`,
+               `name`             AS `name`,
+               `addressPostal`    AS `addressPostal`,
+               `addressPrimary`   AS `addressPrimary`,
+               `addressSecondary` AS `addressSecondary`,
+               `contactFirst`     AS `contactFirst`,
+               `contactSecond`    AS `contactSecond`,
+               `contactThird`     AS `contactThird`,
+               `created_at`       AS `createdAt`
+        FROM `pfad`.`order` AS `order`
+        WHERE `userId` = #{userId}
     </select>
 
     <update id="updateCart"
@@ -62,4 +108,14 @@
           AND `user_id` = #{userId}
         LIMIT 1
     </update>
+
+    <update id="updateProductStock"
+            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+        UPDATE `pfad`.`products`
+        SET `stock` = `stock` - #{stock}
+        WHERE `index` = #{productIndex}
+        LIMIT 1
+    </update>
+
+
 </mapper>

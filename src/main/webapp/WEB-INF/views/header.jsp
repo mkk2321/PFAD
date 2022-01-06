@@ -52,10 +52,10 @@
         <c:if test="${userEntity != null}">
             <ul>
                 <li>
-                    <span><b>${userEntity.id}</b>님 환영합니다</span>
+                    <a href="${pageContext.request.contextPath}/modify-password-check"><b>${userEntity.id}</b>님 환영합니다</a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/modify-password-check">정보수정</a>
+                    <a href="${pageContext.request.contextPath}/order-list">주문조회</a>
                 </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/logout">로그아웃</a>

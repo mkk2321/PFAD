@@ -12,18 +12,20 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ICartMapper {
     int deleteCart(CartEntity cartEntity);
 
-    int deleteCartAll(CartEntity cartEntity);
+    int deleteCartAll(IUser iuser);
 
     int selectCountCarts(CartEntity cartEntity);
 
-    CartReadVo[] selectCarts(CartEntity cartEntity);
+    CartReadVo[] selectCarts(IUser iUser);
 
     int updateCart(CartEntity cartEntity);
 
+    int updateProductStock(OrderEntity orderEntity);
+
     int insertOrder(OrderEntity orderEntity);
 
-    OrderByCartVo selectOrder(OrderByCartVo orderByCartVo);
+    OrderEntity selectOrder(IUser iUser);
 
-    ProductEntity[] selectCartByProduct(IUser iuser);
+    OrderEntity[] selectOrders(IUser iUser);
 
 }
