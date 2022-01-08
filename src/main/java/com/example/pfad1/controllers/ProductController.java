@@ -65,6 +65,7 @@ public class ProductController {
         productReadVo.setIndex(index);
         this.productService.read(productReadVo);
         model.addAttribute("productReadVo", productReadVo);
+        System.out.println(productReadVo.getResult());
         return "product/read";
     }
 

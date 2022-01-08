@@ -17,6 +17,7 @@ public class CartService {
     private static class RegExp {
         public static final String PRODUCT_INDEX = "^([0-9]{0,3})$";
         public static final String STOCK = "^([0-9]{0,3})$";
+        public static final String ORDER_CODE = "^([0-9]{0,})$";
     }
 
     private final ICartMapper cartMapper;
@@ -34,6 +35,10 @@ public class CartService {
         return s != null && s.matches(RegExp.STOCK);
     }
 
+    public static boolean checkOrderCode(String s) {
+        return s != null && s.matches(RegExp.ORDER_CODE);
+    }
+
     public void read(CartReadVo cartReadVo, UserEntity userEntity) {
         if (userEntity == null) {
             cartReadVo.setResult(CartReadResult.NOT_ALLOWED);
@@ -41,6 +46,10 @@ public class CartService {
         }
         cartReadVo.setUserId(userEntity.getId());
         CartReadVo[] cartReadVos = this.cartMapper.selectCarts(cartReadVo);
+        if(cartReadVos == null || this.cartMapper.selectCountCarts(cartReadVo) == 0) {
+            cartReadVo.setResult(CartReadResult.CART_NOT_DEFINED);
+            return;
+        }
         cartReadVo.setCartReadVos(cartReadVos);
         cartReadVo.setCartCount(this.cartMapper.selectCountCarts(cartReadVo));
         cartReadVo.setResult(CartReadResult.SUCCESS);
@@ -114,7 +123,7 @@ public class CartService {
             return;
         }
         LocalDate now = LocalDate.now();
-        String orderCode = Integer.toString(now.getYear()) + (int)(Math.random() * (9999 - 1000 + 1)) + 1000;
+        String orderCode = Integer.toString(now.getYear()) + (int)(Math.random() * (99999999 - 10000000 + 1));
         orderByCartVo.setOrderCode(orderCode);
         orderByCartVo.setUserId(userEntity.getId());
         orderByCartVo.setName(userEntity.getName());
@@ -170,6 +179,26 @@ public class CartService {
         orderListVo.setCreatedAt(orderEntities[0].getCreatedAt());
         orderListVo.setOrderEntities(orderEntities);
         orderListVo.setResult(OrderListResult.SUCCESS);
+    }
 
+    public void orderDelete(OrderDeleteVo orderDeleteVo, UserEntity userEntity) {
+        if(!CartService.checkProductIndex(String.valueOf(orderDeleteVo.getProductIndex())) ||
+        !CartService.checkOrderCode(orderDeleteVo.getOrderCode())) {
+            orderDeleteVo.setResult(OrderDeleteResult.NORMALIZATION_FAILURE);
+            return;
+        }
+
+        if(userEntity == null) {
+           orderDeleteVo.setResult(OrderDeleteResult.NOT_ALLOWED);
+           return;
+        }
+
+        orderDeleteVo.setUserId(userEntity.getId());
+        if(this.cartMapper.deleteOrder(orderDeleteVo) == 0) {
+            orderDeleteVo.setResult(OrderDeleteResult.ORDER_NOT_DEFINED);
+            return;
+        }
+
+        orderDeleteVo.setResult(OrderDeleteResult.SUCCESS);
     }
 }

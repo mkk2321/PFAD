@@ -70,9 +70,6 @@ div.container > div > a:hover {
 }
 
 
-
-
-
 /*template*/
 
 .container {
@@ -223,14 +220,14 @@ div.container > div > a:hover {
 }
 
 .product-grid3 .price span {
-/*    color: #909090;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    text-decoration: line-through;
-    text-align: left;
-    display: inline-block;
-    margin-top: -2px*/
+    /*    color: #909090;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0;
+        text-decoration: line-through;
+        text-align: left;
+        display: inline-block;
+        margin-top: -2px*/
 }
 
 .product-grid3 .rating {

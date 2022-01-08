@@ -29,6 +29,6 @@ public class OrderListVo extends OrderEntity implements IResult<OrderListResult>
     }
 
     public String formatCreatedAt() {
-        return new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm").format(this.createdAt);
+        return new SimpleDateFormat("yyyy.MM.dd").format(this.createdAt);
     }
 }

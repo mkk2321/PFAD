@@ -1,4 +1,5 @@
 <%@ page import="com.example.pfad1.enums.cart.CartAddResult" %>
+<%@ page import="com.example.pfad1.enums.product.ProductReadResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
@@ -16,6 +17,22 @@
     <script defer src="/product/resources/scripts/read.js/"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/product/resources/stylesheets/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
+    <c:if test="${productReadVo.result != ProductReadResult.SUCCESS}">
+        <c:choose>
+            <c:when test="${productReadVo.result == ProductReadResult.PRODUCT_NOT_DEFINED}">
+                <script>
+                    alert('해당 상품은 존재하지 않습니다.');
+                    window.history.back();
+                </script>
+            </c:when>
+            <c:otherwise>
+                <script>
+                    alert('알 수 없는 이유로 실패하였습니다.\n\n잠시 후 다시 시도해주세요.');
+                    window.history.back();
+                </script>
+            </c:otherwise>
+        </c:choose>
+    </c:if>
     <c:if test="${cartAddVo.result != null}">
         <c:choose>
             <c:when test="${cartAddVo.result == CartAddResult.NOT_ALLOWED}">

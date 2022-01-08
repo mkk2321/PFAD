@@ -1,7 +1,10 @@
 package com.example.pfad1.controllers;
 
 import com.example.pfad1.entities.user.UserEntity;
+import com.example.pfad1.enums.cart.CartDeleteResult;
 import com.example.pfad1.enums.cart.CartReadResult;
+import com.example.pfad1.enums.cart.OrderDeleteResult;
+import com.example.pfad1.enums.cart.OrderListResult;
 import com.example.pfad1.services.CartService;
 import com.example.pfad1.vos.cart.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +60,10 @@ public class CartController {
                             @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                             CartDeleteVo cartDeleteVo,
                             Model model) {
+        if(userEntity == null) {
+            cartDeleteVo.setResult(CartDeleteResult.NOT_ALLOWED);
+            return "cart/delete";
+        }
         cartDeleteVo.setProductIndex(index);
         this.cartService.delete(cartDeleteVo, userEntity);
         model.addAttribute("cartDeleteVo", cartDeleteVo);
@@ -66,8 +73,12 @@ public class CartController {
     @RequestMapping(value = "/cart/delete/all",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public String deleteAllGet(@SessionAttribute(name = "userEntity") UserEntity userEntity,
+    public String deleteAllGet(@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                                CartDeleteVo cartDeleteVo) {
+        if(userEntity == null) {
+            cartDeleteVo.setResult(CartDeleteResult.NOT_ALLOWED);
+            return "cart/delete";
+        }
         this.cartService.deleteAll(cartDeleteVo, userEntity);
         return "redirect:/cart";
     }
@@ -75,11 +86,16 @@ public class CartController {
     @RequestMapping(value = "/order",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public String orderGet(@SessionAttribute(name = "userEntity") UserEntity userEntity,
+    public String orderGet(@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                            CartReadVo cartReadVo,
                            Model model) {
+        if(userEntity == null) {
+            cartReadVo.setResult(CartReadResult.NOT_ALLOWED);
+            return "cart/order";
+        }
         this.cartService.read(cartReadVo, userEntity);
         model.addAttribute("cartReadVo", cartReadVo);
+        System.out.println(cartReadVo.getResult());
         return "cart/order";
     }
 
@@ -94,12 +110,17 @@ public class CartController {
         return "cart/order";
     }
 
-    @RequestMapping(value = "/orderComplete",
+    @RequestMapping(value = "/orderComplete/{orderCode}",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public String orderCompleteGet(@SessionAttribute(name = "userEntity") UserEntity userEntity,
-                                    OrderCompleteVo orderCompleteVo,
+    public String orderCompleteGet(@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                                   @PathVariable(name = "orderCode") String orderCode,
+                                   OrderCompleteVo orderCompleteVo,
                                    Model model) {
+        if(userEntity == null) {
+            return "redirect:/login";
+        }
+        orderCompleteVo.setOrderCode(orderCode);
         this.cartService.orderComplete(orderCompleteVo, userEntity);
         model.addAttribute("orderCompleteVo", orderCompleteVo);
         return "cart/orderComplete";
@@ -108,11 +129,35 @@ public class CartController {
     @RequestMapping(value = "/order-list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public String orderList(@SessionAttribute(name = "userEntity") UserEntity userEntity,
-                                   OrderListVo orderListVo,
-                                   Model model) {
+    public String orderList(@SessionAttribute(name = "userEntity",required = false) UserEntity userEntity,
+                            OrderListVo orderListVo,
+                            Model model) {
+        if(userEntity == null) {
+            orderListVo.setResult(OrderListResult.NOT_ALLOWED);
+            return "redirect:/login";
+        }
         this.cartService.orderList(orderListVo, userEntity);
         model.addAttribute("orderListVo", orderListVo);
         return "cart/orderList";
+    }
+
+    @RequestMapping(value = "/order-list/delete/{productIndex}/{orderCode}",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public String orderListDeleteGet(@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
+                                     @PathVariable(name = "productIndex") int productIndex,
+                                     @PathVariable(name = "orderCode") String orderCode,
+                                     OrderDeleteVo orderDeleteVo,
+                                     Model model) {
+        if(userEntity == null) {
+            orderDeleteVo.setResult(OrderDeleteResult.NOT_ALLOWED);
+            return "cart/orderDelete";
+        }
+        orderDeleteVo.setProductIndex(productIndex);
+        orderDeleteVo.setOrderCode(orderCode);
+        this.cartService.orderDelete(orderDeleteVo, userEntity);
+        model.addAttribute("orderDeleteVo", orderDeleteVo);
+        return "cart/orderDelete";
+
     }
 }

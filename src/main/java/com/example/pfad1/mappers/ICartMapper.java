@@ -28,4 +28,6 @@ public interface ICartMapper {
 
     OrderEntity[] selectOrders(IUser iUser);
 
+    int deleteOrder(OrderEntity orderEntity);
+
 }

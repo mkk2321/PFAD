@@ -18,6 +18,16 @@
         WHERE `user_id` = #{userId}
     </delete>
 
+    <delete id="deleteOrder"
+            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+        DELETE
+        FROM `pfad`.`order`
+        WHERE pfad.`order`.`productIndex` = #{productIndex}
+        AND pfad.`order`.`orderCode` = #{orderCode}
+        AND pfad.`order`.`userId` = #{userId}
+        LIMIT 1
+    </delete>
+
     <insert id="insertOrder"
             parameterType="com.example.pfad1.entities.cart.OrderEntity">
         INSERT INTO `pfad`.`order` (`orderCode`, `thumbnail`, `productIndex`, `productName`, `stock`, `price`, `userId`,
@@ -74,7 +84,8 @@
                `contactThird`     AS `contactThird`,
                `created_at`       AS `createdAt`
         FROM `pfad`.`order`
-        WHERE `userId` = #{userId}
+        WHERE `order`.`userId` = #{userId}
+        AND `orderCode` = #{orderCode}
     </select>
 
     <select id="selectOrders"
@@ -98,6 +109,7 @@
                `created_at`       AS `createdAt`
         FROM `pfad`.`order` AS `order`
         WHERE `userId` = #{userId}
+        ORDER BY `created_at` DESC
     </select>
 
     <update id="updateCart"

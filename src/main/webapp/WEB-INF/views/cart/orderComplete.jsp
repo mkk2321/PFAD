@@ -1,3 +1,4 @@
+<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -49,7 +50,7 @@
         </table>
     </div>
     <div class="orderCheckButton">
-        <a href="#">완료</a>
+        <a href="${pageContext.request.contextPath}/home">완료</a>
     </div>
 </div>
 </body>

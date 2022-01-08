@@ -8,14 +8,34 @@ body > main {
 body > main > table {
     border-bottom: 0.0625rem solid #909090;
     border-top: 0.0625rem solid #909090;
-    border-collapse: separate;
+    border-collapse: collapse;
     width: 60rem;
+    margin-bottom: 20rem;
 }
 
 body > main > table > * > tr {
+    width: inherit;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+body > main > table > tbody > tr {
     border-top: 0.0625rem solid #909090;
+}
+
+body > main > table > tbody > tr:hover {
+    background-color: #90909022;
 }
 
 body > main > table > * > tr > td, th{
     width: 10rem;
 }
+
+body > main > table > tbody > tr > td > a {
+    padding: 0.8rem 1.2rem;
+    background-color: #cd5c5c44;
+    border-radius: 0.33rem;
+}
+

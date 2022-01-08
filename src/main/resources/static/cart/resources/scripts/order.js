@@ -7,7 +7,7 @@ const cartForm = window.document.querySelector('[rel="cart-form"]');
 const checkbox = window.document.body.querySelectorAll('[type="checkbox"]');
 
 let sum = 0;
-for(let i = 0; i < stock.length; i++) {
+/*for(let i = 0; i < stock.length; i++) {
     sumPrice[i].innerHTML = price[i].innerHTML * stock[i].innerHTML;
 }
 
@@ -22,7 +22,13 @@ for (let j = 0; j < sumPrice.length; j++) {
         totalPrice[0].innerHTML = sum;
     }
     totalPrice[0].innerHTML = sum;
+}*/
+
+for(let i = 0; i < sumPrice.length; i++) {
+    sum += parseInt(sumPrice[i].innerHTML);
 }
+totalPrice[0].innerHTML = sum
+
 // stock.addEventListener('focusout'), () => {
 //     if(stock.value > 50) {
 //         alert('수량은 50개를 초과할 수 없습니다. \n대량주문은 문의 바랍니다.')

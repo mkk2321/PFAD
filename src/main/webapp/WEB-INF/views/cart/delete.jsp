@@ -15,8 +15,8 @@
         <c:choose>
             <c:when test="${cartDeleteVo.result == CartDeleteResult.NOT_ALLOWED}">
                 <script>
-                    alert('권한이 없거나 잘못된 접근입니다.');
-                    window.history.back();
+                    alert('로그인이 필요한 서비스입니다.');
+                    window.location.href='/login';
                 </script>
             </c:when>
             <c:when test="${cartDeleteVo.result == CartDeleteResult.CART_NOT_DEFINED}">

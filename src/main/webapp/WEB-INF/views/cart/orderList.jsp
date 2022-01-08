@@ -1,7 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.example.pfad1.enums.cart.CartUpdateResult" %>
 <%@ page import="com.example.pfad1.enums.cart.CartReadResult" %>
 <%@ page import="com.example.pfad1.enums.cart.OrderListResult" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <!doctype html>
 <html lang="ko">
@@ -21,40 +21,44 @@
 <%@ include file="../header.jsp" %>
 <main>
     <h2>주문조회</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>이미지</th>
-                <th>상품명</th>
-                <th>주문일자</th>
-                <th>주문번호</th>
-                <th>주문금액(수량)</th>
-                <th>주문상태</th>
-            </tr>
-            </thead>
+    <table>
+        <thead>
+        <tr>
+            <th>이미지</th>
+            <th>상품명</th>
+            <th>주문일자</th>
+            <th>주문번호</th>
+            <th>주문금액(수량)</th>
+            <th>주문상태</th>
+            <th></th>
+        </tr>
+        </thead>
 
-            <tbody>
-            <c:if test="${empty orderListVo || orderListVo == null}">
-                <span>주문내역이 없습니다.</span>
-            </c:if>
-            <c:if test="${orderListVo.result == OrderListResult.SUCCESS}">
-                <c:forEach var="orderList" items="${orderListVo.orderEntities}">
-                    <tr>
-                        <td>
-                            <img src="/resources/images/${orderList.thumbnail}" style="width: 3rem;">
-                        </td>
-                        <td>
+        <tbody>
+        <c:if test="${empty orderListVo || orderListVo == null}">
+            <span>주문내역이 없습니다.</span>
+        </c:if>
+        <c:if test="${orderListVo.result == OrderListResult.SUCCESS}">
+            <c:forEach var="orderList" items="${orderListVo.orderEntities}">
+                <tr>
+                    <td>
+                        <img src="/resources/images/${orderList.thumbnail}" style="width: 3rem;">
+                    </td>
+                    <td>
                             ${orderList.productName}
-                        </td>
-                        <td>${orderListVo.formatCreatedAt()}</td>
-                        <td>${orderList.orderCode}</td>
-                        <td>${orderList.stock * orderList.price}(${orderList.stock})</td>
-
-                    </tr>
-                </c:forEach>
-            </c:if>
-            </tbody>
-        </table>
+                    </td>
+                    <td>${orderListVo.formatCreatedAt()}</td>
+                    <td>${orderList.orderCode}</td>
+                    <td>${orderList.stock * orderList.price}(${orderList.stock})</td>
+                    <td>입금대기</td>
+                    <td>
+                        <a href="#" onclick="if(confirm('주문을 취소 하시겠습니까?')) window.location.href='/order-list/delete/${orderList.productIndex}/${orderList.orderCode}';">주문 취소</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:if>
+        </tbody>
+    </table>
 
 </main>
 </body>
