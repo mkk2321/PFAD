@@ -1,7 +1,7 @@
-<%@ page import="com.example.pfad1.enums.user.IdRecoverResult" %>
+<%@ page import="com.example.pd.user.enums.IdRecoverResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="idRecoverVo" type="com.example.pfad1.vos.user.IdRecoverVo"--%>
+<%--@elvariable id="idRecoverVo" type="com.example.pd.vos.user.IdRecoverVo"--%>
 <!doctype html>
 <html lang="ko">
 <head>

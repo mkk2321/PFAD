@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.example.pfad1.enums.cart.CartUpdateResult" %>
-<%@ page import="com.example.pfad1.enums.cart.CartReadResult" %>
-<%@ page import="com.example.pfad1.enums.cart.OrderListResult" %>
+<%@ page import="com.example.pd.cart.enums.CartUpdateResult" %>
+<%@ page import="com.example.pd.cart.enums.CartReadResult" %>
+<%@ page import="com.example.pd.cart.enums.OrderListResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <!doctype html>
 <html lang="ko">
@@ -22,6 +22,10 @@
 <main>
     <h2>주문조회</h2>
     <table>
+        <c:if test="${orderListVo.result == OrderListResult.ORDER_NOT_DEFINED}">
+            <span>주문내역이 없습니다.</span>
+        </c:if>
+        <c:if test="${orderListVo.result == OrderListResult.SUCCESS}">
         <thead>
         <tr>
             <th>이미지</th>
@@ -33,12 +37,7 @@
             <th></th>
         </tr>
         </thead>
-
         <tbody>
-        <c:if test="${empty orderListVo || orderListVo == null}">
-            <span>주문내역이 없습니다.</span>
-        </c:if>
-        <c:if test="${orderListVo.result == OrderListResult.SUCCESS}">
             <c:forEach var="orderList" items="${orderListVo.orderEntities}">
                 <tr>
                     <td>

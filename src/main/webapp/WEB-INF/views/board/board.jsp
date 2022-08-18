@@ -1,9 +1,7 @@
-<%@ page import="com.example.pfad1.enums.board.ListResult" %>
-<%@ page import="com.example.pfad1.vos.board.ListVo" %>
+<%@ page import="com.example.pd.board.enums.ListResult" %>
+<%@ page import="com.example.pd.board.vo.ListVo" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="listVo" type="com.example.pfad1.vos.board.ListVo"--%>
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -12,6 +10,14 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${listVo.name == null ? "게시판 오류" : listVo.name}</title>
+    
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap -->
+	
     <link rel="stylesheet" href="${pageContext.request.contextPath}/board/resources/stylesheets/something.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <script defer src="${pageContext.request.contextPath}/board/resources/scripts/board.js"></script>
@@ -21,7 +27,7 @@
                 <script>
                     alert('존재하지 않는 게시판입니다.');
                     window.history.back();
-                </script>
+                </script>                            
             </c:when>
             <c:otherwise>
                 <script>

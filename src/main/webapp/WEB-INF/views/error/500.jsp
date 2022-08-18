@@ -9,6 +9,6 @@
     <title>오류 페이지</title>
 </head>
 <body>
-<h1>존재하지 않는 페이지입니다.</h1>
+<h1>500 에러</h1>
 </body>
 </html>

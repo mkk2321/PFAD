@@ -1,7 +1,7 @@
-<%@ page import="com.example.pfad1.enums.user.PasswordRecoverResult" %>
+<%@ page import="com.example.pd.user.enums.PasswordRecoverResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="passwordRecoverResult" type="com.example.pfad1.enums.user.PasswordRecoverResult"--%>
+<%--@elvariable id="passwordRecoverResult" type="com.example.pd.enums.user.PasswordRecoverResult"--%>
 <!doctype html>
 <html lang="ko">
 <head>

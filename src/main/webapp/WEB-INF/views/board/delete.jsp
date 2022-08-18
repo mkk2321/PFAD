@@ -1,7 +1,7 @@
-<%@ page import="com.example.pfad1.enums.board.DeleteResult" %>
+<%@ page import="com.example.pd.board.enums.DeleteResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="deleteVo" type="com.example.pfad1.vos.board.DeleteVo"--%>
+<%--@elvariable id="deleteVo" type="com.example.pd.vos.board.DeleteVo"--%>
 <!doctype html>
 <html lang="ko">
 <head>

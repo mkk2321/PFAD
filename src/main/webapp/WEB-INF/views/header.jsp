@@ -1,7 +1,7 @@
-<%--@elvariable id="cartReadVo" type="com.example.pfad1.vos.cart.CartReadVo"--%>
+<%--@elvariable id="cartReadVo" type="com.example.pd.vos.cart.CartReadVo"--%>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
+<%--@elvariable id="userEntity" type="com.example.pd.entities.user.UserEntity"--%>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <header>
     <div>

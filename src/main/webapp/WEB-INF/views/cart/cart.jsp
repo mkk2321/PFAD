@@ -1,5 +1,5 @@
-<%@ page import="com.example.pfad1.enums.cart.CartUpdateResult" %>
-<%@ page import="com.example.pfad1.enums.cart.CartReadResult" %>
+<%@ page import="com.example.pd.cart.enums.CartUpdateResult" %>
+<%@ page import="com.example.pd.cart.enums.CartReadResult" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <!doctype html>
@@ -49,10 +49,16 @@
 <main>
     <h2>장바구니</h2>
     <form method="post" rel="cart-form">
+
+            <c:if test="${cartReadVo.result == CartReadResult.CART_NOT_DEFINED}">
+                <span style="width: 100%; text-align: center;">장바구니가 비었습니다.</span>
+            </c:if>
+
+            <c:if test="${cartReadVo.result == CartReadResult.SUCCESS}">
         <table style="border-bottom: 0.0625rem solid #909090; border-top: 0.0625rem solid #909090; border-collapse: separate;">
             <thead>
             <tr>
-                <%--                <th><input type="checkbox" name="checkAll"></th>--%>
+                    <%--                <th><input type="checkbox" name="checkAll"></th>--%>
                 <th>이미지</th>
                 <th>상품명</th>
                 <th>금액</th>
@@ -63,10 +69,6 @@
             </thead>
 
             <tbody>
-            <c:if test="${empty cartReadVo || cartReadVo == null}">
-                <span>장바구니가 비었습니다.</span>
-            </c:if>
-            <c:if test="${cartReadVo.result == CartReadResult.SUCCESS}">
                 <c:forEach var="cartReadVo" items="${cartReadVo.cartReadVos}">
                     <tr style="border-top: 0.0625rem solid #909090;">
                             <%--                        <td>--%>
@@ -95,7 +97,7 @@
                         </td>
                     </tr>
                 </c:forEach>
-            </c:if>
+
             </tbody>
         </table>
         <div class="totalPriceWrap">
@@ -111,6 +113,7 @@
             <a href="/order">주문하기</a>
             <%--            <input type="submit" value="주문하기">--%>
         </div>
+            </c:if>
     </form>
 
 </main>

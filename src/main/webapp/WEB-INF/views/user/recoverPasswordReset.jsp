@@ -1,5 +1,5 @@
-<%@ page import="com.example.pfad1.enums.user.IdRecoverResult" %>
-<%@ page import="com.example.pfad1.enums.user.PasswordResetRecoverResult" %>
+<%@ page import="com.example.pd.user.enums.IdRecoverResult" %>
+<%@ page import="com.example.pd.user.enums.PasswordResetRecoverResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>

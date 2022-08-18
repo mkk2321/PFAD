@@ -1,7 +1,7 @@
-<%@ page import="com.example.pfad1.enums.cart.OrderDeleteResult" %>
+<%@ page import="com.example.pd.cart.enums.OrderDeleteResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="cartDeleteVo" type="com.example.pfad1.vos.cart.CartDeleteVo"--%>
+<%--@elvariable id="cartDeleteVo" type="com.example.pd.vos.cart.CartDeleteVo"--%>
 <!doctype html>
 <html lang="ko">
 <head>

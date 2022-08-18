@@ -1,7 +1,7 @@
-<%@ page import="com.example.pfad1.enums.board.ListResult" %>
+<%@ page import="com.example.pd.board.enums.ListResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="listVo" type="com.example.pfad1.vos.board.ListVo"--%>
+<%--@elvariable id="listVo" type="com.example.pd.vos.board.ListVo"--%>
 <!doctype html>
 <html lang="ko">
 <head>

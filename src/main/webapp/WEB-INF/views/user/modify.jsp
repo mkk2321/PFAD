@@ -1,5 +1,5 @@
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
-<%@ page import="com.example.pfad1.enums.user.ModifyResult" %>
+<%--@elvariable id="userEntity" type="com.example.pd.entities.user.UserEntity"--%>
+<%@ page import="com.example.pd.user.enums.ModifyResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>

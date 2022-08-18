@@ -2,17 +2,17 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pfad1.mappers.IProductMapper">
+<mapper namespace="com.example.pd.mappers.IProductMapper">
     <delete id="deleteProduct"
-            parameterType="com.example.pfad1.entities.product.ProductEntity">
+            parameterType="com.example.pd.entities.product.ProductEntity">
         DELETE
         FROM `pfad`.`products`
         WHERE `index` = #{index}
         LIMIT 1
     </delete>
     <select id="selectProducts"
-            resultType="com.example.pfad1.entities.product.ProductEntity"
-            parameterType="com.example.pfad1.entities.product.ProductEntity">
+            resultType="com.example.pd.entities.product.ProductEntity"
+            parameterType="com.example.pd.entities.product.ProductEntity">
         SELECT `index`      AS `index`,
                `name`       AS `name`,
                `price`      AS `price`,
@@ -23,8 +23,8 @@
     </select>
 
     <select id="selectProduct"
-            resultType="com.example.pfad1.entities.product.ProductEntity"
-            parameterType="com.example.pfad1.entities.product.ProductEntity">
+            resultType="com.example.pd.entities.product.ProductEntity"
+            parameterType="com.example.pd.entities.product.ProductEntity">
         SELECT `index`       AS `index`,
                `name`        AS `name`,
                `price`       AS `price`,
@@ -39,19 +39,19 @@
     </select>
 
     <insert id="insertImage"
-            parameterType="com.example.pfad1.vos.board.ImageUploadVo">
+            parameterType="com.example.pd.vos.board.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`, `file_name`)
         VALUES (#{fileMime}, #{fileBytes}, #{fileName})
     </insert>
 
     <insert id="insertProduct"
-            parameterType="com.example.pfad1.vos.product.ProductRegisterVo">
+            parameterType="com.example.pd.vos.product.ProductRegisterVo">
         INSERT INTO `pfad`.`products` (`name`, `price`, `stock`, `description`, `thumbnail`)
         VALUES (#{name}, #{price}, #{stock}, #{description}, #{fileName})
     </insert>
 
     <update id="updateProduct"
-            parameterType="com.example.pfad1.entities.product.ProductEntity">
+            parameterType="com.example.pd.entities.product.ProductEntity">
         UPDATE `pfad`.`products`
         SET `name`        = #{name},
             `price`       = #{price},
@@ -64,13 +64,13 @@
     </update>
 
     <insert id="insertCart"
-            parameterType="com.example.pfad1.entities.cart.CartEntity">
+            parameterType="com.example.pd.entities.cart.CartEntity">
         INSERT INTO `pfad`.`carts` (product_index, user_id, stock)
         VALUES (#{productIndex}, #{userId}, #{stock})
     </insert>
 
     <select id="selectCountCart"
-            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            parameterType="com.example.pd.entities.cart.CartEntity"
             resultType="int">
         SELECT COUNT(*)
         FROM `pfad`.`carts`
@@ -79,7 +79,7 @@
     </select>
 
     <update id="updateCart"
-            parameterType="com.example.pfad1.entities.cart.CartEntity">
+            parameterType="com.example.pd.entities.cart.CartEntity">
         UPDATE `pfad`.`carts`
         SET `stock` = `stock` + #{stock}
         WHERE `product_index` = #{productIndex}

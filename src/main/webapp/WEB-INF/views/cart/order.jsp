@@ -1,6 +1,6 @@
 <%@ page
-        import="com.example.pfad1.enums.cart.OrderByCartResult" %>
-<%@ page import="com.example.pfad1.enums.cart.CartReadResult" %><%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
+        import="com.example.pd.cart.enums.OrderByCartResult" %>
+<%@ page import="com.example.pd.cart.enums.CartReadResult" %><%--@elvariable id="userEntity" type="com.example.pd.entities.user.UserEntity"--%>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/cart/resources/stylesheets/cart.css">
     <link rel="stylesheet" href="../resources/stylesheets/common.css">
     <script defer src="${pageContext.request.contextPath}/cart/resources/scripts/order.js"></script>
-    <c:if test="${cartReadVo.result != null}">
+    <c:if test="${cartReadVo.result != CartReadResult.SUCCESS}">
         <c:choose>
             <c:when test="${cartReadVo.result == CartReadResult.NOT_ALLOWED}">
                 <script>
@@ -27,18 +27,13 @@
                     window.history.back();
                 </script>
             </c:when>
-            <c:otherwise>
-                <script>
-                    alert('알 수 없는 이유로 주문 실패하였습니다. \n처음부터 다시 시도해주세요.');
-                    window.location.href = '/cart';
-                </script>
-            </c:otherwise>
         </c:choose>
     </c:if> <c:if test="${orderByCartVo.result != null}">
     <c:choose>
         <c:when test="${orderByCartVo.result == OrderByCartResult.SUCCESS}">
             <script>
                 alert('주문이 완료 되었습니다.');
+
                 window.location.href = '/orderComplete/${orderByCartVo.orderCode}';
             </script>
         </c:when>
@@ -50,6 +45,7 @@
         </c:when>
         <c:otherwise>
             <script>
+
                 alert('알 수 없는 이유로 주문 실패하였습니다. \n처음부터 다시 시도해주세요.');
                 window.location.href = '/home';
             </script>

@@ -1,4 +1,4 @@
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
+<%--@elvariable id="userEntity" type="com.example.pd.entities.user.UserEntity"--%>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>

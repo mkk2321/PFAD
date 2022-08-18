@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pfad1.mappers.ICartMapper">
-    <delete id="deleteCart" parameterType="com.example.pfad1.entities.cart.CartEntity">
+<mapper namespace="com.example.pd.mappers.ICartMapper">
+    <delete id="deleteCart" parameterType="com.example.pd.entities.cart.CartEntity">
         DELETE
         FROM `pfad`.`carts`
         WHERE `product_index` = #{productIndex}
@@ -12,14 +12,14 @@
     </delete>
 
     <delete id="deleteCartAll"
-            parameterType="com.example.pfad1.interfaces.IUser">
+            parameterType="com.example.pd.interfaces.IUser">
         DELETE
         FROM `pfad`.`carts`
         WHERE `user_id` = #{userId}
     </delete>
 
     <delete id="deleteOrder"
-            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+            parameterType="com.example.pd.entities.cart.OrderEntity">
         DELETE
         FROM `pfad`.`order`
         WHERE pfad.`order`.`productIndex` = #{productIndex}
@@ -29,7 +29,7 @@
     </delete>
 
     <insert id="insertOrder"
-            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+            parameterType="com.example.pd.entities.cart.OrderEntity">
         INSERT INTO `pfad`.`order` (`orderCode`, `thumbnail`, `productIndex`, `productName`, `stock`, `price`, `userId`,
                                     `name`,
                                     `addressPostal`,
@@ -43,7 +43,7 @@
     </insert>
 
     <select id="selectCountCarts"
-            parameterType="com.example.pfad1.entities.cart.CartEntity"
+            parameterType="com.example.pd.entities.cart.CartEntity"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`carts`
@@ -51,8 +51,8 @@
     </select>
 
     <select id="selectCarts"
-            parameterType="com.example.pfad1.interfaces.IUser"
-            resultType="com.example.pfad1.vos.cart.CartReadVo">
+            parameterType="com.example.pd.interfaces.IUser"
+            resultType="com.example.pd.vos.cart.CartReadVo">
         SELECT `carts`.`product_index` AS `productIndex`,
                `carts`.`user_id`       AS `userId`,
                `carts`.`stock`         AS `stock`,
@@ -67,8 +67,8 @@
     </select>
 
     <select id="selectOrder"
-            parameterType="com.example.pfad1.interfaces.IUser"
-            resultType="com.example.pfad1.entities.cart.OrderEntity">
+            parameterType="com.example.pd.interfaces.IUser"
+            resultType="com.example.pd.entities.cart.OrderEntity">
         SELECT `index`            AS `index`,
                `orderCode`        AS `orderCode`,
                `productIndex`     AS `productIndex`,
@@ -89,8 +89,8 @@
     </select>
 
     <select id="selectOrders"
-            parameterType="com.example.pfad1.interfaces.IUser"
-            resultType="com.example.pfad1.entities.cart.OrderEntity">
+            parameterType="com.example.pd.interfaces.IUser"
+            resultType="com.example.pd.entities.cart.OrderEntity">
         SELECT `index`            AS `index`,
                `orderCode`        AS `orderCode`,
                `thumbnail`        AS `thumbnail`,
@@ -113,7 +113,7 @@
     </select>
 
     <update id="updateCart"
-            parameterType="com.example.pfad1.entities.cart.CartEntity">
+            parameterType="com.example.pd.entities.cart.CartEntity">
         UPDATE `pfad`.`carts`
         SET `stock` = #{stock}
         WHERE `product_index` = #{productIndex}
@@ -122,7 +122,7 @@
     </update>
 
     <update id="updateProductStock"
-            parameterType="com.example.pfad1.entities.cart.OrderEntity">
+            parameterType="com.example.pd.entities.cart.OrderEntity">
         UPDATE `pfad`.`products`
         SET `stock` = `stock` - #{stock}
         WHERE `index` = #{productIndex}

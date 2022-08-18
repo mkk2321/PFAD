@@ -1,9 +1,9 @@
-<%--@elvariable id="modifyVo" type="com.example.pfad1.vos.board.ModifyVo"--%>
-<%@ page import="com.example.pfad1.enums.board.WriteResult" %>
-<%@ page import="com.example.pfad1.enums.board.ModifyResult" %>
+<%--@elvariable id="modifyVo" type="com.example.pd.vos.board.ModifyVo"--%>
+<%@ page import="com.example.pd.board.enums.WriteResult" %>
+<%@ page import="com.example.pd.board.enums.ModifyResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="writeVo" type="com.example.pfad1.vos.board.WriteVo"--%>
+<%--@elvariable id="writeVo" type="com.example.pd.vos.board.WriteVo"--%>
 <!doctype html>
 <html lang="ko">
 <head>

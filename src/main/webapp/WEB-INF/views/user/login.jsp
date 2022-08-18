@@ -1,4 +1,4 @@
-<%@ page import="com.example.pfad1.enums.user.LoginResult" %>
+<%@ page import="com.example.pd.user.enums.LoginResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>

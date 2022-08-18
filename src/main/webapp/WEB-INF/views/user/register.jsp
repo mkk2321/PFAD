@@ -1,5 +1,5 @@
-<%--@elvariable id="registerResult" type="com.example.pfad1.enums.user.RegisterResult"--%>
-<%@ page import="com.example.pfad1.enums.user.RegisterResult" %>
+<%--@elvariable id="registerResult" type="com.example.pd.enums.user.RegisterResult"--%>
+<%@ page import="com.example.pd.user.enums.RegisterResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>

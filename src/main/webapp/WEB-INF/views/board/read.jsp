@@ -1,13 +1,13 @@
-<%@ page import="com.example.pfad1.enums.board.ReadResult" %>
-<%@ page import="com.example.pfad1.enums.board.CommentWriteResult" %>
-<%@ page import="com.example.pfad1.vos.board.CommentDeleteVo" %>
-<%@ page import="com.example.pfad1.enums.board.CommentDeleteResult" %>
+<%@ page import="com.example.pd.board.enums.ReadResult" %>
+<%@ page import="com.example.pd.board.enums.CommentWriteResult" %>
+<%@ page import="com.example.pd.board.vo.CommentDeleteVo" %>
+<%@ page import="com.example.pd.board.enums.CommentDeleteResult" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="readVo" type="com.example.pfad1.vos.board.ReadVo"--%>
-<%--@elvariable id="userEntity" type="com.example.pfad1.entities.user.UserEntity"--%>
-<%--@elvariable id="commentWriteResult" type="com.example.pfad1.enums.board.CommentWriteResult"--%>
-<%--@elvariable id="commentDeleteResult" type="com.example.pfad1.enums.board.CommentDeleteResult"--%>
+<%--@elvariable id="readVo" type="com.example.pd.vos.board.ReadVo"--%>
+<%--@elvariable id="userEntity" type="com.example.pd.entities.user.UserEntity"--%>
+<%--@elvariable id="commentWriteResult" type="com.example.pd.enums.board.CommentWriteResult"--%>
+<%--@elvariable id="commentDeleteResult" type="com.example.pd.enums.board.CommentDeleteResult"--%>
 <!doctype html>
 <html lang="ko">
 <head>
