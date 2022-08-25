@@ -11,32 +11,32 @@
     <title>상품 등록</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/product/resources/stylesheets/productRegister.css">
-    <script defer src="${pageContext.request.contextPath}/product/resources/scripts/register.js"></script>
+          href="${pageContext.request.contextPath}/goods/resources/stylesheets/goodsRegister.css">
+    <script defer src="${pageContext.request.contextPath}/goods/resources/scripts/register.js"></script>
     <style>
         .ck-editor__editable_inline {
             width: 40rem;
             min-height: 15rem;
         }
     </style>
-       <c:if test="${productRegisterVo.result != null}">
+       <c:if test="${goodsRegisterVo.result != null}">
            <c:choose>
-               <c:when test="${productRegisterVo.result == ProductRegisterResult.NOT_ALLOWED}">
+               <c:when test="${goodsRegisterVo.result == GoodsRegisterResult.NOT_ALLOWED}">
                    <script>
                        alert('상품을 등록할 권한이 없습니다.');
                        window.history.back();
                    </script>
                </c:when>
-               <c:when test="${productRegisterVo.result == ProductRegisterResult.FAILURE}">
+               <c:when test="${goodsRegisterVo.result == GoodsRegisterResult.FAILURE}">
                    <script>
                        alert('상품 등록을 실패하였습니다.');
                        window.history.back();
                    </script>
                </c:when>
-               <c:when test="${productRegisterVo.result == ProductRegisterResult.SUCCESS}">
+               <c:when test="${goodsRegisterVo.result == GoodsRegisterResult.SUCCESS}">
                    <script>
                        alert('상품 등록을 완료하였습니다.');
-                       window.location.href='/product';
+                       window.location.href='/goods';
                    </script>
                </c:when>
                <c:otherwise>
@@ -52,28 +52,28 @@
 <%@ include file="../header.jsp" %>
 <form method="post" rel="register-form">
     <div>
-        <section class="productInfo">
+        <section class="goodsInfo">
 
             <div>
-                <label for="productName">상품명</label>
-                <input type="text" id="productName" name="name">
+                <label for="goodsName">상품명</label>
+                <input type="text" id="goodsName" name="name">
             </div>
 
             <div>
-                <label for="productPrice">가격</label>
-                <input type="number" id="productPrice" name="price">
+                <label for="goodsPrice">가격</label>
+                <input type="number" id="goodsPrice" name="price">
             </div>
 
             <div>
-                <label for="productStock">상품수량</label>
-                <input type="number" id="productStock" max="32767" name="stock">
+                <label for="goodsStock">상품수량</label>
+                <input type="number" id="goodsStock" max="32767" name="stock">
             </div>
 
             <div>
-                <label for="productDes">상품소개
+                <label for="goodsDes">상품소개
                     <%--                    <input type="text" value="${imageDownloadVo.fileName}">--%>
                 </label>
-                <textarea name="description" id="productDes" cols="10" rows="5"></textarea>
+                <textarea name="description" id="goodsDes" cols="10" rows="5"></textarea>
             </div>
         </section>
 

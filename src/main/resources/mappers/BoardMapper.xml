@@ -2,33 +2,33 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pd.mappers.IBoardMapper">
+<mapper namespace="com.example.pd.board.mapper.IBoardMapper">
     <insert id="insertArticle"
-            parameterType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.entity.ArticleEntity">
         INSERT INTO `pfad`.`articles` (`id`, `board_code`, `title`, `content`)
         VALUES (#{id}, #{boardCode}, #{title}, #{content})
     </insert>
 
     <insert id="insertComment"
-            parameterType="com.example.pd.entities.board.CommentEntity">
+            parameterType="com.example.pd.board.entity.CommentEntity">
         INSERT INTO `pfad`.`comments` (`user_id`, `article_index`, `content`)
         VALUES (#{userId}, #{articleIndex}, #{content})
     </insert>
 
     <insert id="insertImage"
-            parameterType="com.example.pd.vos.board.ImageUploadVo">
+            parameterType="com.example.pd.board.vo.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`)
         VALUES (#{fileMime}, #{fileBytes})
     </insert>
 
-    <delete id="deleteArticle" parameterType="com.example.pd.entities.board.ArticleEntity">
+    <delete id="deleteArticle" parameterType="com.example.pd.board.entity.ArticleEntity">
         DELETE
         FROM `pfad`.`articles`
         WHERE `index` = #{index}
         LIMIT 1
     </delete>
 
-    <delete id="deleteComment" parameterType="com.example.pd.entities.board.CommentEntity">
+    <delete id="deleteComment" parameterType="com.example.pd.board.entity.CommentEntity">
         DELETE
         FROM `pfad`.`comments`
         WHERE `article_index` = #{articleIndex}
@@ -39,7 +39,7 @@
 
     <select id="selectArticle"
             parameterType="com.example.pd.interfaces.IArticle"
-            resultType="com.example.pd.entities.board.ArticleEntity">
+            resultType="com.example.pd.board.entity.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
                `article`.`board_code`   AS `boardCode`,
@@ -57,8 +57,8 @@
     </select>
 
     <select id="selectArticlesByList"
-            parameterType="com.example.pd.vos.board.ListVo"
-            resultType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.vo.ListVo"
+            resultType="com.example.pd.board.entity.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
                `article`.`board_code`   AS `boardCode`,
@@ -79,7 +79,7 @@
 
     <select id="selectBoard"
             parameterType="com.example.pd.interfaces.IBoard"
-            resultType="com.example.pd.entities.board.BoardEntity">
+            resultType="com.example.pd.board.entity.BoardEntity">
         SELECT `code`                   AS `code`,
                `name`                   AS `name`,
                `read_forbidden_flag`    AS `isReadForbidden`,
@@ -92,7 +92,7 @@
     </select>
 
     <select id="selectArticleCount"
-            parameterType="com.example.pd.entities.board.BoardEntity"
+            parameterType="com.example.pd.board.entity.BoardEntity"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`articles`
@@ -100,7 +100,7 @@
     </select>
 
     <select id="selectArticleCountForSearchByContent"
-            parameterType="com.example.pd.vos.board.ListVo"
+            parameterType="com.example.pd.board.vo.ListVo"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`articles`
@@ -109,7 +109,7 @@
     </select>
 
     <select id="selectArticleCountForSearchByTitle"
-            parameterType="com.example.pd.vos.board.ListVo"
+            parameterType="com.example.pd.board.vo.ListVo"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`articles`
@@ -118,7 +118,7 @@
     </select>
 
     <select id="selectArticleCountForSearchByWriter"
-            parameterType="com.example.pd.vos.board.ListVo"
+            parameterType="com.example.pd.board.vo.ListVo"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`articles`
@@ -127,7 +127,7 @@
     </select>
 
     <select id="selectArticleCountGreaterThan"
-            parameterType="com.example.pd.entities.board.ArticleEntity"
+            parameterType="com.example.pd.board.entity.ArticleEntity"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`articles`
@@ -136,8 +136,8 @@
     </select>
 
     <select id="selectArticlesForSearchContent"
-            parameterType="com.example.pd.vos.board.ListVo"
-            resultType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.vo.ListVo"
+            resultType="com.example.pd.board.entity.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
                `article`.`board_code`   AS `boardCode`,
@@ -158,8 +158,8 @@
     </select>
 
     <select id="selectArticlesForSearchWriter"
-            parameterType="com.example.pd.vos.board.ListVo"
-            resultType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.vo.ListVo"
+            resultType="com.example.pd.board.entity.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
                `article`.`board_code`   AS `boardCode`,
@@ -180,8 +180,8 @@
     </select>
 
     <select id="selectArticlesForSearchTitle"
-            parameterType="com.example.pd.vos.board.ListVo"
-            resultType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.vo.ListVo"
+            resultType="com.example.pd.board.entity.ArticleEntity">
         SELECT `article`.`index`        AS `index`,
                `article`.`id`           AS `id`,
                `article`.`board_code`   AS `boardCode`,
@@ -203,7 +203,7 @@
 
     <select id="selectComments"
             parameterType="com.example.pd.interfaces.IArticle"
-            resultType="com.example.pd.entities.board.CommentEntity">
+            resultType="com.example.pd.board.entity.CommentEntity">
         SELECT `index`         AS `index`,
                `user_id`       AS `userId`,
                `article_index` AS `articleIndex`,
@@ -216,8 +216,8 @@
         ORDER BY `created_at`
     </select>
 
-    <select id="selectImage" parameterType="com.example.pd.entities.board.ImageEntity"
-            resultType="com.example.pd.entities.board.ImageEntity">
+    <select id="selectImage" parameterType="com.example.pd.board.entity.ImageEntity"
+            resultType="com.example.pd.board.entity.ImageEntity">
         SELECT `index`      AS `index`,
                `created_at` AS `createdAt`,
                `mime`       AS `mime`,
@@ -233,7 +233,7 @@
     </select>
 
     <update id="updateArticleView"
-            parameterType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.entity.ArticleEntity">
         UPDATE `pfad`.`articles`
         SET view = view + 1
         WHERE `index` = #{index}
@@ -241,7 +241,7 @@
     </update>
 
     <update id="updateArticleDeleted"
-            parameterType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.entity.ArticleEntity">
         UPDATE `pfad`.`articles`
         SET `deleted_flag` = TRUE
         WHERE `index` = #{index}
@@ -249,7 +249,7 @@
     </update>
 
     <update id="updateArticle"
-            parameterType="com.example.pd.entities.board.ArticleEntity">
+            parameterType="com.example.pd.board.entity.ArticleEntity">
         UPDATE `pfad`.`articles`
         SET `title`      = #{title},
             `content`    = #{content},

@@ -26,7 +26,7 @@
 //     },
 //     licenseKey: '',
 //     simpleUpload: {
-//         uploadUrl: 'http://127.0.0.1/product/upload-image'
+//         uploadUrl: 'http://127.0.0.1/goods/upload-image'
 //     }
 // });
 

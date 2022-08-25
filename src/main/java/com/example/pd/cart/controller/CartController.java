@@ -73,7 +73,7 @@ public class CartController {
             cartDeleteVo.setResult(CartDeleteResult.NOT_ALLOWED);
             return "cart/delete";
         }
-        cartDeleteVo.setProductIndex(index);
+        cartDeleteVo.setGoodsIndex(index);
         this.cartService.delete(cartDeleteVo, userEntity);
         model.addAttribute("cartDeleteVo", cartDeleteVo);
         return "cart/delete";
@@ -152,11 +152,11 @@ public class CartController {
         return "cart/orderList";
     }
 
-    @RequestMapping(value = "/order-list/delete/{productIndex}/{orderCode}",
+    @RequestMapping(value = "/order-list/delete/{goodsIndex}/{orderCode}",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public String orderListDeleteGet(@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
-                                     @PathVariable(name = "productIndex") int productIndex,
+                                     @PathVariable(name = "goodsIndex") int goodsIndex,
                                      @PathVariable(name = "orderCode") String orderCode,
                                      OrderDeleteVo orderDeleteVo,
                                      Model model) {
@@ -164,7 +164,7 @@ public class CartController {
             orderDeleteVo.setResult(OrderDeleteResult.NOT_ALLOWED);
             return "cart/orderDelete";
         }
-        orderDeleteVo.setProductIndex(productIndex);
+        orderDeleteVo.setGoodsIndex(goodsIndex);
         orderDeleteVo.setOrderCode(orderCode);
         this.cartService.orderDelete(orderDeleteVo, userEntity);
         model.addAttribute("orderDeleteVo", orderDeleteVo);

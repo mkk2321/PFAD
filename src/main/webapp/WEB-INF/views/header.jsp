@@ -16,7 +16,7 @@
                 <a href="${pageContext.request.contextPath}/introduce">소개</a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/product">상품</a>
+                <a href="${pageContext.request.contextPath}/goods">상품</a>
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/faq">FAQ</a>

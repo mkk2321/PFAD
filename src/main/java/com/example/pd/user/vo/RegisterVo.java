@@ -39,4 +39,18 @@ public class RegisterVo extends UserEntity implements IResult<RegisterResult>, I
     public String getCode() {
         return verificationCode;
     }
+
+	@Override
+	public String toString() {
+		return "RegisterVo [result=" + result + ", hashedPassword=" + hashedPassword + ", verificationCode="
+				+ verificationCode + ", id=" + id + ", email=" + email + ", password=" + password + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + ", name=" + name + ", birth=" + birth + ", gender=" + gender
+				+ ", contactCompany=" + contactCompany + ", contactFirst=" + contactFirst + ", contactSecond="
+				+ contactSecond + ", contactThird=" + contactThird + ", addressPostal=" + addressPostal
+				+ ", addressPrimary=" + addressPrimary + ", addressSecondary=" + addressSecondary + ", isAdmin="
+				+ isAdmin + ", isEmailVerified=" + isEmailVerified + ", isSuspended=" + isSuspended + ", isDeleted="
+				+ isDeleted + ", isSmsMarketing=" + isSmsMarketing + ", isEmailMarketing=" + isEmailMarketing + "]";
+	}
+    
+    
 }

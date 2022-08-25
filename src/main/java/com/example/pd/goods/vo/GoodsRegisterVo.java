@@ -6,7 +6,7 @@ import com.example.pd.interfaces.IResult;
 
 public class GoodsRegisterVo extends GoodsEntity implements IResult<GoodsRegisterResult> {
     private GoodsRegisterResult result;
-    private GoodsEntity[] productEntities;
+    private GoodsEntity[] goodsEntities;
     private String fileName;
 
     public String getFileName() {
@@ -17,12 +17,12 @@ public class GoodsRegisterVo extends GoodsEntity implements IResult<GoodsRegiste
         this.fileName = fileName;
     }
 
-    public GoodsEntity[] getProductEntities() {
-        return productEntities;
+    public GoodsEntity[] getGoodsEntities() {
+        return goodsEntities;
     }
 
-    public void setProductEntities(GoodsEntity[] productEntities) {
-        this.productEntities = productEntities;
+    public void setGoodsEntities(GoodsEntity[] goodsEntities) {
+        this.goodsEntities = goodsEntities;
     }
 
     @Override

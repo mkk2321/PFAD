@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
-/*@import url(../resources/static/user/resources/stylesheets/home.css);*/
 
 ul {
     margin-block-start: 0;
@@ -255,10 +254,8 @@ body > footer > div > p > span.designed {
 }
 
 p, dl, ol, ul {
-    margin-bottom: 0; !important;
+    margin-bottom: 0 !important;
 }
-
-
 
 @keyframes visible {
     from {

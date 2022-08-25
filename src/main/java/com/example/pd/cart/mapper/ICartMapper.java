@@ -19,7 +19,7 @@ public interface ICartMapper {
 
     int updateCart(CartEntity cartEntity);
 
-    int updateProductStock(OrderEntity orderEntity);
+    int updateGoodsStock(OrderEntity orderEntity);
 
     int insertOrder(OrderEntity orderEntity);
 

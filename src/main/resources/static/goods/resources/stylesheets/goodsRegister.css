@@ -18,18 +18,18 @@ body > form > div > section:not(:last-child) {
     margin-right: 5rem;
 }
 
-body > form > div > section.productInfo {
+body > form > div > section.goodsInfo {
     align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-body > form > div > section.productInfo > div {
+body > form > div > section.goodsInfo > div {
     margin-bottom: 2rem;
 }
 
-body > form > div > section.productInfo > div.category {
+body > form > div > section.goodsInfo > div.category {
     width: 20rem;
     align-items: center;
     display: flex;
@@ -37,23 +37,23 @@ body > form > div > section.productInfo > div.category {
     justify-content: space-between;
 }
 
-body > form > div > section.productInfo > div > label[for="productDes"] {
+body > form > div > section.goodsInfo > div > label[for="goodsDes"] {
     display: block;
 }
 
-body > form > div > section.productInfo > div > input{
+body > form > div > section.goodsInfo > div > input{
     margin-left: 1rem;
     border: transparent;
     border-bottom: 0.0625rem solid #777777;
 }
 
-body > form > div > section.productInfo > div > input:focus {
+body > form > div > section.goodsInfo > div > input:focus {
     border: transparent;
     border-bottom: 0.0625rem solid #1e90ff;
 }
 
 
-body > form > div > section.productInfo > div > textarea {
+body > form > div > section.goodsInfo > div > textarea {
     width: 20rem;
 }
 
@@ -62,7 +62,7 @@ body > form > div > section > input {
 
 }
 
-body > form > div > section > div.productImagePreview {
+body > form > div > section > div.goodsImagePreview {
     border: 0.0625rem solid #999;
     width: 30rem;
     height: 20rem;

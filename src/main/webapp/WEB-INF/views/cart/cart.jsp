@@ -74,24 +74,24 @@
                             <%--                        <td>--%>
                             <%--                            <input type="checkbox" class="checkBox">--%>
                             <%--                        </td>--%>
-                        <input type="hidden" name="productsIndex" value="${cartReadVo.productIndex}">
+                        <input type="hidden" name="goodsIndex" value="${cartReadVo.goodsIndex}">
                         <td>
                             <img src="/resources/images/${cartReadVo.thumbnail}" alt="" style="width: 2rem;">
                         </td>
-                        <td>${cartReadVo.productName}</td>
+                        <td>${cartReadVo.goodsName}</td>
                         <td>
                             <input class="price" type="text" value="${cartReadVo.price}" readonly>
                         </td>
                         <td>
                             <input class="stock" type="number" name="stocks" value="${cartReadVo.stock}" min="1" max="20" style="width: 2.5rem; display: inline;">
-                                <%--                            <a href="/cart/update/${cartReadVo.productIndex}">변경</a>--%>
+                                <%--                            <a href="/cart/update/${cartReadVo.goodsIndex}">변경</a>--%>
                         </td>
 
                         <td>
                             <input type="text" class="sumPrice" readonly>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/cart/delete/${cartReadVo.productIndex}">
+                            <a href="${pageContext.request.contextPath}/cart/delete/${cartReadVo.goodsIndex}">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

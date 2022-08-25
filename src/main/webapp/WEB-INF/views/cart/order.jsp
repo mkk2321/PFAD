@@ -98,11 +98,11 @@
             <%--            <c:if test="${orderByCartVo.result == CartReadResult.SUCCESS}">--%>
             <c:forEach var="cartReadVo" items="${cartReadVo.cartReadVos}">
                 <tr style="border-top: 0.0625rem solid #909090;">
-                    <input type="hidden" name="productsIndex" value="${cartReadVo.productIndex}">
+                    <input type="hidden" name="goodsIndex" value="${cartReadVo.goodsIndex}">
                     <td>
                         <img src="/resources/images/${cartReadVo.thumbnail}" alt="" style="width: 2rem;">
                     </td>
-                    <td>${cartReadVo.productName}</td>
+                    <td>${cartReadVo.goodsName}</td>
                     <td>
                         <span>${cartReadVo.price}</span>
                     </td>
@@ -114,7 +114,7 @@
                         <span class="sumPrice">${cartReadVo.price * cartReadVo.stock}</span>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/cart/delete/${cartReadVo.productIndex}">
+                        <a href="${pageContext.request.contextPath}/cart/delete/${cartReadVo.goodsIndex}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>

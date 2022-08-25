@@ -39,7 +39,7 @@ body > main > section > div.button > a:not(:last-child) {
     margin-right: 2rem;
 }
 
-body > main > section > div > section.productImage {
+body > main > section > div > section.goodsImage {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -53,7 +53,7 @@ body > main > section > div > section > img {
 }
 
 
-body > main > section > div > section.productInfo {
+body > main > section > div > section.goodsInfo {
     align-items: flex-start;
     display: flex;
     flex-direction: column;

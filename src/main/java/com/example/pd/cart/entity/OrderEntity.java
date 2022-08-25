@@ -8,8 +8,8 @@ public class OrderEntity implements IUser {
     protected int index;
     protected String orderCode;
     protected String thumbnail;
-    protected int productIndex;
-    protected String productName;
+    protected int goodsIndex;
+    protected String goodsName;
     protected int stock;
     protected int price;
     protected String userId;
@@ -38,20 +38,20 @@ public class OrderEntity implements IUser {
         this.orderCode = orderCode;
     }
 
-    public int getProductIndex() {
-        return productIndex;
+    public int getGoodsIndex() {
+        return goodsIndex;
     }
 
-    public void setProductIndex(int productIndex) {
-        this.productIndex = productIndex;
+    public void setGoodsIndex(int goodsIndex) {
+        this.goodsIndex = goodsIndex;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public int getStock() {

@@ -44,14 +44,14 @@
                         <img src="/resources/images/${orderList.thumbnail}" style="width: 3rem;">
                     </td>
                     <td>
-                            ${orderList.productName}
+                            ${orderList.goodsName}
                     </td>
                     <td>${orderListVo.formatCreatedAt()}</td>
                     <td>${orderList.orderCode}</td>
                     <td>${orderList.stock * orderList.price}(${orderList.stock})</td>
                     <td>입금대기</td>
                     <td>
-                        <a href="#" onclick="if(confirm('주문을 취소 하시겠습니까?')) window.location.href='/order-list/delete/${orderList.productIndex}/${orderList.orderCode}';">주문 취소</a>
+                        <a href="#" onclick="if(confirm('주문을 취소 하시겠습니까?')) window.location.href='/order-list/delete/${orderList.goodsIndex}/${orderList.orderCode}';">주문 취소</a>
                     </td>
                 </tr>
             </c:forEach>

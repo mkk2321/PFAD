@@ -18,10 +18,10 @@ const boardNavLi = document.body.querySelectorAll(':scope > main > div.boardNav 
             break;
     }
 
-    for (let i = 0; i < boardNo.length; i++) {
+    /*for (let i = 0; i < boardNo.length; i++) {
         if(parseInt(boardNo[i].innerHTML) % 2 === 0) {
             boardNo[i].parentElement.style.backgroundColor = "#e8e8e8";
         }
-    }
+    }*/
 })();
 

@@ -59,7 +59,7 @@ main > div.boardNav > div.searchContent > form > input[name="keyword"] {
     width: 10rem;
 }
 
-main > div.article {
+/* main > div.article {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
@@ -111,7 +111,7 @@ main > div.article > table > tbody > tr {
     flex-direction: row;
     justify-content: space-evenly;
     border-radius: .75rem;
-}
+} */
 
 main > div.article > table > tfoot > tr {
     align-items: center;
@@ -125,7 +125,7 @@ main > div.article > table > tfoot > tr > td > a.writeButton {
     background-color: #1e90ff77;
     border: 0.0625rem solid #1e90ff77;
     border-radius: 0.5rem;
-    /*margin-left: 40rem;*/
+    margin-left: 40rem;
     padding: 1rem 2rem;
     position: absolute;
 }
@@ -145,6 +145,13 @@ main > div.article > table > tfoot > tr > td > div > *{
     padding: 0.5rem;
 }
 
+main > div.article > div.d-flex > div.ml-auto > a.writeButton {
+    background-color: #1e90ff77;
+    border: 0.0625rem solid #1e90ff77;
+    border-radius: 0.5rem;
+    padding: 0.7rem 2rem;
+}
+
 @keyframes visible {
     from {
         opacity: 0;
@@ -152,8 +159,8 @@ main > div.article > table > tfoot > tr > td > div > *{
     to {
         opacity: 1;
     }
+
+
+
+
 }
-
-
-
-

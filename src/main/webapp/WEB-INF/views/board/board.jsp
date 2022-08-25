@@ -70,8 +70,8 @@
             </form>
         </div>
     </div>
-    <div class="article">
-        <table>
+    <div class="article container">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th>번호</th>
@@ -100,28 +100,23 @@
                 <c:set var="num" value="${num-1}"/>
             </c:forEach>
             </tbody>
-            <tfoot>
-                <tr>
-                    <c:if test="${userEntity != null && (userEntity.admin || !listVo.writeForbidden)}">
-                        <td>
-                            <a class="writeButton" href="/board/write/${listVo.code}">글쓰기</a>
-                        </td>
-                    </c:if>
+
+                <%-- <tr>
             <c:if test="${listVo.maxPage > 0}">
                     <td>
                         <div>
-<%--                            <%
+                           <%
                                 String searchUrl;
                                 if(listVo.getCriteria != null && )
-                            %>--%>
-                            <%--<c:if test="${listVo.criteria != null && listVo.keyword != null}">
+                            %>
+                            <c:if test="${listVo.criteria != null && listVo.keyword != null}">
                                 <c:choose>
                                     <c:set var="searchUrl" value="/&criteria=${listVo.criteria}&keyword=${listVo.keyword}" />
                                 </c:choose>
                                 <c:otherwise>
                                     <c:set var="searchUrl" value="" />
-                                </c:otherwise>--%>
-                    <%--        </c:if>--%>
+                                </c:otherwise>
+                           </c:if>
 
                             <c:if test="${listVo.page > 1}">
                                 <a href="/board/list/${listVo.code}/1"><<</a>
@@ -144,9 +139,73 @@
                         </div>
                     </td>
             </c:if>
-                </tr>
-            </tfoot>
+                </tr> --%>
         </table>
+                
+        	<c:if test="${listVo.maxPage > 0}">
+        	<div class="d-flex justify-content-center">
+                   <%--  <td>
+                        <div>
+                            <c:if test="${listVo.criteria != null && listVo.keyword != null}">
+                                <c:choose>
+                                    <c:set var="searchUrl" value="/&criteria=${listVo.criteria}&keyword=${listVo.keyword}" />
+                                </c:choose>
+                                <c:otherwise>
+                                    <c:set var="searchUrl" value="" />
+                                </c:otherwise>
+                           </c:if>
+
+                            <c:if test="${listVo.page > 1}">
+                                <a href="/board/list/${listVo.code}/1"><<</a>
+                                <a href="/board/list/${listVo.code}/${listVo.page - 1}"><</a>
+                            </c:if>
+                            <c:forEach var="page" begin="${listVo.startPage}" end="${listVo.endPage}">
+                                <c:choose>
+                                    <c:when test="${listVo.page == page}">
+                                        <b>${page}</b>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="/board/list/${listVo.code}/${page}${listVo.searchUrl}">${page}</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <c:if test="${listVo.page < listVo.maxPage}">
+                                <a href="/board/list/${listVo.code}/${listVo.page + 1}">></a>
+                                <a href="/board/list/${listVo.code}/${listVo.maxPage}">>></a>
+                            </c:if>
+                        </div>
+                    </td> --%>
+	            <ul class="pagination">
+	              <c:if test="${listVo.page > 1}">
+					<li class="page-item">
+					  	<a class="page-link" href="/board/list/${listVo.code}/1">&lt;&lt;</a>
+				  	</li>
+					<li class="page-item">
+					  	<a class="page-link" href="/board/list/${listVo.code}/${listVo.page - 1}">&lt;</a>
+				  	</li>
+                  </c:if>
+                  <c:forEach var="page" begin="${listVo.startPage}" end="${listVo.endPage}">
+                      <c:choose>
+                          <c:when test="${listVo.page == page}">
+							  <li class="page-item"><a class="page-link">${page}</a></li>
+                          </c:when>
+                          <c:otherwise>
+							  <li class="page-item"><a class="page-link" href="/board/list/${listVo.code}/${page}${listVo.searchUrl}">${page}</a></li>
+                          </c:otherwise>
+                      </c:choose>
+                  </c:forEach>
+                  <c:if test="${listVo.page < listVo.maxPage}">
+                  	  <li class="page-item"><a class="page-link" href="/board/list/${listVo.code}/${listVo.page + 1}">&gt;</a></li>
+                  	  <li class="page-item"><a class="page-link" href="/board/list/${listVo.code}/${listVo.maxPage}">&gt;&gt;</a></li>
+                  </c:if>
+				</ul>
+	        	<c:if test="${userEntity != null && (userEntity.admin || !listVo.writeForbidden)}">
+                    <div class="ml-auto p-2">
+                        <a class="writeButton" href="/board/write/${listVo.code}">글쓰기</a>
+                    </div>
+                </c:if>
+			</div>
+            </c:if>
     </div>
 </main>
 <%@ include file="../footer.jsp" %>

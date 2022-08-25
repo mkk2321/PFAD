@@ -94,7 +94,7 @@
                 <li>수정일 : ${readVo.formatUpdatedAt()}</li>
                 <span></span>
                 <li>조회수 : ${readVo.view}</li>
-                <%--            <li>${ProductReadVo.comment}</li>--%>
+                <%--            <li>${GoodsReadVo.comment}</li>--%>
             </ul>
         </div>
     </section>

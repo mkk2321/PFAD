@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pd.mappers.IUserMapper">
-    <delete id="deleteEmailVerification" parameterType="com.example.pd.entities.user.VerificationCodeEntity">
+<mapper namespace="com.example.pd.user.mapper.IUserMapper">
+    <delete id="deleteEmailVerification" parameterType="com.example.pd.user.entity.VerificationCodeEntity">
         DELETE
         FROM `pfad`.`verification_codes`
         WHERE `code` = #{code}
     </delete>
 
-    <insert id="insertUser" parameterType="com.example.pd.vos.user.RegisterVo">
+    <insert id="insertUser" parameterType="com.example.pd.user.vo.RegisterVo">
         INSERT INTO `pfad`.`users` (`id`, `email`, `password`, `name`,
                                     `birth`, `gender`, `contact_company`,
                                     `contact_first`, `contact_second`, `contact_third`,
@@ -22,7 +22,7 @@
                 #{addressSecondary}, #{smsMarketing}, #{emailMarketing})
     </insert>
 
-    <insert id="insertVerificationCode" parameterType="com.example.pd.vos.user.RegisterVo">
+    <insert id="insertVerificationCode" parameterType="com.example.pd.user.vo.RegisterVo">
         <![CDATA[
         INSERT INTO `pfad`.`verification_codes` (`expired_at`, `user_email`, `code`)
         VALUES (DATE_ADD(NOW(), INTERVAL 1 HOUR), #{email}, #{code})
@@ -34,7 +34,7 @@
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`users`
-        WHERE `id` = #{id}
+        WHERE `email` = #{email}
     </select>
 
     <select id="selectIdCount"
@@ -46,8 +46,8 @@
     </select>
 
     <select id="selectUserByVerificationCode"
-            parameterType="com.example.pd.entities.user.VerificationCodeEntity"
-            resultType="com.example.pd.entities.user.UserEntity">
+            parameterType="com.example.pd.user.entity.VerificationCodeEntity"
+            resultType="com.example.pd.user.entity.UserEntity">
         <![CDATA[
         SELECT `user`.`email`                AS `email`,
                `user`.`password`             AS `password`,
@@ -80,8 +80,8 @@
     </select>
 
     <select id="selectUser"
-            parameterType="com.example.pd.entities.user.UserEntity"
-            resultType="com.example.pd.entities.user.UserEntity">
+            parameterType="com.example.pd.user.entity.UserEntity"
+            resultType="com.example.pd.user.entity.UserEntity">
         SELECT `email`                AS `email`,
                `password`             AS `password`,
                `created_at`           AS `createdAt`,
@@ -109,8 +109,8 @@
     </select>
 
     <select id="selectUserByIdRecover"
-            parameterType="com.example.pd.vos.user.IdRecoverVo"
-            resultType="com.example.pd.entities.user.UserEntity">
+            parameterType="com.example.pd.user.vo.IdRecoverVo"
+            resultType="com.example.pd.user.entity.UserEntity">
         SELECT `email`                AS `email`,
                `password`             AS `password`,
                `created_at`           AS `createdAt`,
@@ -147,8 +147,8 @@
     </select>
 
     <select id="selectUserByPasswordRecover"
-            parameterType="com.example.pd.vos.user.PasswordRecoverVo"
-            resultType="com.example.pd.entities.user.UserEntity">
+            parameterType="com.example.pd.user.vo.PasswordRecoverVo"
+            resultType="com.example.pd.user.entity.UserEntity">
         SELECT `email`                AS `email`,
                `password`             AS `password`,
                `created_at`           AS `createdAt`,
@@ -185,7 +185,7 @@
           AND `deleted_flag` = FALSE
     </select>
 
-    <update id="updateUser" parameterType="com.example.pd.entities.user.UserEntity">
+    <update id="updateUser" parameterType="com.example.pd.user.entity.UserEntity">
         UPDATE `pfad`.`users`
         SET `email`                = #{email},
             `password`             = #{password},

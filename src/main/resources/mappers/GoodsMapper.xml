@@ -2,29 +2,29 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pd.mappers.IProductMapper">
-    <delete id="deleteProduct"
-            parameterType="com.example.pd.entities.product.ProductEntity">
+<mapper namespace="com.example.pd.goods.mapper.IGoodsMapper">
+    <delete id="deleteGoods"
+            parameterType="com.example.pd.goods.entity.GoodsEntity">
         DELETE
-        FROM `pfad`.`products`
+        FROM `pfad`.`goods`
         WHERE `index` = #{index}
         LIMIT 1
     </delete>
-    <select id="selectProducts"
-            resultType="com.example.pd.entities.product.ProductEntity"
-            parameterType="com.example.pd.entities.product.ProductEntity">
+    <select id="selectGoodsArr"
+            resultType="com.example.pd.goods.entity.GoodsEntity"
+            parameterType="com.example.pd.goods.entity.GoodsEntity">
         SELECT `index`      AS `index`,
                `name`       AS `name`,
                `price`      AS `price`,
                `created_at` AS `createdAt`,
                `update_at`  AS `updatedAt`,
                `thumbnail`  AS `thumbnail`
-        FROM `pfad`.`products`
+        FROM `pfad`.`goods`
     </select>
 
-    <select id="selectProduct"
-            resultType="com.example.pd.entities.product.ProductEntity"
-            parameterType="com.example.pd.entities.product.ProductEntity">
+    <select id="selectGoods"
+            resultType="com.example.pd.goods.entity.GoodsEntity"
+            parameterType="com.example.pd.goods.entity.GoodsEntity">
         SELECT `index`       AS `index`,
                `name`        AS `name`,
                `price`       AS `price`,
@@ -33,26 +33,26 @@
                `created_at`  AS `createdAt`,
                `update_at`   AS `updatedAt`,
                `thumbnail`   AS `thumbnail`
-        FROM `pfad`.`products`
+        FROM `pfad`.`goods`
         WHERE `index` = #{index}
         LIMIT 1
     </select>
 
     <insert id="insertImage"
-            parameterType="com.example.pd.vos.board.ImageUploadVo">
+            parameterType="com.example.pd.board.vo.ImageUploadVo">
         INSERT INTO `pfad`.`images` (`mime`, `file`, `file_name`)
         VALUES (#{fileMime}, #{fileBytes}, #{fileName})
     </insert>
 
-    <insert id="insertProduct"
-            parameterType="com.example.pd.vos.product.ProductRegisterVo">
-        INSERT INTO `pfad`.`products` (`name`, `price`, `stock`, `description`, `thumbnail`)
+    <insert id="insertGoods"
+            parameterType="com.example.pd.goods.vo.GoodsRegisterVo">
+        INSERT INTO `pfad`.`goods` (`name`, `price`, `stock`, `description`, `thumbnail`)
         VALUES (#{name}, #{price}, #{stock}, #{description}, #{fileName})
     </insert>
 
-    <update id="updateProduct"
-            parameterType="com.example.pd.entities.product.ProductEntity">
-        UPDATE `pfad`.`products`
+    <update id="updateGoods"
+            parameterType="com.example.pd.goods.entity.GoodsEntity">
+        UPDATE `pfad`.`goods`
         SET `name`        = #{name},
             `price`       = #{price},
             `description` = #{description},
@@ -64,25 +64,25 @@
     </update>
 
     <insert id="insertCart"
-            parameterType="com.example.pd.entities.cart.CartEntity">
-        INSERT INTO `pfad`.`carts` (product_index, user_id, stock)
-        VALUES (#{productIndex}, #{userId}, #{stock})
+            parameterType="com.example.pd.cart.entity.CartEntity">
+        INSERT INTO `pfad`.`carts` (goods_index, user_id, stock)
+        VALUES (#{goodsIndex}, #{userId}, #{stock})
     </insert>
 
     <select id="selectCountCart"
-            parameterType="com.example.pd.entities.cart.CartEntity"
+            parameterType="com.example.pd.cart.entity.CartEntity"
             resultType="int">
         SELECT COUNT(*)
         FROM `pfad`.`carts`
-        WHERE `product_index` = #{productIndex}
+        WHERE `goods_index` = #{goodsIndex}
           AND `user_id` = #{userId}
     </select>
 
     <update id="updateCart"
-            parameterType="com.example.pd.entities.cart.CartEntity">
+            parameterType="com.example.pd.cart.entity.CartEntity">
         UPDATE `pfad`.`carts`
         SET `stock` = `stock` + #{stock}
-        WHERE `product_index` = #{productIndex}
+        WHERE `goods_index` = #{goodsIndex}
         AND `user_id` = #{userId}
     </update>
 

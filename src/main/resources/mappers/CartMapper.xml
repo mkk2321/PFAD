@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.pd.mappers.ICartMapper">
-    <delete id="deleteCart" parameterType="com.example.pd.entities.cart.CartEntity">
+<mapper namespace="com.example.pd.cart.mapper.ICartMapper">
+    <delete id="deleteCart" parameterType="com.example.pd.cart.entity.CartEntity">
         DELETE
         FROM `pfad`.`carts`
-        WHERE `product_index` = #{productIndex}
+        WHERE `goods_index` = #{goodsIndex}
           AND `user_id` = #{userId}
         LIMIT 1
     </delete>
@@ -19,23 +19,23 @@
     </delete>
 
     <delete id="deleteOrder"
-            parameterType="com.example.pd.entities.cart.OrderEntity">
+            parameterType="com.example.pd.cart.entity.OrderEntity">
         DELETE
         FROM `pfad`.`order`
-        WHERE pfad.`order`.`productIndex` = #{productIndex}
+        WHERE pfad.`order`.`goodsIndex` = #{goodsIndex}
         AND pfad.`order`.`orderCode` = #{orderCode}
         AND pfad.`order`.`userId` = #{userId}
         LIMIT 1
     </delete>
 
     <insert id="insertOrder"
-            parameterType="com.example.pd.entities.cart.OrderEntity">
-        INSERT INTO `pfad`.`order` (`orderCode`, `thumbnail`, `productIndex`, `productName`, `stock`, `price`, `userId`,
+            parameterType="com.example.pd.cart.entity.OrderEntity">
+        INSERT INTO `pfad`.`order` (`orderCode`, `thumbnail`, `goodsIndex`, `goodsName`, `stock`, `price`, `userId`,
                                     `name`,
                                     `addressPostal`,
                                     `addressPrimary`, `addressSecondary`, `contactFirst`, `contactSecond`,
                                     `contactThird`)
-        VALUES (#{orderCode}, #{thumbnail}, #{productIndex}, #{productName}, #{stock}, #{price}, #{userId}, #{name},
+        VALUES (#{orderCode}, #{thumbnail}, #{goodsIndex}, #{goodsName}, #{stock}, #{price}, #{userId}, #{name},
                 #{addressPostal},
                 #{addressPrimary},
                 #{addressSecondary}, #{contactFirst}, #{contactSecond}, #{contactThird})
@@ -43,7 +43,7 @@
     </insert>
 
     <select id="selectCountCarts"
-            parameterType="com.example.pd.entities.cart.CartEntity"
+            parameterType="com.example.pd.cart.entity.CartEntity"
             resultType="_int">
         SELECT COUNT(0)
         FROM `pfad`.`carts`
@@ -52,27 +52,27 @@
 
     <select id="selectCarts"
             parameterType="com.example.pd.interfaces.IUser"
-            resultType="com.example.pd.vos.cart.CartReadVo">
-        SELECT `carts`.`product_index` AS `productIndex`,
+            resultType="com.example.pd.cart.vo.CartReadVo">
+        SELECT `carts`.`goods_index` AS `goodsIndex`,
                `carts`.`user_id`       AS `userId`,
                `carts`.`stock`         AS `stock`,
-               `products`.`name`       AS `productName`,
-               `products`.`stock`      AS `stock`,
-               `products`.`price`      AS `price`,
-               `products`.`thumbnail`  AS `thumbnail`
+               `goods`.`name`       AS `goodsName`,
+               `goods`.`stock`      AS `stock`,
+               `goods`.`price`      AS `price`,
+               `goods`.`thumbnail`  AS `thumbnail`
         FROM `pfad`.`carts` AS `carts`
-                 JOIN `pfad`.`products` AS `products` ON `carts`.`product_index` = `products`.`index`
+                 JOIN `pfad`.`goods` AS `goods` ON `carts`.`goods_index` = `goods`.`index`
         WHERE `user_id` = #{userId}
         ORDER BY `carts`.`created_at`
     </select>
 
     <select id="selectOrder"
             parameterType="com.example.pd.interfaces.IUser"
-            resultType="com.example.pd.entities.cart.OrderEntity">
+            resultType="com.example.pd.cart.entity.OrderEntity">
         SELECT `index`            AS `index`,
                `orderCode`        AS `orderCode`,
-               `productIndex`     AS `productIndex`,
-               `productName`      AS `productName`,
+               `goodsIndex`     AS `goodsIndex`,
+               `goodsName`      AS `goodsName`,
                `stock`            AS `stock`,
                `userId`           AS `userId`,
                `name`             AS `name`,
@@ -90,12 +90,12 @@
 
     <select id="selectOrders"
             parameterType="com.example.pd.interfaces.IUser"
-            resultType="com.example.pd.entities.cart.OrderEntity">
+            resultType="com.example.pd.cart.entity.OrderEntity">
         SELECT `index`            AS `index`,
                `orderCode`        AS `orderCode`,
                `thumbnail`        AS `thumbnail`,
-               `productIndex`     AS `productIndex`,
-               `productName`      AS `productName`,
+               `goodsIndex`     AS `goodsIndex`,
+               `goodsName`      AS `goodsName`,
                `stock`            AS `stock`,
                `price`            AS `price`,
                `userId`           AS `userId`,
@@ -113,19 +113,19 @@
     </select>
 
     <update id="updateCart"
-            parameterType="com.example.pd.entities.cart.CartEntity">
+            parameterType="com.example.pd.cart.entity.CartEntity">
         UPDATE `pfad`.`carts`
         SET `stock` = #{stock}
-        WHERE `product_index` = #{productIndex}
+        WHERE `goods_index` = #{goodsIndex}
           AND `user_id` = #{userId}
         LIMIT 1
     </update>
 
-    <update id="updateProductStock"
-            parameterType="com.example.pd.entities.cart.OrderEntity">
-        UPDATE `pfad`.`products`
+    <update id="updateGoodsStock"
+            parameterType="com.example.pd.cart.entity.OrderEntity">
+        UPDATE `pfad`.`goods`
         SET `stock` = `stock` - #{stock}
-        WHERE `index` = #{productIndex}
+        WHERE `index` = #{goodsIndex}
         LIMIT 1
     </update>
 

@@ -30,9 +30,11 @@ public class GoodsController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public String goodsGet(GoodsVo goodsVo,
+    					@SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                              Model model) {
         this.goodsService.list(goodsVo);
-        model.addAttribute("productVo", goodsVo);
+        model.addAttribute("goodsVo", goodsVo);
+        model.addAttribute("userEntity", userEntity);
         return "goods/goods";
     }
 
@@ -45,7 +47,7 @@ public class GoodsController {
         if(userEntity == null || !userEntity.isAdmin()) {
             goodsRegisterVo.setResult(GoodsRegisterResult.NOT_ALLOWED);
         }
-        model.addAttribute("productRegisterVo", goodsRegisterVo);
+        model.addAttribute("goodsRegisterVo", goodsRegisterVo);
         return "goods/register";
     }
 
@@ -56,7 +58,7 @@ public class GoodsController {
                                @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                                Model model) {
         this.goodsService.registerByPost(goodsRegisterVo, userEntity);
-        model.addAttribute("productRegisterVo", goodsRegisterVo);
+        model.addAttribute("goodsRegisterVo", goodsRegisterVo);
         return "redirect:/goods";
     }
 
@@ -68,7 +70,7 @@ public class GoodsController {
                           Model model) {
         goodsReadVo.setIndex(index);
         this.goodsService.read(goodsReadVo);
-        model.addAttribute("productReadVo", goodsReadVo);
+        model.addAttribute("goodsReadVo", goodsReadVo);
         System.out.println(goodsReadVo.getResult());
         return "goods/read";
     }
@@ -80,7 +82,7 @@ public class GoodsController {
                           @SessionAttribute(name = "userEntity", required = false) UserEntity userEntity,
                           CartAddVo cartAddVo,
                           Model model) {
-        cartAddVo.setProductIndex(index);
+        cartAddVo.setGoodsIndex(index);
         if(userEntity == null) {
             cartAddVo.setResult(CartAddResult.NOT_ALLOWED);
             return "goods/read";
@@ -100,7 +102,7 @@ public class GoodsController {
                           Model model) {
         goodsDeleteVo.setIndex(index);
         this.goodsService.delete(goodsDeleteVo, userEntity);
-        model.addAttribute("productDeleteVo", goodsDeleteVo);
+        model.addAttribute("goodsDeleteVo", goodsDeleteVo);
         return "goods/delete";
     }
 
@@ -113,7 +115,7 @@ public class GoodsController {
                             Model model) {
         goodsModifyVo.setIndex(index);
         this.goodsService.modifyByGet(goodsModifyVo, userEntity);
-        model.addAttribute("productModifyVo", goodsModifyVo);
+        model.addAttribute("goodsModifyVo", goodsModifyVo);
         return "goods/modify";
     }
 
@@ -126,7 +128,7 @@ public class GoodsController {
                             Model model) {
         goodsModifyVo.setIndex(index);
         this.goodsService.modifyByPost(goodsModifyVo, userEntity);
-        model.addAttribute("productModifyVo", goodsModifyVo);
+        model.addAttribute("goodsModifyVo", goodsModifyVo);
         System.out.println(goodsModifyVo.getResult());
         return "redirect:/goods/read/" + goodsModifyVo.getIndex();
     }

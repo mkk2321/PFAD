@@ -6,14 +6,14 @@ import com.example.pd.interfaces.IResult;
 
 public class GoodsVo extends GoodsEntity implements IResult<ListResult> {
     private ListResult result;
-    private GoodsEntity[] productEntities;
+    private GoodsEntity[] goodsEntities;
 
-    public GoodsEntity[] getProductEntities() {
-        return productEntities;
+    public GoodsEntity[] getGoodsEntities() {
+        return goodsEntities;
     }
 
-    public void setProductEntities(GoodsEntity[] productEntities) {
-        this.productEntities = productEntities;
+    public void setGoodsEntities(GoodsEntity[] goodsEntities) {
+        this.goodsEntities = goodsEntities;
     }
 
     @Override

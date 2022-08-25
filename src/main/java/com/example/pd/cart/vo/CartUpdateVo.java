@@ -8,17 +8,17 @@ public class CartUpdateVo extends CartEntity implements IResult<CartUpdateResult
     private CartUpdateResult result;
     private String userId;
     private int[] stocks;
-    private int[] productsIndex;
+    private int[] goodsIndexArr;
 
-    public int[] getProductsIndex() {
-        return productsIndex;
-    }
+    public int[] getGoodsIndexArr() {
+		return goodsIndexArr;
+	}
 
-    public void setProductsIndex(int[] productsIndex) {
-        this.productsIndex = productsIndex;
-    }
+	public void setGoodsIndexArr(int[] goodsIndexArr) {
+		this.goodsIndexArr = goodsIndexArr;
+	}
 
-    public int[] getStocks() {
+	public int[] getStocks() {
         return stocks;
     }
 

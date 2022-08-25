@@ -14,12 +14,12 @@
     <%--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--%>
     <script defer src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script defer src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script defer src="/product/resources/scripts/read.js/"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/product/resources/stylesheets/read.css">
+    <script defer src="/goods/resources/scripts/read.js/"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/goods/resources/stylesheets/read.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
-    <c:if test="${productReadVo.result != ProductReadResult.SUCCESS}">
+    <c:if test="${goodsReadVo.result != goodsReadResult.SUCCESS}">
         <c:choose>
-            <c:when test="${productReadVo.result == ProductReadResult.PRODUCT_NOT_DEFINED}">
+            <c:when test="${goodsReadVo.result == goodsReadResult.GOODS_NOT_DEFINED}">
                 <script>
                     alert('해당 상품은 존재하지 않습니다.');
                     window.history.back();
@@ -52,7 +52,7 @@
             </c:otherwise>
         </c:choose>
     </c:if>
-    <title>${productReadVo.name}</title>
+    <title>${goodsReadVo.name}</title>
 </head>
 <body>
 <%@ include file="../header.jsp" %>
@@ -60,18 +60,18 @@
     <section>
         <c:if test="${userEntity.admin}">
             <div class="adminButton button">
-                <a href="/product/modify/${productReadVo.index}">상품 수정</a>
-                <a href="/product/delete/${productReadVo.index}">상품 삭제</a>
+                <a href="/goods/modify/${goodsReadVo.index}">상품 수정</a>
+                <a href="/goods/delete/${goodsReadVo.index}">상품 삭제</a>
             </div>
         </c:if>
         <div>
-            <section class="productImage">
-                <img src="/resources/images/${productReadVo.thumbnail}" alt="">
+            <section class="goodsImage">
+                <img src="/resources/images/${goodsReadVo.thumbnail}" alt="">
             </section>
-            <section class="productInfo">
-                <h3>${productReadVo.name}</h3>
-                <h4>가격 : <span style="font-weight: normal;">${productReadVo.price}원</span></h4>
-                <h4>남은 재고 수 : <span style="font-weight: normal;">${productReadVo.stock}</span></h4>
+            <section class="goodsInfo">
+                <h3>${goodsReadVo.name}</h3>
+                <h4>가격 : <span style="font-weight: normal;">${goodsReadVo.price}원</span></h4>
+                <h4>남은 재고 수 : <span style="font-weight: normal;">${goodsReadVo.stock}</span></h4>
                 <form method="post">
                     <label>
                         <span style="margin-right: 0.33rem; font-weight: bold">수량</span>
@@ -79,7 +79,7 @@
                     </label>
                         <input type="submit" value="add to cart" style="width: 8rem; background-color: #008800aa">
                 </form>
-                <span style=" margin: 2rem 0; width: 20rem;">${productReadVo.description}</span>
+                <span style=" margin: 2rem 0; width: 20rem;">${goodsReadVo.description}</span>
             </section>
         </div>
         <%--<div class="button">

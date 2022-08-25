@@ -24,7 +24,7 @@ import java.time.LocalDate;
 @Service
 public class CartService {
     private static class RegExp {
-        public static final String PRODUCT_INDEX = "^([0-9]{0,3})$";
+        public static final String GOODS_INDEX = "^([0-9]{0,3})$";
         public static final String STOCK = "^([0-9]{0,3})$";
         public static final String ORDER_CODE = "^([0-9]{0,})$";
     }
@@ -36,8 +36,8 @@ public class CartService {
         this.cartMapper = cartMapper;
     }
 
-    public static boolean checkProductIndex(String s) {
-        return s != null && s.matches(RegExp.PRODUCT_INDEX);
+    public static boolean checkGoodsIndex(String s) {
+        return s != null && s.matches(RegExp.GOODS_INDEX);
     }
 
     public static boolean checkStock(String s) {
@@ -65,7 +65,7 @@ public class CartService {
     }
 
     public void delete(CartDeleteVo cartDeleteVo, UserEntity userEntity) {
-        if (!CartService.checkProductIndex(String.valueOf(cartDeleteVo.getProductIndex()))) {
+        if (!CartService.checkGoodsIndex(String.valueOf(cartDeleteVo.getGoodsIndex()))) {
             cartDeleteVo.setResult(CartDeleteResult.NORMALIZATION_FAILURE);
             return;
         }
@@ -94,8 +94,8 @@ public class CartService {
     }
 
     public void update(CartUpdateVo cartUpdateVo, UserEntity userEntity) {
-        for (int i = 0; i < cartUpdateVo.getProductsIndex().length; i++) {
-            if (!CartService.checkProductIndex(String.valueOf(cartUpdateVo.getProductsIndex()[i])) ||
+        for (int i = 0; i < cartUpdateVo.getGoodsIndexArr().length; i++) {
+            if (!CartService.checkGoodsIndex(String.valueOf(cartUpdateVo.getGoodsIndexArr()[i])) ||
                     !CartService.checkStock(String.valueOf(cartUpdateVo.getStocks()[i]))) {
                 cartUpdateVo.setResult(CartUpdateResult.NORMALIZATION_FAILURE);
                 return;
@@ -106,8 +106,8 @@ public class CartService {
             return;
         }
         cartUpdateVo.setUserId(userEntity.getId());
-        for (int i = 0; i < cartUpdateVo.getProductsIndex().length; i++) {
-            cartUpdateVo.setProductIndex(cartUpdateVo.getProductsIndex()[i]);
+        for (int i = 0; i < cartUpdateVo.getGoodsIndexArr().length; i++) {
+            cartUpdateVo.setGoodsIndex(cartUpdateVo.getGoodsIndexArr()[i]);
             cartUpdateVo.setStock(cartUpdateVo.getStocks()[i]);
             this.cartMapper.updateCart(cartUpdateVo);
         }
@@ -120,9 +120,9 @@ public class CartService {
             return;
         }
         // db에 주문 정보 저장
-        // order 테이블을 기반으로 user, product, cart 정보 불러오기
+        // order 테이블을 기반으로 user, goods, cart 정보 불러오기
         // 장바구니 db 지우기
-        // product 테이블에 접근하여 주문한 수량만큼 product에서 stock 빼기
+        // goods 테이블에 접근하여 주문한 수량만큼 goods에서 stock 빼기
         // 불러온 db를 model로 view에 뿌리기
     }
 
@@ -149,12 +149,12 @@ public class CartService {
         }
         for(int i = 0; i < cartReadVo.length; i++) {
             orderByCartVo.setThumbnail(cartReadVo[i].getThumbnail());
-            orderByCartVo.setProductIndex(cartReadVo[i].getProductIndex());
+            orderByCartVo.setGoodsIndex(cartReadVo[i].getGoodsIndex());
             orderByCartVo.setStock(cartReadVo[i].getStock());
             orderByCartVo.setPrice(cartReadVo[i].getPrice());
-            orderByCartVo.setProductName(cartReadVo[i].getProductName());
+            orderByCartVo.setGoodsName(cartReadVo[i].getGoodsName());
             this.cartMapper.insertOrder(orderByCartVo);
-            this.cartMapper.updateProductStock(orderByCartVo);
+            this.cartMapper.updateGoodsStock(orderByCartVo);
         }
         this.cartMapper.deleteCartAll(orderByCartVo);
         orderByCartVo.setResult(OrderByCartResult.SUCCESS);
@@ -191,7 +191,7 @@ public class CartService {
     }
 
     public void orderDelete(OrderDeleteVo orderDeleteVo, UserEntity userEntity) {
-        if(!CartService.checkProductIndex(String.valueOf(orderDeleteVo.getProductIndex())) ||
+        if(!CartService.checkGoodsIndex(String.valueOf(orderDeleteVo.getGoodsIndex())) ||
         !CartService.checkOrderCode(orderDeleteVo.getOrderCode())) {
             orderDeleteVo.setResult(OrderDeleteResult.NORMALIZATION_FAILURE);
             return;

@@ -32,11 +32,11 @@ public class GoodsService {
         }
     }
 
-    private final IGoodsMapper productMapper;
+    private final IGoodsMapper goodsMapper;
 
     @Autowired
-    public GoodsService(IGoodsMapper productMapper) {
-        this.productMapper = productMapper;
+    public GoodsService(IGoodsMapper goodsMapper) {
+        this.goodsMapper = goodsMapper;
     }
 
     public static boolean checkName(String s) {
@@ -61,58 +61,58 @@ public class GoodsService {
 
     public static boolean checkIndex(String s) { return s != null && s.matches(RegExp.INDEX); }
 
-    public void list(GoodsVo productVo){
-        GoodsEntity[] productEntities = this.productMapper.selectProducts(productVo);
-        productVo.setProductEntities(productEntities);
-        productVo.setResult(ListResult.SUCCESS);
+    public void list(GoodsVo goodsVo){
+        GoodsEntity[] goodsEntities = this.goodsMapper.selectGoodsArr(goodsVo);
+        goodsVo.setGoodsEntities(goodsEntities);
+        goodsVo.setResult(ListResult.SUCCESS);
     }
 
-    /*public void registerByGet(ProductRegisterVo productRegisterVo, UserEntity userEntity){
+    /*public void registerByGet(GoodsRegisterVo goodsRegisterVo, UserEntity userEntity){
         if(userEntity == null || !userEntity.isAdmin()) {
-            productRegisterVo.setResult(ProductRegisterResult.NOT_ALLOWED);
+            goodsRegisterVo.setResult(GoodsRegisterResult.NOT_ALLOWED);
             return;
         }
-        productRegisterVo.setResult(ProductRegisterResult.SUCCESS);
+        goodsRegisterVo.setResult(GoodsRegisterResult.SUCCESS);
     }*/
 
-    public void registerByPost(GoodsRegisterVo productRegisterVo, UserEntity userEntity){
-        if(!GoodsService.checkName(productRegisterVo.getName()) ||
-        !GoodsService.checkPrice(String.valueOf(productRegisterVo.getPrice())) ||
-        !GoodsService.checkStock(String.valueOf(productRegisterVo.getStock())) ||
-        !GoodsService.checkDescription(productRegisterVo.getDescription()) ||
-        !GoodsService.checkFileName(productRegisterVo.getFileName())) {
-            productRegisterVo.setResult(GoodsRegisterResult.NORMALIZATION_FAILURE);
+    public void registerByPost(GoodsRegisterVo goodsRegisterVo, UserEntity userEntity){
+        if(!GoodsService.checkName(goodsRegisterVo.getName()) ||
+        !GoodsService.checkPrice(String.valueOf(goodsRegisterVo.getPrice())) ||
+        !GoodsService.checkStock(String.valueOf(goodsRegisterVo.getStock())) ||
+        !GoodsService.checkDescription(goodsRegisterVo.getDescription()) ||
+        !GoodsService.checkFileName(goodsRegisterVo.getFileName())) {
+            goodsRegisterVo.setResult(GoodsRegisterResult.NORMALIZATION_FAILURE);
             return;
         }
 
         if(userEntity == null || !userEntity.isAdmin()) {
-            productRegisterVo.setResult(GoodsRegisterResult.NOT_ALLOWED);
+            goodsRegisterVo.setResult(GoodsRegisterResult.NOT_ALLOWED);
             return;
         }
-        this.productMapper.insertProduct(productRegisterVo);
-        productRegisterVo.setResult(GoodsRegisterResult.SUCCESS);
+        this.goodsMapper.insertGoods(goodsRegisterVo);
+        goodsRegisterVo.setResult(GoodsRegisterResult.SUCCESS);
     }
 
-    public void read(GoodsReadVo productReadVo) {
-        if(!GoodsService.checkIndex(String.valueOf(productReadVo.getIndex()))) {
-            productReadVo.setResult(GoodsReadResult.NORMALIZATION_FAILURE);
+    public void read(GoodsReadVo goodsReadVo) {
+        if(!GoodsService.checkIndex(String.valueOf(goodsReadVo.getIndex()))) {
+            goodsReadVo.setResult(GoodsReadResult.NORMALIZATION_FAILURE);
             return;
         }
-        GoodsEntity productEntity = this.productMapper.selectProduct(productReadVo);
-        if(productEntity == null) {
-            productReadVo.setResult(GoodsReadResult.PRODUCT_NOT_DEFINED);
+        GoodsEntity goodsEntity = this.goodsMapper.selectGoods(goodsReadVo);
+        if(goodsEntity == null) {
+            goodsReadVo.setResult(GoodsReadResult.GOODS_NOT_DEFINED);
             return;
         }
-        productReadVo.setName(productEntity.getName());
-        productReadVo.setPrice(productEntity.getPrice());
-        productReadVo.setStock(productEntity.getStock());
-        productReadVo.setDescription(productEntity.getDescription());
-        productReadVo.setThumbnail(productEntity.getThumbnail());
-        productReadVo.setResult(GoodsReadResult.SUCCESS);
+        goodsReadVo.setName(goodsEntity.getName());
+        goodsReadVo.setPrice(goodsEntity.getPrice());
+        goodsReadVo.setStock(goodsEntity.getStock());
+        goodsReadVo.setDescription(goodsEntity.getDescription());
+        goodsReadVo.setThumbnail(goodsEntity.getThumbnail());
+        goodsReadVo.setResult(GoodsReadResult.SUCCESS);
     }
 
     public void addCart(CartAddVo cartAddVo, UserEntity userEntity) {
-        if(!GoodsService.checkIndex(String.valueOf(cartAddVo.getProductIndex())) ||
+        if(!GoodsService.checkIndex(String.valueOf(cartAddVo.getGoodsIndex())) ||
         !GoodsService.checkStock(String.valueOf(cartAddVo.getStock()))) {
             cartAddVo.setResult(CartAddResult.NORMALIZATION_FAILURE);
             return;
@@ -122,65 +122,65 @@ public class GoodsService {
             return;
         }
         cartAddVo.setUserId(userEntity.getId());
-        if(this.productMapper.selectCountCart(cartAddVo) == 1) {
-            this.productMapper.updateCart(cartAddVo);
+        if(this.goodsMapper.selectCountCart(cartAddVo) == 1) {
+            this.goodsMapper.updateCart(cartAddVo);
         }else {
-            this.productMapper.insertCart(cartAddVo);
+            this.goodsMapper.insertCart(cartAddVo);
         }
         cartAddVo.setResult(CartAddResult.SUCCESS);
     }
 
-    public void delete(GoodsDeleteVo productDeleteVo, UserEntity userEntity) {
-        if(!GoodsService.checkIndex(String.valueOf(productDeleteVo.getIndex()))) {
-            productDeleteVo.setResult(GoodsDeleteResult.NORMALIZATION_FAILURE);
+    public void delete(GoodsDeleteVo goodsDeleteVo, UserEntity userEntity) {
+        if(!GoodsService.checkIndex(String.valueOf(goodsDeleteVo.getIndex()))) {
+            goodsDeleteVo.setResult(GoodsDeleteResult.NORMALIZATION_FAILURE);
             return;
         }
         if(userEntity == null || !userEntity.isAdmin()) {
-            productDeleteVo.setResult(GoodsDeleteResult.NOT_ALLOWED);
+            goodsDeleteVo.setResult(GoodsDeleteResult.NOT_ALLOWED);
             return;
         }
-        this.productMapper.deleteProduct(productDeleteVo);
-        productDeleteVo.setResult(GoodsDeleteResult.SUCCESS);
+        this.goodsMapper.deleteGoods(goodsDeleteVo);
+        goodsDeleteVo.setResult(GoodsDeleteResult.SUCCESS);
     }
 
-    public void modifyByGet(GoodsModifyVo productModifyVo, UserEntity userEntity) {
-        if(!GoodsService.checkIndex(String.valueOf(productModifyVo.getIndex()))) {
-            productModifyVo.setResult(GoodsModifyResult.NORMALIZATION_FAILURE);
+    public void modifyByGet(GoodsModifyVo goodsModifyVo, UserEntity userEntity) {
+        if(!GoodsService.checkIndex(String.valueOf(goodsModifyVo.getIndex()))) {
+            goodsModifyVo.setResult(GoodsModifyResult.NORMALIZATION_FAILURE);
             return;
         }
         if(userEntity == null || !userEntity.isAdmin()) {
-            productModifyVo.setResult(GoodsModifyResult.NOT_ALLOWED);
+            goodsModifyVo.setResult(GoodsModifyResult.NOT_ALLOWED);
             return;
         }
-        GoodsEntity productEntity = this.productMapper.selectProduct(productModifyVo);
-        if(productEntity == null) {
-            productModifyVo.setResult(GoodsModifyResult.NOT_PRODUCT_DEFINED);
+        GoodsEntity goodsEntity = this.goodsMapper.selectGoods(goodsModifyVo);
+        if(goodsEntity == null) {
+            goodsModifyVo.setResult(GoodsModifyResult.NOT_GOODS_DEFINED);
             return;
         }
-        productModifyVo.setName(productEntity.getName());
-        productModifyVo.setPrice(productEntity.getPrice());
-        productModifyVo.setStock(productEntity.getStock());
-        productModifyVo.setDescription(productEntity.getDescription());
-        productModifyVo.setThumbnail(productEntity.getThumbnail());
-        productModifyVo.setResult(GoodsModifyResult.SUCCESS);
+        goodsModifyVo.setName(goodsEntity.getName());
+        goodsModifyVo.setPrice(goodsEntity.getPrice());
+        goodsModifyVo.setStock(goodsEntity.getStock());
+        goodsModifyVo.setDescription(goodsEntity.getDescription());
+        goodsModifyVo.setThumbnail(goodsEntity.getThumbnail());
+        goodsModifyVo.setResult(GoodsModifyResult.SUCCESS);
     }
 
-    public void modifyByPost(GoodsModifyVo productModifyVo, UserEntity userEntity) {
-        if(!GoodsService.checkIndex(String.valueOf(productModifyVo.getIndex())) ||
-        !GoodsService.checkName(productModifyVo.getName())||
-        !GoodsService.checkPrice(String.valueOf(productModifyVo.getPrice()))||
-        !GoodsService.checkStock(String.valueOf(productModifyVo.getStock()))||
-        !GoodsService.checkDescription(productModifyVo.getDescription())){
-            productModifyVo.setResult(GoodsModifyResult.NORMALIZATION_FAILURE);
-            System.out.println(productModifyVo.getDescription());
+    public void modifyByPost(GoodsModifyVo goodsModifyVo, UserEntity userEntity) {
+        if(!GoodsService.checkIndex(String.valueOf(goodsModifyVo.getIndex())) ||
+        !GoodsService.checkName(goodsModifyVo.getName())||
+        !GoodsService.checkPrice(String.valueOf(goodsModifyVo.getPrice()))||
+        !GoodsService.checkStock(String.valueOf(goodsModifyVo.getStock()))||
+        !GoodsService.checkDescription(goodsModifyVo.getDescription())){
+            goodsModifyVo.setResult(GoodsModifyResult.NORMALIZATION_FAILURE);
+            System.out.println(goodsModifyVo.getDescription());
             return;
         }
         if(userEntity == null || !userEntity.isAdmin()) {
-            productModifyVo.setResult(GoodsModifyResult.NOT_ALLOWED);
+            goodsModifyVo.setResult(GoodsModifyResult.NOT_ALLOWED);
             return;
         }
-        this.productMapper.updateProduct(productModifyVo);
-        productModifyVo.setResult(GoodsModifyResult.SUCCESS);
+        this.goodsMapper.updateGoods(goodsModifyVo);
+        goodsModifyVo.setResult(GoodsModifyResult.SUCCESS);
     }
 
 }

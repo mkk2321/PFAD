@@ -23,6 +23,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
@@ -38,28 +41,29 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/check-email",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public String checkEmailPost(
-            @RequestBody EmailCheckVo emailCheckVo) {
-        this.userService.checkEmail(emailCheckVo);
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("result", emailCheckVo.getResult().name().toLowerCase());
-        return responseJson.toString();
+    @RequestMapping(value = "/check-email", method = RequestMethod.POST)
+    public Map<String, Object> checkEmailPost(EmailCheckVo emailCheckVo) {
+    	
+    	Map<String, Object> map = new HashMap<>();
+		
+    	this.userService.checkEmail(emailCheckVo);
+    	
+    	map.put("result", emailCheckVo.getResult());
+    	
+    	return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/check-id",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String checkIdPost(
-            @RequestBody IdCheckVo idCheckVo) {
+    public Map<String, Object> checkIdPost(IdCheckVo idCheckVo) {
+    	Map<String, Object> map = new HashMap<>();
         this.userService.checkId(idCheckVo);
-
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("result", idCheckVo.getResult().name().toLowerCase());
-        return responseJson.toString();
+        
+        map.put("result", idCheckVo.getResult());
+        
+        return map;
     }
 
 
@@ -104,11 +108,12 @@ public class UserController {
             method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     public String registerPost(
-            @RequestAttribute(value = "clientModel") ClientModel clientModel,
+			/* @RequestAttribute(value = "clientModel") ClientModel clientModel, */
             RegisterVo registerVo,
             Model model) throws MessagingException {
-        this.userService.register(clientModel, registerVo);
+		this.userService.register(/* clientModel, */ registerVo);
         model.addAttribute("registerResult", registerVo.getResult());
+        System.out.println("registerVo.getResult() : " + registerVo.getResult());
         return "user/register";
     }
 

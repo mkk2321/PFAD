@@ -8,15 +8,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface IGoodsMapper {
-    int deleteProduct(GoodsEntity productEntity);
+    int deleteGoods(GoodsEntity goodsEntity);
 
-    GoodsEntity[] selectProducts(GoodsEntity productEntity);
+    GoodsEntity[] selectGoodsArr(GoodsEntity goodsEntity);
 
-    GoodsEntity selectProduct(GoodsEntity productEntity);
+    GoodsEntity selectGoods(GoodsEntity goodsEntity);
 
-    int insertProduct(GoodsRegisterVo productRegisterVo);
+    int insertGoods(GoodsRegisterVo goodsRegisterVo);
 
-    int updateProduct(GoodsEntity productEntity);
+    int updateGoods(GoodsEntity goodsEntity);
 
     int insertCart(CartEntity cartEntity);
 

@@ -7,7 +7,7 @@ import com.example.pd.interfaces.IResult;
 public class CartReadVo extends CartEntity implements IResult<CartReadResult> {
     protected CartReadResult result;
     protected CartReadVo[] cartReadVos;
-    protected String productName;
+    protected String goodsName;
     protected int price;
     protected String thumbnail;
     protected int cartCount;
@@ -20,12 +20,12 @@ public class CartReadVo extends CartEntity implements IResult<CartReadResult> {
         this.cartCount = cartCount;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
     }
 
     public int getPrice() {

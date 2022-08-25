@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/product/resources/stylesheets/product.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/goods/resources/stylesheets/goods.css">
 
     <%--template link--%>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -27,28 +27,37 @@
 <div class="container">
     <c:if test="${userEntity.admin}">
         <div>
-            <a href="${pageContext.request.contextPath}/product/register">상품 등록</a>
+            <a href="${pageContext.request.contextPath}/goods/register">상품 등록</a>
         </div>
     </c:if>
     <div class="row">
-        <c:forEach var="product" items="${productVo.productEntities}">
-            <div class="col-md-3 col-sm-6">
-                <div class="product-grid3">
-                    <div class="product-image3">
-                        <a href="/product/read/${product.index}">
-                            <img class="pic-1" src="/resources/images/${product.thumbnail}">
-                            <img class="pic-2" src="/resources/images/${product.thumbnail}">
+        <c:forEach var="goods" items="${goodsVo.goodsEntities}">
+            <%-- <div class="col-md-3 col-sm-6">
+                <div class="goods-grid3">
+                    <div class="goods-image3">
+                        <a href="/goods/read/${goods.index}">
+                            <img class="pic-1" src="/resources/images/${goods.thumbnail}">
+                            <img class="pic-2" src="/resources/images/${goods.thumbnail}">
                         </a>
-                        <span class="product-new-label">New</span>
+                        <span class="goods-new-label">New</span>
                     </div>
-                    <div class="product-content">
-                        <h3 class="title"><a href="#">${product.name}</a></h3>
+                    <div class="goods-content">
+                        <h3 class="title"><a href="#">${goods.name}</a></h3>
                         <div class="price">
-                            <span>${product.price}원</span>
+                            <span>${goods.price}원</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --%>
+            
+            <div class="card" style="width:400px">
+			  <img class="card-img-top" src="/resources/images/${goods.thumbnail}" alt="Card image">
+			  <div class="card-body">
+			    <h4 class="card-title">${goods.name }</h4>
+			    <p class="card-text">Some example text.</p>
+			    <a href="/goods/read/${goods.index}" class="btn btn-primary">See Profile</a>
+			  </div>
+			</div>
         </c:forEach>
     </div>
 </div>

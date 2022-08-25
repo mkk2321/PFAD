@@ -3,16 +3,16 @@ package com.example.pd.cart.entity;
 import com.example.pd.interfaces.IUser;
 
 public class CartEntity implements IUser {
-    protected int productIndex;
+    protected int goodsIndex;
     protected String userId;
     protected int stock;
 
-    public int getProductIndex() {
-        return productIndex;
+    public int getGoodsIndex() {
+        return goodsIndex;
     }
 
-    public void setProductIndex(int productIndex) {
-        this.productIndex = productIndex;
+    public void setGoodsIndex(int goodsIndex) {
+        this.goodsIndex = goodsIndex;
     }
 
     public String getUserId() {

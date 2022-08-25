@@ -13,22 +13,22 @@
     <title>상품 삭제</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/stylesheets/common.css">
         <c:choose>
-            <c:when test="${productDeleteVo.result == ProductDeleteResult.NORMALIZATION_FAILURE}">
+            <c:when test="${goodsDeleteVo.result == GoodsDeleteResult.NORMALIZATION_FAILURE}">
                 <script>
                     alert('존재하지 않는 게시글입니다.');
                     window.history.back();
                 </script>
             </c:when>
-            <c:when test="${productDeleteVo.result == ProductDeleteResult.NOT_ALLOWED}">
+            <c:when test="${goodsDeleteVo.result == GoodsDeleteResult.NOT_ALLOWED}">
                 <script>
                     alert('게시글을 삭제 할 권한이 없습니다.');
                     window.history.back();
                 </script>
             </c:when>
-            <c:when test="${productDeleteVo.result == ProductDeleteResult.SUCCESS}">
+            <c:when test="${goodsDeleteVo.result == GoodsDeleteResult.SUCCESS}">
                 <script>
                     alert('게시글을 삭제하였습니다.');
-                    window.location.href='/product';
+                    window.location.href='/goods';
                 </script>
             </c:when>
             <c:otherwise>

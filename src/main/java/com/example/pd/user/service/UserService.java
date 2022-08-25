@@ -23,6 +23,9 @@ import com.example.pd.user.vo.PasswordRecoverVo;
 import com.example.pd.user.vo.PasswordResetRecoverVo;
 import com.example.pd.user.vo.RegisterVo;
 import com.example.pd.utils.CryptoUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -33,11 +36,13 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class UserService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     public static class RegRex {
         public static final String ID = "^([a-zA-Z0-9가-힣]){2,20}$";
         public static final String EMAIL = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
-        public static final String PASSWORD = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$";
+        public static final String PASSWORD = "(?=.*\\d{1,50})(?=.*[~`!@#$%\\^&*()-+=]{1,50})(?=.*[a-zA-Z]{1,50}).{8,50}";
         public static final String NAME = "^([가-힣]{2,4})$";
         public static final String BIRTH = "^([0-9]{6})$";
         public static final String GENDER = "^([0-4])$";
@@ -126,6 +131,7 @@ public class UserService {
     }
 
     public void checkEmail(EmailCheckVo emailCheckVo) {
+    	System.out.println("chechEmail Service().............");
         if (!UserService.checkEmail(emailCheckVo.getEmail())) {
             emailCheckVo.setResult(EmailCheckResult.NORMALIZATION_FAILURE);
             return;
@@ -135,6 +141,7 @@ public class UserService {
             return;
         }
         emailCheckVo.setResult(EmailCheckResult.NON_EXISTING);
+        System.out.println("emailCheckVo.getResult() : " + emailCheckVo.getResult() );
     }
 
     public void checkId(IdCheckVo idCheckVo) {
@@ -180,14 +187,15 @@ public class UserService {
 
     }
 
-    public void register(ClientModel clientModel, RegisterVo registerVo) throws MessagingException {
+	public void register(/* ClientModel clientModel, */RegisterVo registerVo) throws MessagingException {
+		LOGGER.info("registerVo : " + registerVo.toString());
         if (!UserService.checkEmail(registerVo.getEmail()) ||
                 !UserService.checkPassword(registerVo.getPassword()) ||
                 !UserService.checkId(registerVo.getId()) ||
                 !UserService.checkName(registerVo.getName()) ||
                 !UserService.checkBirth(registerVo.getBirth()) ||
                 !UserService.checkGender(String.valueOf(registerVo.getGender())) ||
-                !UserService.checkContactCompany(registerVo.getContactCompany()) ||
+                !UserService.checkContactCompany(registerVo.getContactCompany().toLowerCase()) ||
                 !UserService.checkContactFirst(registerVo.getContactFirst()) ||
                 !UserService.checkContactSecond(registerVo.getContactSecond()) ||
                 !UserService.checkContactThird(registerVo.getContactThird()) ||
@@ -214,6 +222,7 @@ public class UserService {
                 registerVo.getHashedPassword(),
                 Math.random(),
                 Math.random()));
+        LOGGER.info(verificationCode);
         registerVo.setVerificationCode(verificationCode);
         this.userMapper.insertVerificationCode(registerVo);
 
@@ -221,8 +230,8 @@ public class UserService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo(registerVo.getEmail());
         helper.setSubject("[PURE] 회원가입 인증 이메일");
-        helper.setText(String.format("<a href=\"%s/verify-email?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">인증하기</a>",
-                clientModel.getUrlPrefix(),
+        helper.setText(String.format("<a href=\"http://localhost/verify-email?code=%s\" target=\"_blank\" style=\"font-size: 1rem;\">인증하기</a>",
+				/* clientModel.getUrlPrefix(), */
                 registerVo.getCode()), true);
         this.mailSender.send(message);
         registerVo.setResult(RegisterResult.SUCCESS);
